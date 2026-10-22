@@ -4,8 +4,8 @@
 
 A local sandbox evaluation workbench, starting with Pydantic Monty. Enter through
 controlled boundary scenarios or repeatable benchmarks, inspect the evidence, and
-open the code workspace when you want to go deeper. The broader attack lab is
-under development; this release includes two starter boundary checks.
+open the code workspace when you want to go deeper. The attack-lab foundation
+includes 18 versioned packs, host evidence checks, portable reports and replay.
 
 ![Sandbox Arena homepage](docs/evidence/arena-home.jpg)
 
@@ -32,10 +32,10 @@ package, use `uv run --no-editable sandbox-arena serve --port 8033` instead.
 
 ## Try the workbench
 
-1. **Scenarios:** launch the filesystem-policy or runaway-loop check directly.
-   Each runs three measured trials at 250 ms and 16 MB, with fixture access off,
-   then opens the report. These check specific configured boundaries, not arbitrary
-   escape resistance.
+1. **Scenarios:** filter 18 packs across filesystem, host policy, resources,
+   isolation and evidence handling. Run three repetitions of each pack with its
+   fixed policy. Inspect the positive control and challenge separately, verify
+   the report, and replay the exact configuration in fresh sessions.
 2. **Code workspace:** run Hello, Monty or write your own Python. Adjust the execution
    and memory budgets. View output, setup/execution/cleanup timing, and the timeline.
 3. **Permissions:** load Approved tool access, disable the fixture tool and run.
@@ -51,6 +51,26 @@ All five providers share the orbit, with illustrative signals moving between the
 Runtime availability is explained in “About the runtimes” below the visual. Monty
 is the only implemented runtime; the other logos do not imply integrations or
 endorsements.
+
+## Run, verify and replay a scenario
+
+```bash
+uv run sandbox-arena scenarios
+uv run sandbox-arena attack caught-denial --iterations 3 --output artifacts/scenario.json
+uv run sandbox-arena verify artifacts/scenario.json
+uv run sandbox-arena replay artifacts/scenario.json --output artifacts/replay.json
+```
+
+`verify` is offline and never executes code. It checks the report checksum,
+installed pack, policy, ordered coverage, controls and host observations. A replay
+creates a new run linked to the parent digest. Changed packs are refused rather
+than silently substituted. Exit code 0 means the expected observations were
+verified; 1 means they were not, and invalid input exits 2.
+
+![Verified scenario replay](docs/evidence/attack-lab.jpg)
+
+See [the attack-lab contract](docs/attack-lab.md) for outcome meanings and pack
+authoring. Checksums detect changes; they are not signatures or execution attestations.
 
 ## Included workloads
 
@@ -97,6 +117,7 @@ The offline API reference is at `/docs`, with a machine-readable `/openapi.json`
 
 ## Architecture and next steps
 
+- [Attack-lab scenarios, verification and replay](docs/attack-lab.md)
 - [Architecture and measurement contract](docs/playground-architecture.md)
 - [Validation evidence and current limits](docs/playground-validation.md)
 - [Roadmap and provider collaboration strategy](docs/roadmap.md)
