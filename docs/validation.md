@@ -58,7 +58,7 @@ uv sync --locked
 uv run ruff check .
 uv run ruff format --check .
 uv run pytest
-uv run monty-lab --traces artifacts/traces.jsonl evaluate --output artifacts/evaluation.json
+uv run sandbox-arena --traces artifacts/traces.jsonl evaluate --output artifacts/evaluation.json
 uv build
 ```
 

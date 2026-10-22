@@ -15,11 +15,11 @@ from .telemetry import configure
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Investigate inference evidence with Monty.')
+    parser = argparse.ArgumentParser(description='Run the Sandbox Arena workbench and Monty examples.')
     parser.add_argument('--export-logfire', action='store_true', help='Explicitly export traces using LOGFIRE_TOKEN')
     parser.add_argument('--traces', type=Path, default=Path('artifacts/traces.jsonl'))
     commands = parser.add_subparsers(dest='command', required=True)
-    serve = commands.add_parser('serve', help='Start the local demo UI')
+    serve = commands.add_parser('serve', help='Start the local sandbox workbench')
     serve.add_argument('--port', type=int, default=8022)
     evaluation = commands.add_parser('evaluate', help='Execute deterministic Pydantic Evals cases')
     evaluation.add_argument('--output', type=Path, default=Path('artifacts/evaluation.json'))

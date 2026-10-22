@@ -28,7 +28,8 @@ study or a security certification.
 - No browser console errors were observed during these flows.
 
 Screenshots: [playground](evidence/sandbox-playground.jpg),
-[benchmark report](evidence/sandbox-benchmarks.jpg).
+[benchmark report](evidence/sandbox-benchmarks.jpg). The benchmark screenshot
+retains the earlier Sandbox Lab branding; the playground preview uses Sandbox Arena.
 
 Desktop rendering is visually checked. Responsive CSS is included, but the browser
 viewport override did not reliably apply the requested narrow size, so mobile
@@ -40,3 +41,11 @@ Public hosting, authentication and multi-tenant operation; cloud providers; live
 model/agent integration in the new playground; multi-runner concurrency; cold
 process startup benchmarks; hostile multi-tenant load; and remote CI for this branch.
 No provider credentials or paid model calls were used. No partnership is implied.
+
+## Standalone repository validation
+
+The renamed `sandbox_arena` package passes the same 39 tests and 12 acceptance
+cases using the existing Python 3.14 dependency environment. Ruff, JavaScript
+syntax and Prettier checks pass. A fresh wheel builds successfully and contains
+the static UI, guest workload payloads and both CLI entry points. The renamed
+application was opened at localhost:8034 and returned 42 from the Hello example.

@@ -16,20 +16,20 @@ Requires Python 3.14 and [uv](https://docs.astral.sh/uv/). No GPU, API key, Dock
 
 ```bash
 uv sync --locked
-uv run monty-lab serve
+uv run sandbox-arena serve
 ```
 
 Open **http://127.0.0.1:8022/incident-lab**. Choose a scenario, inspect the program, and run it. Use the failure cases to test the boundary. The UI permits editing code and runs only on loopback. It is not a public execution service.
 
 ```bash
 # Repeatable acceptance suite, with machine-readable evidence
-uv run monty-lab evaluate
+uv run sandbox-arena evaluate
 
 # A single successful analysis
-uv run monty-lab run --scenario long-context
+uv run sandbox-arena run --scenario long-context
 
 # A deliberate policy rejection; exits nonzero as expected
-uv run monty-lab run --challenge cross-scope
+uv run sandbox-arena run --challenge cross-scope
 ```
 
 Results go to `artifacts/`. `traces.jsonl` contains real OpenTelemetry spans, including Monty's native instrumentation.
@@ -40,7 +40,7 @@ Exporting to hosted Logfire requires explicit opt-in:
 
 ```bash
 # Set LOGFIRE_TOKEN securely in your shell first.
-uv run monty-lab --export-logfire serve
+uv run sandbox-arena --export-logfire serve
 ```
 
 Native instrumentation records code, inputs, external calls, and errors. This fixture is public. Review the [data and security boundaries](security.md) before using customer data.
@@ -85,10 +85,10 @@ The validator checks a strict Pydantic schema, observed evidence reads, denied o
 ```bash
 # Set OPENAI_API_KEY securely. Choose a model available in your account.
 # This sends prompts to the provider and may incur charges.
-uv run monty-lab run --model openai:YOUR_MODEL_ID --scenario queue-pressure
+uv run sandbox-arena run --model openai:YOUR_MODEL_ID --scenario queue-pressure
 
 # Evaluate all four evidence cases with the same model, up to eight requests.
-uv run monty-lab evaluate --model openai:YOUR_MODEL_ID --output artifacts/live-evaluation.json
+uv run sandbox-arena evaluate --model openai:YOUR_MODEL_ID --output artifacts/live-evaluation.json
 ```
 
 Pydantic AI produces a typed `CodeProposal`. The application executes that code in Monty and independently checks its result. A coding or schema error permits one repair attempt. Resource violations and denied capabilities stop immediately. The exported run includes generated code, verification outcomes, model request count, and token usage. Transport failures propagate as failed CLI runs, not verified analyses.

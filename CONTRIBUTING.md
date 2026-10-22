@@ -1,4 +1,4 @@
-# Contributing to Sandbox Lab
+# Contributing to Sandbox Arena
 
 Start with a reproducible workload, a clear expected result, or a minimal failure
 case. Read `AGENTS.md`, `docs/playground-architecture.md`, and the provenance in
@@ -6,7 +6,7 @@ case. Read `AGENTS.md`, `docs/playground-architecture.md`, and the provenance in
 
 ## Add a workload
 
-1. Add a Workload to `src/monty_incident_lab/benchmarks/__init__.py`. For larger
+1. Add a Workload to `src/sandbox_arena/benchmarks/__init__.py`. For larger
    programs, use a `.py.txt` payload in the same directory. These are guest programs,
    not Python modules to import or execute on the host.
 2. Give it a stable ID, version, category, description, required capabilities,
@@ -37,7 +37,7 @@ uv sync --locked
 uv run ruff check .
 uv run ruff format --check .
 uv run pytest
-uv run monty-lab evaluate
+uv run sandbox-arena evaluate
 ```
 
 For UI changes, verify execution, denials, benchmark results, history, export,

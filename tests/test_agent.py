@@ -1,8 +1,8 @@
 from pydantic_ai.messages import ModelResponse, ToolCallPart
 from pydantic_ai.models.function import FunctionModel
 
-from monty_incident_lab.agent import run_live
-from monty_incident_lab.programs import ANALYSIS
+from sandbox_arena.agent import run_live
+from sandbox_arena.programs import ANALYSIS
 
 
 def model_with_codes(codes):
@@ -35,7 +35,7 @@ def test_agent_does_not_retry_denied_capability(pool):
 def test_model_evaluation_reports_requests_and_mode(tmp_path):
     import json
 
-    from monty_incident_lab.evaluation import evaluate
+    from sandbox_arena.evaluation import evaluate
 
     path = tmp_path / 'evaluation.json'
     assert evaluate(path, model=model_with_codes([ANALYSIS] * 4))

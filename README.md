@@ -1,4 +1,4 @@
-# Sandbox Lab
+# Sandbox Arena
 
 **Run real code. Test the boundaries. Keep the evidence.**
 
@@ -6,7 +6,12 @@ A local playground for Pydantic Monty with editable Python, explicit host permis
 repeatable benchmarks, and inspectable execution evidence. This is the first stage
 of a provider-extensible sandbox evaluation workbench.
 
-![Sandbox Lab playground](docs/evidence/sandbox-playground.jpg)
+![Sandbox Arena playground](docs/evidence/sandbox-playground.jpg)
+
+An independent project by Rudraksh Karpe, developed from
+[Monty Incident Lab](https://github.com/rudrakshkarpe/monty-incident-lab).
+This repository is not affiliated with the separately operated
+[sandbox-arena.vercel.app](https://sandbox-arena.vercel.app/) comparison site.
 
 ## Run locally
 
@@ -14,13 +19,15 @@ Requires Python 3.14 and [uv](https://docs.astral.sh/uv/). No GPU, Docker daemon
 model API key or Logfire account is needed.
 
 ```bash
+git clone https://github.com/rudrakshkarpe/sandbox-arena.git
+cd sandbox-arena
 uv sync --locked
-uv run monty-lab serve --port 8033
+uv run sandbox-arena serve --port 8033
 ```
 
 Open **http://127.0.0.1:8033**. The server binds only to loopback.
 If macOS marks an editable-install `.pth` file hidden and Python cannot import the
-package, use `uv run --no-editable monty-lab serve --port 8033` instead.
+package, use `uv run --no-editable sandbox-arena serve --port 8033` instead.
 
 ## Try the workbench
 
@@ -82,6 +89,7 @@ The offline API reference is at `/docs`, with a machine-readable `/openapi.json`
 - [Architecture and measurement contract](docs/playground-architecture.md)
 - [Validation evidence and current limits](docs/playground-validation.md)
 - [Roadmap and provider collaboration strategy](docs/roadmap.md)
+- [Positioning and comparison with existing tools](docs/positioning.md)
 - [Contribution guide](CONTRIBUTING.md)
 - [Original inference incident example](docs/incident-lab.md), still available at `/incident-lab`
 
@@ -100,7 +108,7 @@ requires the controls described in the roadmap.
 uv run ruff check .
 uv run ruff format --check .
 uv run pytest
-uv run monty-lab evaluate
+uv run sandbox-arena evaluate
 ```
 
 The original incident acceptance suite remains supported. Tests cover benchmark

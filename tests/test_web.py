@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from monty_incident_lab.web import create_app
+from sandbox_arena.web import create_app
 
 
 @pytest.fixture

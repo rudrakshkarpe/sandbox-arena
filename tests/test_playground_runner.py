@@ -2,9 +2,9 @@ import threading
 
 import pytest
 
-from monty_incident_lab.benchmarks import WORKLOADS
-from monty_incident_lab.playground_models import RunSpec
-from monty_incident_lab.playground_runner import MontyProvider, Runner, RunStore, summarize
+from sandbox_arena.benchmarks import WORKLOADS
+from sandbox_arena.playground_models import RunSpec
+from sandbox_arena.playground_runner import MontyProvider, Runner, RunStore, summarize
 
 
 @pytest.mark.parametrize('key', list(WORKLOADS))

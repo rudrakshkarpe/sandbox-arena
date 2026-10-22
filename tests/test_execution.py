@@ -2,12 +2,12 @@ import json
 
 import pytest
 
-from monty_incident_lab.cases import CASES
-from monty_incident_lab.evidence import CAPTURE_SHA256, EvidenceAccess, expected_analysis, verify_analysis
-from monty_incident_lab.models import RunRequest
-from monty_incident_lab.programs import ANALYSIS
-from monty_incident_lab.sandbox import execute
-from monty_incident_lab.service import run
+from sandbox_arena.cases import CASES
+from sandbox_arena.evidence import CAPTURE_SHA256, EvidenceAccess, expected_analysis, verify_analysis
+from sandbox_arena.models import RunRequest
+from sandbox_arena.programs import ANALYSIS
+from sandbox_arena.sandbox import execute
+from sandbox_arena.service import run
 
 
 @pytest.mark.parametrize('name,scenario,challenge,status,finding', CASES)

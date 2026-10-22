@@ -4,7 +4,7 @@ import time
 import pytest
 from fastapi.testclient import TestClient
 
-from monty_incident_lab.web import create_app
+from sandbox_arena.web import create_app
 
 
 def wait_done(client, run_id):

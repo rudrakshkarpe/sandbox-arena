@@ -1,7 +1,7 @@
 import pytest
 
-from monty_incident_lab.sandbox import make_pool
-from monty_incident_lab.telemetry import configure
+from sandbox_arena.sandbox import make_pool
+from sandbox_arena.telemetry import configure
 
 
 @pytest.fixture(scope='session', autouse=True)

@@ -1,4 +1,4 @@
-# Working on this demo
+# Working on Sandbox Arena
 
 - Keep the demo runnable without credentials or a GPU.
 - Execute analysis in Monty. Never substitute host Python `exec` or `eval`.

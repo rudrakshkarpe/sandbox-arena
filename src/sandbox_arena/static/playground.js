@@ -68,7 +68,7 @@ function navigate() {
     else el.removeAttribute("aria-current");
   });
   $("breadcrumb").textContent = names[view];
-  document.title = `${names[view]} · Sandbox Lab`;
+  document.title = `${names[view]} · Sandbox Arena`;
   if (view === "history")
     refreshHistory().catch((error) => toast(error.message));
   updatePolicy();
@@ -86,7 +86,7 @@ function editorChanged() {
     state.catalog?.examples.find((example) => example.code === code)?.id ||
     "custom";
   try {
-    localStorage.setItem("sandbox-lab-draft", code);
+    localStorage.setItem("sandbox-arena-draft", code);
   } catch {
     /* Storage is optional. */
   }
@@ -307,7 +307,7 @@ function renderBenchmarks() {
   $("benchmark-list").innerHTML = state.catalog.benchmarks
     .map(
       (workload) =>
-        `<article class="benchmark-card"><input type="checkbox" id="benchmark-${escape(workload.id)}" data-workload="${escape(workload.id)}" ${state.selected.has(workload.id) ? "checked" : ""}><div><label for="benchmark-${escape(workload.id)}"><h2>${escape(workload.name)}</h2></label><p>${escape(workload.description)}</p><details><summary>Inspect workload & provenance</summary><pre>${escape(workload.code)}</pre><p>Version ${escape(workload.version)} · Expected outcome: ${escape(workload.expected_status)}${workload.source ? `<br>Adapted from <a href="${escape(workload.source)}" target="_blank" rel="noreferrer">pinned upstream source ↗</a>. Timer wrappers removed; structured results added. Apache-2.0.` : "<br>Authored for Sandbox Lab."}</p></details></div><span class="category">${escape(workload.category)}</span></article>`,
+        `<article class="benchmark-card"><input type="checkbox" id="benchmark-${escape(workload.id)}" data-workload="${escape(workload.id)}" ${state.selected.has(workload.id) ? "checked" : ""}><div><label for="benchmark-${escape(workload.id)}"><h2>${escape(workload.name)}</h2></label><p>${escape(workload.description)}</p><details><summary>Inspect workload & provenance</summary><pre>${escape(workload.code)}</pre><p>Version ${escape(workload.version)} · Expected outcome: ${escape(workload.expected_status)}${workload.source ? `<br>Adapted from <a href="${escape(workload.source)}" target="_blank" rel="noreferrer">pinned upstream source ↗</a>. Timer wrappers removed; structured results added. Apache-2.0.` : "<br>Authored for Sandbox Arena."}</p></details></div><span class="category">${escape(workload.category)}</span></article>`,
     )
     .join("");
   document.querySelectorAll("[data-workload]").forEach((input) =>
@@ -419,7 +419,7 @@ async function init() {
         .join("");
     let draft;
     try {
-      draft = localStorage.getItem("sandbox-lab-draft");
+      draft = localStorage.getItem("sandbox-arena-draft");
     } catch {
       /* Storage is optional. */
     }

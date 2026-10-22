@@ -30,7 +30,7 @@ def create_app(*, database: Path = Path('artifacts/playground.sqlite3')) -> Fast
             finally:
                 app.state.runner.close()
 
-    app = FastAPI(title='Sandbox Lab', version='0.2.0', lifespan=lifespan, docs_url=None, redoc_url=None)
+    app = FastAPI(title='Sandbox Arena', version='0.2.0', lifespan=lifespan, docs_url=None, redoc_url=None)
     app.include_router(router())
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=['127.0.0.1', 'localhost', 'testserver'])
 
@@ -60,7 +60,7 @@ def create_app(*, database: Path = Path('artifacts/playground.sqlite3')) -> Fast
         )
         return response
 
-    static = files('monty_incident_lab').joinpath('static')
+    static = files('sandbox_arena').joinpath('static')
     app.mount('/static', StaticFiles(directory=str(static)), name='static')
 
     @app.get('/')

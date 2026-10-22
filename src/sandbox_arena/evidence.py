@@ -13,7 +13,7 @@ SOURCE_COMMIT = '79ef0f2456e64879bd2f41c90d1610a031191495'
 SOURCE_URL = (
     f'https://github.com/rudrakshkarpe/logfire-inference-lab/blob/{SOURCE_COMMIT}/docs/evidence/gemma4-h100-run.json'
 )
-CAPTURE_BYTES = files('monty_incident_lab').joinpath('data/capture.json').read_bytes()
+CAPTURE_BYTES = files('sandbox_arena').joinpath('data/capture.json').read_bytes()
 CAPTURE_SHA256 = hashlib.sha256(CAPTURE_BYTES).hexdigest()
 CAPTURE = json.loads(CAPTURE_BYTES)
 SCOPE = 'inference-lab'

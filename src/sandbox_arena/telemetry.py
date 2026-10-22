@@ -56,7 +56,7 @@ def configure(path: Path, *, export: bool = False) -> None:
     # Scope this process-local override to the pool, preserving unrelated filters.
     os.environ['RUST_LOG'] = f'{os.environ.get("RUST_LOG", "warn")},monty_pool=info'
     logfire.configure(
-        service_name='monty-incident-lab',
+        service_name='sandbox-arena',
         send_to_logfire=export,
         console=False,
         additional_span_processors=[SimpleSpanProcessor(JsonlExporter(path))],

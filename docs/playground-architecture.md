@@ -1,4 +1,4 @@
-# Sandbox Lab architecture
+# Sandbox Arena architecture
 
 ## Scope of this release
 

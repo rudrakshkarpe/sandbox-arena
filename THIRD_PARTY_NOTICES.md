@@ -2,7 +2,7 @@
 
 ## AI Sandbox Benchmark
 
-The two prime-calculation payloads in `src/monty_incident_lab/benchmarks/`
+The two prime-calculation payloads in `src/sandbox_arena/benchmarks/`
 are adapted from [nibzard/ai-sandbox-benchmark](https://github.com/nibzard/ai-sandbox-benchmark),
 revision `c07127e731ec14e55f93dee767977bf00bb76dce`:
 
@@ -26,5 +26,5 @@ numerically comparable reproductions of upstream provider results.
 
 [AI Bottlenecks](https://aibottlenecks.app/) inspired the dark editorial palette,
 serif headlines, fine rules, and compact data treatment. All application markup,
-styles, icon drawings, and copy here were authored for Sandbox Lab. No branding,
+styles, icon drawings, and copy here were authored for Sandbox Arena. No branding,
 images, source code, or claims of affiliation were copied.
