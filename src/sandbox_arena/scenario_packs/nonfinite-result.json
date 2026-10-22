@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "id": "nonfinite-result",
+  "version": "1.0.0",
+  "title": "Non-finite result rejection",
+  "category": "Evidence",
+  "objective": "Return infinity and check that exported evidence remains valid finite JSON.",
+  "boundary": "Host JSON serialization",
+  "limitation": "This is an evidence-transport check, not an isolation boundary.",
+  "requires": [
+    "python-subset"
+  ],
+  "allow_fixture": false,
+  "timeout_ms": 250,
+  "memory_mb": 16,
+  "probes": [
+    {
+      "id": "control",
+      "code": "1.5",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": 1.5
+      },
+      "role": "control"
+    },
+    {
+      "id": "infinity",
+      "code": "float('inf')",
+      "expect": {
+        "status": "error",
+        "error_prefix": "Return value cannot be represented as JSON."
+      },
+      "role": "challenge"
+    }
+  ]
+}
