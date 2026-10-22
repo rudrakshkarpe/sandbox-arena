@@ -63,7 +63,8 @@ occur in the clean Linux CI installation.
 Verified October 22, 2026:
 
 - Full-width black homepage with provider orbit, live Monty status and
-  catalog-derived boundary/compute counts. Other providers are visibly planned.
+  catalog-derived boundary/compute counts. Runtime availability is explained
+  beneath the visual in “About the runtimes.”
 - Pause/resume controls work; reduced-motion handling is implemented in CSS and
   JavaScript, but a system reduced-motion preference was not independently exercised.
 - Both one-click scenarios completed three measured trials with passing checks.
@@ -85,3 +86,16 @@ Screenshots: [homepage](evidence/arena-home.jpg) and
 
 No new attack payloads or cloud integrations were added in this interface update.
 The scenario shortcuts reuse the versioned filesystem and execution-limit checks.
+
+### Equal-provider visual refinement
+
+Monty now shares five equal-sized orbit nodes with the other providers. SVG
+connections carry animated signals around and across the network. Provider tiles
+show only logos and names; an expandable explanation below the graphic describes
+availability and identifies the animation as illustrative. Borders, logos and
+labels use sharper contrast without the former central glow.
+
+Verified the details disclosure, moving connections and shared pause/resume
+control in the browser. The 390-pixel preview again measures 390 pixels of content
+width, with no horizontal overflow. All 39 tests, Ruff and formatting checks pass.
+Updated both preview screenshots.

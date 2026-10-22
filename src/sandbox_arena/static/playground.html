@@ -140,7 +140,8 @@
                 class="arena-map"
                 id="arena-map"
                 role="img"
-                aria-label="Monty is available locally. Modal, E2B, Daytona and Vercel integrations are planned."
+                aria-label="An animated network connecting Monty, Modal, E2B, Daytona and Vercel. Illustrative motion, not live traffic."
+                aria-describedby="runtime-details"
               >
                 <div class="map-grid" aria-hidden="true"></div>
                 <div class="arena-ring ring-outer" aria-hidden="true"></div>
@@ -148,42 +149,60 @@
                 <div class="arena-ring ring-inner" aria-hidden="true"></div>
                 <div class="map-axis axis-horizontal" aria-hidden="true"></div>
                 <div class="map-axis axis-vertical" aria-hidden="true"></div>
-                <div class="arena-core">
-                  <img
-                    src="/static/providers/pydantic.svg"
-                    alt=""
-                    width="30"
-                    height="30"
-                  /><strong>Monty</strong
-                  ><span><i class="dot"></i> LOCAL RUNTIME</span>
-                </div>
                 <div class="provider-orbit" aria-hidden="true">
+                  <svg class="arena-network" viewBox="0 0 100 100" fill="none">
+                    <path
+                      class="network-edge"
+                      d="M50 0 97.553 34.549 79.389 90.451 20.611 90.451 2.447 34.549Z"
+                    />
+                    <path
+                      class="network-link"
+                      d="M50 0 79.389 90.451 2.447 34.549 97.553 34.549 20.611 90.451Z"
+                    />
+                    <path
+                      class="network-signal signal-perimeter"
+                      pathLength="100"
+                      d="M50 0 97.553 34.549 79.389 90.451 20.611 90.451 2.447 34.549Z"
+                    />
+                    <path
+                      class="network-signal signal-crossing"
+                      pathLength="100"
+                      d="M50 0 79.389 90.451 2.447 34.549 97.553 34.549 20.611 90.451Z"
+                    />
+                  </svg>
+                  <div class="provider-position provider-monty">
+                    <div class="provider-node">
+                      <img src="/static/providers/pydantic.svg" alt="" /><span
+                        >Monty</span
+                      >
+                    </div>
+                  </div>
                   <div class="provider-position provider-modal">
                     <div class="provider-node">
                       <img src="/static/providers/modal.svg" alt="" /><span
                         >Modal</span
-                      ><small>PLANNED</small>
+                      >
                     </div>
                   </div>
                   <div class="provider-position provider-e2b">
                     <div class="provider-node">
                       <img src="/static/providers/e2b.png" alt="" /><span
                         >E2B</span
-                      ><small>PLANNED</small>
+                      >
                     </div>
                   </div>
                   <div class="provider-position provider-daytona">
                     <div class="provider-node">
                       <img src="/static/providers/daytona.png" alt="" /><span
                         >Daytona</span
-                      ><small>PLANNED</small>
+                      >
                     </div>
                   </div>
                   <div class="provider-position provider-vercel">
                     <div class="provider-node">
                       <img src="/static/providers/vercel.png" alt="" /><span
                         >Vercel</span
-                      ><small>PLANNED</small>
+                      >
                     </div>
                   </div>
                 </div>
@@ -192,7 +211,7 @@
                 >
               </div>
               <div class="arena-caption">
-                <span>One runtime today. An open arena ahead.</span
+                <span>A shared arena. Every boundary in view.</span
                 ><button
                   id="orbit-toggle"
                   aria-pressed="false"
@@ -201,6 +220,15 @@
                   Pause motion
                 </button>
               </div>
+              <details class="runtime-details" id="runtime-details">
+                <summary>About the runtimes</summary>
+                <p>
+                  Monty runs locally in this release. Modal, E2B, Daytona and
+                  Vercel represent the broader sandbox ecosystem; their adapters
+                  are not connected yet. The animation illustrates connections,
+                  not live activity or measured results.
+                </p>
+              </details>
             </div>
           </div>
           <div class="arena-ledger" aria-label="Available capabilities">

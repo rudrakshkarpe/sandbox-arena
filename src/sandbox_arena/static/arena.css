@@ -164,22 +164,21 @@
 }
 .arena-ring {
   position: absolute;
-  border: 1px solid #35302b;
+  border: 1px solid #3d3e40;
   border-radius: 50%;
 }
 .ring-outer {
   inset: 4%;
-  border-color: #282725;
-  border-style: dashed;
+  border-color: #303235;
+  border-style: solid;
 }
 .ring-middle {
-  inset: 15%;
-  border-color: #484038;
-  box-shadow: 0 0 70px #d5c2a407;
+  inset: 16%;
+  border-color: #4b4c4e;
 }
 .ring-inner {
   inset: 29%;
-  border-color: #35322e;
+  border-color: #303235;
 }
 .map-axis {
   position: absolute;
@@ -198,47 +197,10 @@
   width: 1px;
   left: 50%;
 }
-.arena-core {
-  position: absolute;
-  width: 130px;
-  height: 130px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  border: 1px solid #5a5040;
-  background: radial-gradient(circle at 50% 0, #30281f, #111111 75%);
-  border-radius: 50%;
-  box-shadow:
-    0 0 55px #c7a57a10,
-    0 0 0 9px #c7a57a03;
-}
-.arena-core img {
-  object-fit: contain;
-}
-.arena-core strong {
-  font: 24px var(--serif);
-  letter-spacing: -0.7px;
-}
-.arena-core > span {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font: 7px var(--mono);
-  letter-spacing: 0.7px;
-  color: #b1b5a9;
-}
-.arena-core .dot {
-  height: 4px;
-  width: 4px;
-}
+
 .provider-orbit {
   position: absolute;
-  inset: 15%;
+  inset: 16%;
   animation: arena-orbit 100s linear infinite;
 }
 .provider-position {
@@ -247,50 +209,90 @@
   height: 92px;
   margin: -46px;
 }
-.provider-modal {
+.provider-monty {
   left: 50%;
   top: 0;
 }
+.provider-modal {
+  left: 97.553%;
+  top: 34.549%;
+}
 .provider-e2b {
-  left: 100%;
-  top: 50%;
+  left: 79.389%;
+  top: 90.451%;
 }
 .provider-daytona {
-  left: 50%;
-  top: 100%;
+  left: 20.611%;
+  top: 90.451%;
 }
 .provider-vercel {
-  left: 0;
-  top: 50%;
+  left: 2.447%;
+  top: 34.549%;
+}
+.arena-network {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.arena-network path {
+  vector-effect: non-scaling-stroke;
+}
+.network-edge {
+  stroke: #55504a;
+  stroke-width: 1;
+}
+.network-link {
+  stroke: #333638;
+  stroke-width: 1;
+}
+.network-signal {
+  stroke: #e9d5b7;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 2 98;
+  animation: network-travel 14s linear infinite;
+}
+.signal-crossing {
+  stroke: #ced7db;
+  stroke-dasharray: 1.2 98.8;
+  animation-duration: 21s;
+  animation-delay: -7s;
+}
+@keyframes network-travel {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 .provider-node {
   height: 100%;
   width: 100%;
-  border: 1px solid #353535;
-  background: #101112;
-  border-radius: 15px;
+  border: 1px solid #505256;
+  background: #0d0e10;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: 7px;
-  box-shadow: 0 5px 20px #0005;
+
   animation: arena-counter-orbit 100s linear infinite;
 }
 .provider-node img {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   object-fit: contain;
 }
 .provider-node > span {
-  font-size: 11px;
-  color: #d0d0d0;
+  font-size: 12px;
+  font-weight: 500;
+  color: #e8e8e8;
 }
-.provider-node small {
-  color: #8d8d93;
-  font: 6px var(--mono);
-  letter-spacing: 1px;
-}
+
 .map-coordinate {
   position: absolute;
   bottom: 0;
@@ -321,8 +323,10 @@
 }
 .motion-paused .provider-orbit,
 .motion-paused .provider-node,
+.motion-paused .network-signal,
 .arena-map:hover .provider-orbit,
-.arena-map:hover .provider-node {
+.arena-map:hover .provider-node,
+.arena-map:hover .network-signal {
   animation-play-state: paused;
 }
 @keyframes arena-orbit {
@@ -521,10 +525,7 @@
   .arena-actions {
     gap: 17px;
   }
-  .arena-core {
-    width: 110px;
-    height: 110px;
-  }
+
   .provider-position {
     width: 78px;
     height: 78px;
@@ -562,10 +563,7 @@
   .arena-caption {
     margin-top: 25px;
   }
-  .arena-core {
-    width: 120px;
-    height: 120px;
-  }
+
   .arena-ledger {
     grid-template-columns: 1fr 1fr;
     gap: 22px 0;
@@ -648,21 +646,7 @@
   .arena-visual {
     margin: 16px 0 5px;
   }
-  .arena-core {
-    width: 100px;
-    height: 100px;
-    gap: 7px;
-  }
-  .arena-core img {
-    width: 24px;
-    height: 24px;
-  }
-  .arena-core strong {
-    font-size: 22px;
-  }
-  .arena-core > span {
-    font-size: 6px;
-  }
+
   .provider-position {
     width: 68px;
     height: 68px;
@@ -670,18 +654,16 @@
   }
   .provider-node {
     gap: 4px;
-    border-radius: 12px;
+    border-radius: 8px;
   }
   .provider-node img {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
   }
   .provider-node > span {
     font-size: 10px;
   }
-  .provider-node small {
-    font-size: 5px;
-  }
+
   .arena-caption {
     font-size: 7px;
     gap: 10px;
@@ -728,7 +710,8 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .provider-orbit,
-  .provider-node {
+  .provider-node,
+  .network-signal {
     animation: none;
   }
   #orbit-toggle {
@@ -738,4 +721,25 @@
   .arena-primary {
     transition: none;
   }
+}
+
+.runtime-details {
+  margin: 14px auto 0;
+  max-width: 430px;
+  color: #9e9fa3;
+  font: 10px/1.8 var(--mono);
+}
+.runtime-details summary {
+  width: fit-content;
+  margin: auto;
+  cursor: pointer;
+  color: #bdbab5;
+  font-size: 9px;
+}
+.runtime-details p {
+  font-family: inherit;
+  font-size: 10px;
+  margin: 12px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
 }

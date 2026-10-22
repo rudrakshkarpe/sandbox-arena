@@ -47,8 +47,10 @@ package, use `uv run --no-editable sandbox-arena serve --port 8033` instead.
 ![Actual local benchmark run](docs/evidence/sandbox-benchmarks.jpg)
 
 The homepage’s orbital display supports pause/resume and reduced-motion settings.
-Monty is the only implemented runtime. Modal, E2B, Daytona and Vercel are marked
-planned; their logos do not imply integrations or endorsements.
+All five providers share the orbit, with illustrative signals moving between them.
+Runtime availability is explained in “About the runtimes” below the visual. Monty
+is the only implemented runtime; the other logos do not imply integrations or
+endorsements.
 
 ## Included workloads
 
