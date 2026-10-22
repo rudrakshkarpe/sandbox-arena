@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "id": "stdout-budget",
+  "version": "1.0.0",
+  "title": "Output flood limit",
+  "category": "Resources",
+  "objective": "Print a single chunk larger than the 4096-byte output collector.",
+  "boundary": "Host output collector",
+  "limitation": "The collector raises a memory-limit error for oversized chunks; partial prior output may remain.",
+  "requires": [
+    "python-subset",
+    "resource-limits"
+  ],
+  "allow_fixture": false,
+  "timeout_ms": 250,
+  "memory_mb": 16,
+  "probes": [
+    {
+      "id": "control",
+      "code": "print('control')\n42",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": 42
+      },
+      "role": "control"
+    },
+    {
+      "id": "output",
+      "code": "print('x' * 6000)\n42",
+      "expect": {
+        "status": "limited",
+        "error_prefix": "MemoryError:",
+        "stdout_max_bytes": 4096
+      },
+      "role": "challenge"
+    }
+  ]
+}
