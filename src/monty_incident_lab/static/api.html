@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Execution API · Sandbox Lab</title>
+    <link rel="icon" href="/static/mark.svg" />
+    <link rel="stylesheet" href="/static/playground.css" />
+  </head>
+  <body>
+    <main>
+      <div class="topbar">
+        <a href="/">← Sandbox Lab</a
+        ><a href="/openapi.json">OpenAPI schema ↗</a>
+      </div>
+      <div class="page-intro">
+        <h1>An API for<br /><em>your experiments.</em></h1>
+        <p>
+          Local execution through the same bounded runner used by the
+          playground. No credentials required.<br />All POST requests require
+          application/json. Cross-origin browser execution is disabled.
+        </p>
+      </div>
+      <section class="panel">
+        <div class="panel-heading">
+          <span class="panel-title">Submit Python</span
+          ><span class="tag">202 Accepted</span>
+        </div>
+        <div class="result-content">
+          <pre>
+curl http://127.0.0.1:8033/api/playground/runs \
+  -H 'Content-Type: application/json' \
+  -d '{"mode":"playground","code":"6 * 7","timeout_ms":250,"memory_mb":16,"allow_fixture":false}'</pre
+          >
+          <p class="report-note">
+            Returns a run ID. Poll the run endpoint or subscribe to its event
+            stream to get the result. Adjust the port to match your server.
+          </p>
+        </div>
+      </section>
+      <br />
+      <section class="panel">
+        <div class="panel-heading">
+          <span class="panel-title">Run versioned benchmarks</span>
+        </div>
+        <div class="result-content">
+          <pre>
+curl http://127.0.0.1:8033/api/playground/runs \
+  -H 'Content-Type: application/json' \
+  -d '{"mode":"benchmark","benchmark_ids":["primes-10","primes-1000"],"iterations":10,"warmups":1}'</pre
+          >
+        </div>
+      </section>
+      <br />
+      <section class="panel">
+        <table>
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Path</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>GET</td>
+              <td>/api/playground/catalog</td>
+              <td>Runtime, examples, workloads, and limits</td>
+            </tr>
+            <tr>
+              <td>POST</td>
+              <td>/api/playground/runs</td>
+              <td>Submit a bounded job</td>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td>/api/playground/runs?limit=100&amp;offset=0</td>
+              <td>Paginated recent history</td>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td>/api/playground/runs/{id}</td>
+              <td>Configuration, samples, and events</td>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td>/api/playground/runs/{id}/events</td>
+              <td>SSE with Last-Event-ID replay</td>
+            </tr>
+            <tr>
+              <td>POST</td>
+              <td>/api/playground/runs/{id}/cancel</td>
+              <td>Stop after the current bounded trial; send {}</td>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td>/api/playground/runs/{id}/export</td>
+              <td>Download a self-contained JSON record</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <div class="method-footer">
+        The queue admits at most eight pending jobs and executes one at a time.
+        Full queues return 429; invalid configurations return 422.<br />Maximums:
+        12,000 code characters · 50 measured trials per workload · 5 warmups ·
+        500 ms execution budget · 32 MB allocator budget.<br />This local API
+        executes code supplied by your client; it does not run or configure a
+        live language model. An external agent can submit code through it.<br /><a
+          href="/#methodology"
+          >Measurement methodology ↗</a
+        >
+      </div>
+    </main>
+  </body>
+</html>

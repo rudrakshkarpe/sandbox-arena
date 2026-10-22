@@ -2,6 +2,7 @@
 
 from contextlib import asynccontextmanager
 from importlib.resources import files
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, JSONResponse
@@ -10,20 +11,27 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from .evidence import CAPTURE, CAPTURE_SHA256, SOURCE_URL, record
 from .models import RunRequest, RunResult
+from .playground_api import router
+from .playground_runner import MontyProvider, Runner, RunStore
 from .programs import PROGRAMS
 from .sandbox import LIMITS, make_pool
 from .service import run
 from .telemetry import trace_summary
 
 
-def create_app() -> FastAPI:
+def create_app(*, database: Path = Path('artifacts/playground.sqlite3')) -> FastAPI:
     @asynccontextmanager
     async def lifespan(app):
         with make_pool() as pool:
             app.state.pool = pool
-            yield
+            app.state.runner = Runner(MontyProvider(pool), RunStore(database))
+            try:
+                yield
+            finally:
+                app.state.runner.close()
 
-    app = FastAPI(title='Monty Incident Lab', lifespan=lifespan)
+    app = FastAPI(title='Sandbox Lab', version='0.2.0', lifespan=lifespan, docs_url=None, redoc_url=None)
+    app.include_router(router())
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=['127.0.0.1', 'localhost', 'testserver'])
 
     @app.middleware('http')
@@ -57,7 +65,15 @@ def create_app() -> FastAPI:
 
     @app.get('/')
     def index():
+        return FileResponse(str(static.joinpath('playground.html')))
+
+    @app.get('/incident-lab')
+    def incident_lab():
         return FileResponse(str(static.joinpath('index.html')))
+
+    @app.get('/docs')
+    def api_reference():
+        return FileResponse(str(static.joinpath('api.html')))
 
     @app.get('/api/catalog')
     def catalog():

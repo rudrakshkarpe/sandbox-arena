@@ -1,9 +1,10 @@
 [project]
 name = "monty-incident-lab"
-version = "0.1.0"
-description = "A repeatable customer evaluation of Monty execution, evidence validation, and Logfire traces"
+version = "0.2.0"
+description = "A local Monty sandbox playground with reproducible benchmarks and inspectable execution evidence"
 readme = "README.md"
-license = "MIT"
+license = "MIT AND Apache-2.0"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md", "licenses/Apache-2.0.txt"]
 authors = [
     { name = "rudrakshkarpe", email = "rudraksh.karpe@gmail.com" }
 ]
