@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "id": "memory-budget",
+  "version": "1.0.0",
+  "title": "Allocation budget",
+  "category": "Resources",
+  "objective": "Request a list larger than the configured Monty allocator budget.",
+  "boundary": "Monty allocator",
+  "limitation": "Allocator accounting is not process RSS or an operating-system memory limit.",
+  "requires": [
+    "python-subset",
+    "resource-limits"
+  ],
+  "allow_fixture": false,
+  "timeout_ms": 250,
+  "memory_mb": 16,
+  "probes": [
+    {
+      "id": "control",
+      "code": "len([0] * 100)",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": 100
+      },
+      "role": "control"
+    },
+    {
+      "id": "allocation",
+      "code": "values = [0] * 20_000_000\nlen(values)",
+      "expect": {
+        "status": "limited",
+        "error_prefix": "MemoryError:"
+      },
+      "role": "challenge"
+    }
+  ]
+}
