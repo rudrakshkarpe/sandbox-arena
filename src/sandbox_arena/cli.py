@@ -6,6 +6,7 @@ from typing import get_args
 import logfire
 
 from .agent import run_live
+from .attack_cli import dispatch, register
 from .evaluation import evaluate
 from .models import RunRequest, Scenario
 from .programs import PROGRAMS
@@ -19,6 +20,7 @@ def main():
     parser.add_argument('--export-logfire', action='store_true', help='Explicitly export traces using LOGFIRE_TOKEN')
     parser.add_argument('--traces', type=Path, default=Path('artifacts/traces.jsonl'))
     commands = parser.add_subparsers(dest='command', required=True)
+    register(commands)
     serve = commands.add_parser('serve', help='Start the local sandbox workbench')
     serve.add_argument('--port', type=int, default=8022)
     evaluation = commands.add_parser('evaluate', help='Execute deterministic Pydantic Evals cases')
@@ -30,6 +32,11 @@ def main():
     investigation.add_argument('--model', help='Explicit opt-in to a paid live model, e.g. openai:MODEL_ID')
     investigation.add_argument('--output', type=Path, default=Path('artifacts/run.json'))
     args = parser.parse_args()
+    if args.command in {'scenarios', 'attack', 'verify', 'replay'}:
+        try:
+            raise SystemExit(dispatch(args))
+        except (ValueError, OSError, RecursionError) as exc:
+            parser.error(str(exc))
     if args.command == 'run' and args.model and args.challenge != 'analysis':
         parser.error('Live generation supports analysis only; adversarial cases are scripted')
     configure(args.traces, export=args.export_logfire)

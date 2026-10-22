@@ -5,11 +5,13 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from .benchmarks import WORKLOADS
+from .scenario_catalog import PACKS
 
 
 class RunSpec(BaseModel):
     model_config = ConfigDict(extra='forbid')
-    mode: Literal['playground', 'benchmark'] = 'playground'
+    mode: Literal['playground', 'benchmark', 'scenario'] = 'playground'
+    scenario_id: str | None = None
     provider: Literal['monty'] = 'monty'
     code: str = Field(default='', max_length=12_000)
     benchmark_ids: list[str] = Field(default_factory=list, max_length=5)
@@ -21,6 +23,23 @@ class RunSpec(BaseModel):
 
     @model_validator(mode='after')
     def valid_work(self):
+        if self.mode == 'scenario':
+            pack = PACKS.get(self.scenario_id)
+            if pack is None:
+                raise ValueError('Select a known scenario pack')
+            if self.code or self.benchmark_ids or self.iterations > 10:
+                raise ValueError('Scenario runs use catalog code and at most 10 repetitions')
+            for field, value in {
+                'warmups': 0,
+                'allow_fixture': pack.allow_fixture,
+                'timeout_ms': pack.timeout_ms,
+                'memory_mb': pack.memory_mb,
+            }.items():
+                if field in self.model_fields_set and getattr(self, field) != value:
+                    raise ValueError(f'Scenario policy fixes {field} to {value}')
+                setattr(self, field, value)
+        elif self.scenario_id is not None:
+            raise ValueError('scenario_id requires scenario mode')
         if self.mode == 'playground' and not self.code.strip():
             raise ValueError('Provide code to execute')
         if self.mode == 'benchmark':

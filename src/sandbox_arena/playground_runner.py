@@ -17,7 +17,12 @@ from uuid import uuid4
 from pydantic_monty import CollectString, MontyCrashedError, MontyError, MontyRuntimeError
 
 from .benchmarks import WORKLOADS
+from .evidence_integrity import seal
 from .playground_models import RunSpec, Sample
+from .scenario_catalog import PACKS, pack_digest
+from .scenario_replay import lineage, replay_spec
+from .scenario_reports import assess_scenario
+from .scenario_verifier import checks_pass, verify_probe
 
 TERMINAL = {'completed', 'cancelled', 'failed', 'interrupted'}
 CAPABILITIES = ['python-subset', 'host-callbacks', 'os-policy', 'resource-limits', 'fresh-sessions']
@@ -169,6 +174,10 @@ class RunStore:
                 self.save(record)
 
     def save(self, record):
+        if record['status'] in TERMINAL:
+            if record.get('scenario'):
+                record['assessment'] = assess_scenario(record)
+            record['integrity'] = seal(record)['integrity']
         with self.lock:
             self.db.execute('INSERT OR REPLACE INTO runs VALUES (?, ?)', (record['id'], json.dumps(record)))
             self.db.commit()
@@ -202,7 +211,10 @@ class Runner:
         self.lock = threading.Lock()
         self.pending: dict[str, threading.Event] = {}
 
-    def submit(self, spec: RunSpec):
+    def replay(self, record: dict):
+        return self.submit(replay_spec(record), replay_of=lineage(record))
+
+    def submit(self, spec: RunSpec, *, replay_of: dict | None = None):
         with self.lock:
             if len(self.pending) >= 8:
                 raise OverflowError('Run queue is full. Wait for a run to finish.')
@@ -211,6 +223,7 @@ class Runner:
             self.pending[run_id] = cancel
         record = {
             'schema_version': '1.0',
+            'replay_of': replay_of,
             'id': run_id,
             'created_at': datetime.now(UTC).isoformat(),
             'status': 'queued',
@@ -233,6 +246,10 @@ class Runner:
             if spec.mode == 'benchmark'
             else [],
         }
+        if spec.mode == 'scenario':
+            pack = PACKS[spec.scenario_id]
+            record['scenario'] = pack.model_dump(mode='json')
+            record['scenario_sha256'] = pack_digest(pack)
         try:
             self.event(record, 'queued', 'Accepted by the local runner')
             self.executor.submit(self.run, record, spec, cancel)
@@ -264,26 +281,35 @@ class Runner:
         try:
             record['status'] = 'running'
             self.event(record, 'started', 'Runner acquired; every trial uses a fresh session')
-            tasks = (
-                [(key, WORKLOADS[key].code) for key in spec.benchmark_ids]
-                if spec.mode == 'benchmark'
-                else [('custom', spec.code)]
-            )
-            for key, code in tasks:
-                count = spec.warmups + spec.iterations if spec.mode == 'benchmark' else 1
-                for index in range(count):
-                    if cancel.is_set():
-                        break
-                    warmup = spec.mode == 'benchmark' and index < spec.warmups
-                    self.event(record, 'trial_started', f'{key} · {"warmup" if warmup else "measurement"} {index + 1}')
-                    sample = self.provider.execute(spec, code, key, index + 1, warmup)
-                    record['samples'].append(sample.model_dump())
-                    record['summaries'] = summarize(record['samples'])
-                    self.event(
-                        record, 'trial_finished', f'{key} · {sample.status}', sample_index=len(record['samples']) - 1
-                    )
+            pack = PACKS.get(spec.scenario_id) if spec.mode == 'scenario' else None
+            if pack:
+                tasks = [
+                    (probe.id, probe.code, index, False, probe)
+                    for index in range(1, spec.iterations + 1)
+                    for probe in pack.probes
+                ]
+            elif spec.mode == 'benchmark':
+                tasks = [
+                    (key, WORKLOADS[key].code, index + 1, index < spec.warmups, None)
+                    for key in spec.benchmark_ids
+                    for index in range(spec.warmups + spec.iterations)
+                ]
+            else:
+                tasks = [('custom', spec.code, 1, False, None)]
+            for key, code, index, warmup, probe in tasks:
                 if cancel.is_set():
                     break
+                self.event(record, 'trial_started', f'{key} · {"warmup" if warmup else "measurement"} {index}')
+                sample = self.provider.execute(spec, code, key, index, warmup)
+                data = sample.model_dump()
+                if probe:
+                    data['checks'] = verify_probe(probe, data)
+                    data['verdict'] = 'pass' if checks_pass(data['checks']) else 'fail'
+                record['samples'].append(data)
+                record['summaries'] = summarize(record['samples'])
+                self.event(
+                    record, 'trial_finished', f'{key} · {sample.status}', sample_index=len(record['samples']) - 1
+                )
             record['status'] = 'cancelled' if cancel.is_set() else 'completed'
             self.event(record, record['status'], 'Session resources released; evidence saved')
         except Exception as exc:

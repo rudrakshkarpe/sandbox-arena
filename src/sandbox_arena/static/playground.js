@@ -114,29 +114,111 @@ document.querySelectorAll("[data-compute]").forEach((link) => {
     busy(state.busy);
   });
 });
-document.querySelectorAll("[data-scenario]").forEach((button) => {
-  button.addEventListener("click", async () => {
-    if (state.busy || !state.catalog) return;
-    const id = button.dataset.scenario;
-    state.selected = new Set([id]);
-    $("timeout").value = 250;
-    $("memory").value = 16;
-    $("fixture").checked = false;
-    $("iterations").value = 3;
-    $("warmups").value = 0;
-    updatePolicy();
-    renderBenchmarks();
-    location.hash = "benchmarks";
-    const started = await launch({
-      mode: "benchmark",
-      benchmark_ids: [id],
-      iterations: 3,
-      warmups: 0,
-      ...policy(),
-    });
-    if (started) $("benchmark-results").scrollIntoView({ block: "start" });
+$("scenario-list").addEventListener("click", async (event) => {
+  const button = event.target.closest("[data-scenario]");
+  if (!button || state.busy || !state.catalog) return;
+  $("scenario-verification").textContent = "";
+  const started = await launch({
+    mode: "scenario",
+    scenario_id: button.dataset.scenario,
+    iterations: 3,
   });
+  if (started) $("scenario-results").scrollIntoView({ block: "start" });
 });
+$("scenario-category").addEventListener("change", renderScenarios);
+$("scenario-cancel").addEventListener("click", cancel);
+$("scenario-verify").addEventListener("click", async () => {
+  const record = state.records.scenario;
+  if (!record) return;
+  try {
+    const result = await api(`/runs/${record.id}/verify`);
+    $("scenario-verification").textContent =
+      `${result.checksum_valid ? "Checksum matches" : "Checksum invalid"}. Recomputed outcome: ${result.assessment.outcome.replaceAll("_", " ")}. Checksums do not authenticate the execution host.`;
+  } catch (error) {
+    toast(error.message);
+  }
+});
+$("scenario-replay").addEventListener("click", async () => {
+  if (state.busy || !state.records.scenario) return;
+  busy(true);
+  try {
+    const { id } = await post(`/runs/${state.records.scenario.id}/replay`);
+    $("scenario-verification").textContent = "";
+    state.record = null;
+    acceptRecord(await api(`/runs/${id}`));
+    busy(true);
+    follow(id);
+  } catch (error) {
+    busy(false);
+    toast(error.message);
+  }
+});
+
+function renderScenarios() {
+  const category = $("scenario-category").value;
+  const packs = state.catalog.scenarios.filter(
+    (pack) => category === "all" || pack.category === category,
+  );
+  $("scenario-count").textContent = `${packs.length} versioned packs`;
+  $("scenario-list").innerHTML = packs
+    .map(
+      (pack, index) => `
+    <article class="scenario-card">
+      <span class="scenario-index">${String(index + 1).padStart(2, "0")}</span>
+      <div><span class="scenario-category">${escape(pack.category.toUpperCase())} / v${escape(pack.version)}</span>
+        <h2>${escape(pack.title)}</h2><p>${escape(pack.objective)}</p>
+        <details><summary>Inspect policy, probes & limits</summary>
+          <p>${escape(pack.boundary)} · ${pack.timeout_ms} ms · ${pack.memory_mb} MB · fixture ${pack.allow_fixture ? "allowed" : "denied"}</p>
+          <p>${escape(pack.limitation)}</p>
+          ${pack.probes.map((probe) => `<h3>${escape(probe.role)} / ${escape(probe.id)}</h3><pre>${escape(probe.code)}</pre><p>Expected: ${escape(probe.expect.status)}</p>`).join("")}
+          <p class="digest">Pack SHA-256 ${escape(pack.sha256)}</p>
+        </details>
+      </div><button class="arena-primary" data-scenario="${escape(pack.id)}" ${state.busy ? "disabled" : ""}>Run scenario <span>↗</span></button>
+    </article>`,
+    )
+    .join("");
+}
+
+function renderScenario() {
+  const record = state.records.scenario;
+  if (!record) return;
+  const done = terminal.has(record.status);
+  $("scenario-results").hidden = false;
+  $("scenario-run-title").textContent = record.scenario.title;
+  const outcome = record.assessment?.outcome;
+  $("scenario-status").textContent = outcome
+    ? outcome.replaceAll("_", " ")
+    : record.status;
+  $("scenario-status").className =
+    `tag ${outcome === "expected_observed" ? "pass" : outcome === "unexpected_observed" ? "fail" : ""}`;
+  $("scenario-progress").textContent =
+    `${record.samples.length} / ${record.spec.iterations * record.scenario.probes.length} probes · ${record.status} · ${record.id.slice(0, 12)}${record.replay_of ? ` · replay of ${record.replay_of.run_id.slice(0, 12)}` : ""}`;
+  $("scenario-export").href = `/api/playground/runs/${record.id}/export`;
+  $("scenario-verify").disabled = !done;
+  $("scenario-replay").disabled = !done || state.busy;
+  $("scenario-evidence").innerHTML =
+    record.scenario.probes
+      .map((probe) => {
+        const samples = record.samples.filter(
+          (sample) => sample.workload_id === probe.id,
+        );
+        const summary = record.summaries.find(
+          (row) => row.workload_id === probe.id,
+        );
+        return `<details class="probe-evidence"><summary><span>${escape(probe.role)} / ${escape(probe.id)}</span><span>${summary?.passed || 0}/${record.spec.iterations} checks · ${ms(summary?.median_ms)} ms median</span></summary>
+      ${samples
+        .map(
+          (
+            sample,
+          ) => `<div class="probe-trial"><h3>Repetition ${sample.iteration} · ${escape(sample.status)} · ${ms(sample.execution_ms)} ms</h3>
+        <ul>${(sample.checks || []).map((check) => `<li class="${check.passed ? "pass" : "fail"}">${check.passed ? "✓" : "×"} ${escape(check.name)}</li>`).join("")}</ul>
+        <pre>${escape(JSON.stringify({ result: sample.result, error: sample.error, stdout: sample.stdout, audit: sample.audit, code_sha256: sample.code_sha256 }, null, 2))}</pre></div>`,
+        )
+        .join("")}</details>`;
+      })
+      .join("") +
+    `<p class="field-hint">${escape(record.scenario.limitation)}</p><p class="digest">Pack ${escape(record.scenario_sha256)}${record.integrity ? `<br>Report ${escape(record.integrity.digest)}` : ""}</p>`;
+}
 
 function editorChanged() {
   const code = $("code").value;
@@ -201,6 +283,10 @@ function busy(value) {
   document.querySelectorAll("[data-scenario]").forEach((button) => {
     button.disabled = value || !state.catalog;
   });
+  $("scenario-cancel").hidden =
+    !value || state.record?.spec.mode !== "scenario";
+  $("scenario-replay").disabled =
+    value || !terminal.has(state.records.scenario?.status);
   $("run-code").disabled = value || !state.catalog;
   $("run-suite").disabled =
     value || !state.catalog || state.selected.size === 0;
@@ -215,7 +301,8 @@ function acceptRecord(record) {
     return;
   state.record = record;
   state.records[record.spec.mode] = record;
-  if (record.spec.mode === "benchmark") renderSuite();
+  if (record.spec.mode === "scenario") renderScenario();
+  else if (record.spec.mode === "benchmark") renderSuite();
   else renderResult();
 }
 async function launch(spec) {
@@ -429,7 +516,7 @@ async function refreshHistory() {
     ? runs
         .map(
           (run) =>
-            `<div class="history-row"><div><strong>${run.spec.mode === "benchmark" ? `${run.spec.benchmark_ids.length} benchmark${run.spec.benchmark_ids.length > 1 ? "s" : ""}` : "Playground execution"}</strong><small>${escape(run.id.slice(0, 12))} · Monty</small></div><span>${escape(new Date(run.created_at).toLocaleString())}</span><span class="tag">${escape(run.status)}</span><button data-open-run="${escape(run.id)}">Inspect ↗</button></div>`,
+            `<div class="history-row"><div><strong>${run.spec.mode === "scenario" ? `Scenario / ${escape(run.spec.scenario_id)}` : run.spec.mode === "benchmark" ? `${run.spec.benchmark_ids.length} benchmark${run.spec.benchmark_ids.length > 1 ? "s" : ""}` : "Playground execution"}</strong><small>${escape(run.id.slice(0, 12))} · Monty</small></div><span>${escape(new Date(run.created_at).toLocaleString())}</span><span class="tag">${escape(run.status)}</span><button data-open-run="${escape(run.id)}">Inspect ↗</button></div>`,
         )
         .join("")
     : '<div class="result-content"><div class="empty-state"><span class="empty-icon">◷</span><div><strong>A clean slate.</strong><p>Your first run will appear here with its configuration and evidence.</p></div></div></div>';
@@ -450,6 +537,9 @@ async function refreshHistory() {
           $("code").value = record.spec.code;
           editorChanged();
           location.hash = "playground";
+        } else if (record.spec.mode === "scenario") {
+          $("scenario-verification").textContent = "";
+          location.hash = "scenarios";
         } else {
           state.selected = new Set(record.spec.benchmark_ids);
           renderBenchmarks();
@@ -480,8 +570,7 @@ async function init() {
     $("home-runtime").textContent =
       `Monty ${state.catalog.provider.version} available locally · No API key`;
     $("boundary-count").textContent = String(
-      state.catalog.benchmarks.filter((item) => item.category === "Boundaries")
-        .length,
+      state.catalog.scenarios.length,
     ).padStart(2, "0");
     $("compute-count").textContent = String(
       state.catalog.benchmarks.filter((item) => item.category === "Compute")
@@ -504,6 +593,15 @@ async function init() {
     $("code").value = draft ?? state.catalog.examples[0].code;
     editorChanged();
     renderBenchmarks();
+    $("scenario-category").innerHTML += [
+      ...new Set(state.catalog.scenarios.map((pack) => pack.category)),
+    ]
+      .map(
+        (category) =>
+          `<option value="${escape(category)}">${escape(category)}</option>`,
+      )
+      .join("");
+    renderScenarios();
     busy(false);
     await refreshHistory();
   } catch (error) {

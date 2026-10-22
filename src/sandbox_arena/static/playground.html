@@ -286,65 +286,60 @@
               Challenge a boundary.<br /><em>Inspect the evidence.</em>
             </h1>
             <p>
-              Two controlled checks for the local Monty runtime.<br />Choose a
-              scenario. No code setup required.
+              Versioned boundary probes for the local Monty runtime.<br />Run a
+              control. Challenge a boundary. Keep the evidence.
             </p>
           </div>
           <div class="scenario-context">
             <span><span class="dot"></span> Monty · local</span
-            ><span>3 trials · 250 ms budget · 16 MB allocation limit</span>
+            ><span
+              >3 repetitions · fresh session per probe · fixed pack policy</span
+            >
           </div>
-          <div class="scenario-list">
-            <article class="scenario-card">
-              <span class="scenario-index">01</span>
-              <div>
-                <span class="scenario-category">FILESYSTEM POLICY</span>
-                <h2>Reach beyond the boundary.</h2>
-                <p>
-                  Attempt to read a synthetic forbidden path. Check that the OS
-                  policy records a denial.
-                </p>
-                <details>
-                  <summary>What this proves</summary>
-                  <p>
-                    Expected: a denied result with a matching policy audit. This
-                    checks the configured host callback; it does not demonstrate
-                    resistance to arbitrary sandbox escapes.
-                  </p>
-                </details>
-              </div>
-              <button class="arena-primary" data-scenario="filesystem" disabled>
-                Run check <span>↗</span>
-              </button>
-            </article>
-            <article class="scenario-card">
-              <span class="scenario-index">02</span>
-              <div>
-                <span class="scenario-category">EXECUTION LIMIT</span>
-                <h2>Ask it to run forever.</h2>
-                <p>
-                  Start an unending loop. Check that the runtime interrupts
-                  execution at its configured limit.
-                </p>
-                <details>
-                  <summary>What this proves</summary>
-                  <p>
-                    Expected: a resource-limited result in each trial. This
-                    checks the execution budget, not host-wide denial-of-service
-                    resilience or an external kill switch.
-                  </p>
-                </details>
-              </div>
-              <button class="arena-primary" data-scenario="time-limit" disabled>
-                Run check <span>↗</span>
-              </button>
-            </article>
+          <div class="scenario-toolbar">
+            <label for="scenario-category"
+              >Explore
+              <select id="scenario-category">
+                <option value="all">All boundaries</option>
+              </select></label
+            >
+            <span id="scenario-count" class="muted"></span>
           </div>
+          <section
+            id="scenario-results"
+            class="panel"
+            aria-labelledby="scenario-run-title"
+            hidden
+          >
+            <div class="panel-heading">
+              <h2 id="scenario-run-title">Scenario evidence</h2>
+              <span id="scenario-status" class="tag" role="status"></span>
+            </div>
+            <div class="scenario-report-body">
+              <p id="scenario-progress" aria-live="polite"></p>
+              <div class="scenario-report-actions">
+                <button class="text-button" id="scenario-cancel" hidden>
+                  Stop run
+                </button>
+                <button class="text-button" id="scenario-verify" disabled>
+                  Verify evidence
+                </button>
+                <button class="text-button" id="scenario-replay" disabled>
+                  Replay run
+                </button>
+                <a id="scenario-export">Export JSON ↗</a>
+              </div>
+              <p id="scenario-verification" role="status"></p>
+              <div id="scenario-evidence"></div>
+            </div>
+          </section>
+          <div id="scenario-list" class="scenario-list"></div>
           <div class="scenario-footnote">
             <p>
-              These are starter boundary checks. Independent canary
-              verification, disclosed-attack reproductions and cloud providers
-              are on the roadmap.
+              Authored, bounded probes with host-side checks. An expected result
+              describes this configuration; it is not a security certification.
+              Cloud adapters and historical exploit reproductions require
+              separate containment.
             </p>
             <a href="#playground">Inspect or write a workload ↗</a>
           </div>
