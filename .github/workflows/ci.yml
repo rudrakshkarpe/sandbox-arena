@@ -21,6 +21,15 @@ jobs:
       - run: uv run ruff format --check .
       - run: uv run pytest
       - run: uv run sandbox-arena evaluate
+      - run: uv build
+      - run: uv run python scripts/check_dist.py
+      - name: Smoke test the installed wheel outside the checkout
+        run: |
+          uv pip install --python .venv/bin/python --reinstall --no-deps dist/*.whl
+          cd "$(mktemp -d)"
+          "$GITHUB_WORKSPACE/.venv/bin/python" -I -m sandbox_arena.cli attack caught-denial --iterations 1 --output report.json
+          "$GITHUB_WORKSPACE/.venv/bin/python" -I -m sandbox_arena.cli verify report.json
+          "$GITHUB_WORKSPACE/.venv/bin/python" -I -m sandbox_arena.cli replay report.json --output replay.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:

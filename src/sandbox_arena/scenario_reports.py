@@ -9,6 +9,8 @@ from .scenario_verifier import checks_pass, verify_probe
 
 
 def assess_scenario(record: dict) -> dict:
+    if record.get('schema_version') != '1.0':
+        return {'outcome': 'unsupported', 'reason': 'Unsupported report schema.', 'probes': []}
     snapshot = record.get('scenario', {})
     if not isinstance(snapshot, dict) or not isinstance(snapshot.get('id'), str):
         return {'outcome': 'unsupported', 'reason': 'Missing scenario identity.', 'probes': []}

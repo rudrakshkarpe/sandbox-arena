@@ -16,6 +16,7 @@ from uuid import uuid4
 
 from pydantic_monty import CollectString, MontyCrashedError, MontyError, MontyRuntimeError
 
+from . import __version__
 from .benchmarks import WORKLOADS
 from .evidence_integrity import seal
 from .playground_models import RunSpec, Sample
@@ -232,6 +233,7 @@ class Runner:
             'summaries': [],
             'events': [],
             'environment': {
+                'arena_version': __version__,
                 'provider': 'monty',
                 'monty_version': version('pydantic-monty'),
                 'python': platform.python_version(),

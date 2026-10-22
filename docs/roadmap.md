@@ -11,6 +11,7 @@ contribute. A provider's presence means integration support, not endorsement.
 | Milestone | Deliverable | Gate before the next stage |
 | --- | --- | --- |
 | 0.2 Local Monty preview | Editor, policy, five workloads, raw samples, persistent history, exports | A new user can install without keys and produce a verified result |
+| 0.3 Attack-lab foundation | 18 versioned packs, positive controls, host verification, portable checksums and replay | Expected observations survive independent verification and incomplete runs stay inconclusive |
 | Monty depth | Session/snapshot experiments, callback overhead, independent cold process startup, bounded concurrency, live agent example | Each suite defines exactly what it measures and has correctness/recovery tests |
 | Second runtime | Modal adapter and provider capability registry | Equivalent supported workloads, resource cleanup tests, separately labelled local and remote timings |
 | Community release | Contribution templates, reproducible environment manifests, example reports, methodology change log | Outside contributors can add a workload or adapter without modifying the UI |

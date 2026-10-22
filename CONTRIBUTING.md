@@ -50,3 +50,11 @@ Do not claim partner endorsement, security certification, or unmeasured speedups
 
 Contributions to application code are MIT licensed. Apache-2.0 derived workload
 files retain that license and their attribution notices.
+
+## Add an attack-lab scenario
+
+Follow [the scenario contract](docs/attack-lab.md#author-a-pack). Include a positive
+control, bounded challenge, explicit host assertions and limits of interpretation.
+A new scenario resource is automatically discovered by the catalog and its runtime
+contract test. Keep historical exploit research separate from the local workbench
+until its outer containment and independent evidence collection are implemented.

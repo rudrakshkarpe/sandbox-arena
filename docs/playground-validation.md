@@ -99,3 +99,23 @@ Verified the details disclosure, moving connections and shared pause/resume
 control in the browser. The 390-pixel preview again measures 390 pixels of content
 width, with no horizontal overflow. All 39 tests, Ruff and formatting checks pass.
 Updated both preview screenshots.
+
+## Attack-lab foundation, 0.3.0
+
+- 80 tests and all 12 original acceptance cases passed on the local macOS ARM64
+  environment using the already installed Python 3.14 / Monty 1.2.0 dependencies.
+- All 18 bundled packs executed their positive controls and challenges. Report
+  tests covered missing/duplicate/reordered evidence, changed policy, unknown
+  schemas, checksum edits, interrupted jobs and replay lineage.
+- Browser execution, category filtering, host verification, replay and history
+  reload passed. The mobile scenario view was executed in a 390-pixel same-origin
+  iframe with matching document and content widths. Its test-only framing policy
+  is not part of the application.
+- `docs/evidence/attack-lab.jpg` records an actual local verified replay; timings
+  are illustrative measurements from that machine, not provider comparisons.
+- Wheel and source builds passed, including checks of all 32 bundled scenario and
+  static resources. CI also installs the wheel and runs attack/verify/replay from
+  outside the checkout.
+- A fresh offline macOS dependency install is still unavailable because the Monty
+  runtime wheel is absent from the local uv download cache. Local tests used the
+  existing environment; CI checks a clean online Linux installation separately.

@@ -9,6 +9,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
+from . import __version__
 from .evidence import CAPTURE, CAPTURE_SHA256, SOURCE_URL, record
 from .models import RunRequest, RunResult
 from .playground_api import router
@@ -30,7 +31,7 @@ def create_app(*, database: Path = Path('artifacts/playground.sqlite3')) -> Fast
             finally:
                 app.state.runner.close()
 
-    app = FastAPI(title='Sandbox Arena', version='0.2.0', lifespan=lifespan, docs_url=None, redoc_url=None)
+    app = FastAPI(title='Sandbox Arena', version=__version__, lifespan=lifespan, docs_url=None, redoc_url=None)
     app.include_router(router())
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=['127.0.0.1', 'localhost', 'testserver'])
 
