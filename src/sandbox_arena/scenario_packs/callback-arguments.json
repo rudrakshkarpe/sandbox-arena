@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "id": "callback-arguments",
+  "version": "1.0.0",
+  "title": "Host callback argument rejection",
+  "category": "Host policy",
+  "objective": "Pass an unexpected argument to the zero-argument fixture tool.",
+  "boundary": "Host callback signature",
+  "limitation": "Checks argument rejection before the callback body, not a general schema validator.",
+  "requires": [
+    "python-subset",
+    "host-callbacks"
+  ],
+  "allow_fixture": true,
+  "timeout_ms": 250,
+  "memory_mb": 16,
+  "probes": [
+    {
+      "id": "control",
+      "code": "len(read_fixture())",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": 3
+      },
+      "role": "control"
+    },
+    {
+      "id": "arguments",
+      "code": "read_fixture('/synthetic')",
+      "expect": {
+        "status": "error",
+        "error_prefix": "TypeError:",
+        "allowed_exact": 0
+      },
+      "role": "challenge"
+    }
+  ]
+}
