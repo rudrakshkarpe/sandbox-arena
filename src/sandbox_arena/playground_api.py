@@ -10,6 +10,7 @@ from fastapi.responses import JSONResponse, StreamingResponse
 from .benchmarks import EXAMPLES, WORKLOADS
 from .playground_models import RunSpec
 from .playground_runner import CAPABILITIES, TERMINAL
+from .scenario_catalog import PACKS, catalog_entries, pack_digest
 
 
 def router() -> APIRouter:
@@ -30,10 +31,18 @@ def router() -> APIRouter:
                 'version': version('pydantic-monty'),
                 'capabilities': CAPABILITIES,
             },
+            'scenarios': catalog_entries(),
             'examples': EXAMPLES,
             'benchmarks': [w.model_dump() for w in WORKLOADS.values()],
             'limits': {'iterations': 50, 'warmups': 5, 'timeout_ms': 500, 'memory_mb': 32, 'code_chars': 12_000},
         }
+
+    @api.get('/scenarios/{scenario_id}')
+    def scenario(scenario_id: str):
+        pack = PACKS.get(scenario_id)
+        if pack is None:
+            raise HTTPException(404, 'Scenario not found')
+        return {**pack.model_dump(mode='json'), 'sha256': pack_digest(pack)}
 
     @api.post('/runs', status_code=202)
     def create_run(spec: RunSpec, request: Request):
