@@ -61,3 +61,21 @@ def test_interrupted_runs_are_sealed_as_inconclusive(tmp_path):
         assert checksum_valid(record)
     finally:
         recovered.close()
+
+
+def test_replay_preserves_configuration_and_parent_digest(pool, tmp_path):
+    import pytest
+
+    runner = Runner(MontyProvider(pool), RunStore(tmp_path / 'replay.db'))
+    try:
+        source = wait_done(runner, runner.submit(RunSpec(mode='scenario', scenario_id='caught-denial', iterations=1)))
+        replay = wait_done(runner, runner.replay(source))
+        assert replay['id'] != source['id']
+        assert replay['spec'] == source['spec']
+        assert replay['replay_of']['report_sha256'] == source['integrity']['digest']
+        assert verify_report(replay)['verified']
+        source['samples'][0]['result'] = 'edited'
+        with pytest.raises(ValueError, match='checksum'):
+            runner.replay(source)
+    finally:
+        runner.close()

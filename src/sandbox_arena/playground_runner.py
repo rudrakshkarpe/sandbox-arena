@@ -20,6 +20,7 @@ from .benchmarks import WORKLOADS
 from .evidence_integrity import seal
 from .playground_models import RunSpec, Sample
 from .scenario_catalog import PACKS, pack_digest
+from .scenario_replay import lineage, replay_spec
 from .scenario_reports import assess_scenario
 from .scenario_verifier import checks_pass, verify_probe
 
@@ -210,7 +211,10 @@ class Runner:
         self.lock = threading.Lock()
         self.pending: dict[str, threading.Event] = {}
 
-    def submit(self, spec: RunSpec):
+    def replay(self, record: dict):
+        return self.submit(replay_spec(record), replay_of=lineage(record))
+
+    def submit(self, spec: RunSpec, *, replay_of: dict | None = None):
         with self.lock:
             if len(self.pending) >= 8:
                 raise OverflowError('Run queue is full. Wait for a run to finish.')
@@ -219,6 +223,7 @@ class Runner:
             self.pending[run_id] = cancel
         record = {
             'schema_version': '1.0',
+            'replay_of': replay_of,
             'id': run_id,
             'created_at': datetime.now(UTC).isoformat(),
             'status': 'queued',
