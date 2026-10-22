@@ -53,6 +53,24 @@ curl http://127.0.0.1:8033/api/playground/runs \
       </section>
       <br />
       <section class="panel">
+        <div class="panel-heading">
+          <span class="panel-title">Run a scenario with fixed policy</span>
+        </div>
+        <div class="result-content">
+          <pre>
+curl http://127.0.0.1:8033/api/playground/runs \
+  -H 'Content-Type: application/json' \
+  -d '{"mode":"scenario","scenario_id":"caught-denial","iterations":3}'</pre
+          >
+          <p class="report-note">
+            Each repetition runs the control and challenge in fresh sessions.
+            The pack fixes timeout, memory and fixture permissions. One to ten
+            repetitions, no warmups. A changed policy is rejected.
+          </p>
+        </div>
+      </section>
+      <br />
+      <section class="panel">
         <table>
           <thead>
             <tr>
@@ -65,7 +83,7 @@ curl http://127.0.0.1:8033/api/playground/runs \
             <tr>
               <td>GET</td>
               <td>/api/playground/catalog</td>
-              <td>Runtime, examples, workloads, and limits</td>
+              <td>Runtime, examples, workloads, scenario packs and limits</td>
             </tr>
             <tr>
               <td>POST</td>
@@ -97,17 +115,35 @@ curl http://127.0.0.1:8033/api/playground/runs \
               <td>/api/playground/runs/{id}/export</td>
               <td>Download a self-contained JSON record</td>
             </tr>
+            <tr>
+              <td>GET</td>
+              <td>/api/playground/scenarios/{id}</td>
+              <td>Pack policy, probes, limitations and digest</td>
+            </tr>
+            <tr>
+              <td>GET</td>
+              <td>/api/playground/runs/{id}/verify</td>
+              <td>Recompute scenario checks and validate the checksum</td>
+            </tr>
+            <tr>
+              <td>POST</td>
+              <td>/api/playground/runs/{id}/replay</td>
+              <td>
+                Replay unchanged scenario policy with parent lineage; send {}
+              </td>
+            </tr>
           </tbody>
         </table>
       </section>
       <div class="method-footer">
         The queue admits at most eight pending jobs and executes one at a time.
-        Full queues return 429; invalid configurations return 422.<br />Maximums:
-        12,000 code characters · 50 measured trials per workload · 5 warmups ·
-        500 ms execution budget · 32 MB allocator budget.<br />This local API
-        executes code supplied by your client; it does not run or configure a
-        live language model. An external agent can submit code through it.<br /><a
-          href="/#methodology"
+        Full queues return 429; invalid configurations return 422; replay
+        conflicts return 409. Checksums detect report changes but do not
+        authenticate the execution host.<br />Maximums: 12,000 code characters ·
+        50 measured trials per workload · 5 warmups · 500 ms execution budget ·
+        32 MB allocator budget.<br />This local API executes code supplied by
+        your client; it does not run or configure a live language model. An
+        external agent can submit code through it.<br /><a href="/#methodology"
           >Measurement methodology ↗</a
         >
       </div>
