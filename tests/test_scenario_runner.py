@@ -43,6 +43,7 @@ def test_interrupted_runs_are_sealed_as_inconclusive(tmp_path):
     store = RunStore(path)
     store.save(
         dict(
+            schema_version='1.0',
             id='unfinished',
             status='running',
             events=[],

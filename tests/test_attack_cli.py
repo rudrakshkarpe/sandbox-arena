@@ -26,3 +26,11 @@ def test_ambiguous_report_files_are_rejected(tmp_path, content):
     path.write_text(content)
     with pytest.raises(ValueError):
         read_report(path)
+
+
+def test_replay_rejects_malformed_source_identity():
+    from sandbox_arena.scenario_replay import replay_spec
+
+    for identity in [None, [], '../report']:
+        with pytest.raises(ValueError, match='identity'):
+            replay_spec({'schema_version': '1.0', 'id': identity})

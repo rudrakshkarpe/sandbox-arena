@@ -27,6 +27,7 @@ def record():
             )
         )
     return dict(
+        schema_version='1.0',
         status='completed',
         scenario=pack.model_dump(mode='json'),
         scenario_sha256=pack_digest(pack),
@@ -64,3 +65,9 @@ def test_policy_mismatch_and_out_of_order_evidence_are_inconclusive():
     assert assess_scenario(data)['outcome'] == 'inconclusive'
     data['scenario'] = None
     assert assess_scenario(data)['outcome'] == 'unsupported'
+
+
+def test_unknown_report_schema_is_not_verified():
+    data = record()
+    data['schema_version'] = '999.0'
+    assert verify_report(seal(data))['assessment']['outcome'] == 'unsupported'
