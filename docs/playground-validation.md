@@ -39,7 +39,7 @@ visual verification remains outstanding.
 
 Public hosting, authentication and multi-tenant operation; cloud providers; live
 model/agent integration in the new playground; multi-runner concurrency; cold
-process startup benchmarks; hostile multi-tenant load; and remote CI for this branch.
+process startup benchmarks; and hostile multi-tenant load.
 No provider credentials or paid model calls were used. No partnership is implied.
 
 ## Standalone repository validation
@@ -49,3 +49,10 @@ cases using the existing Python 3.14 dependency environment. Ruff, JavaScript
 syntax and Prettier checks pass. A fresh wheel builds successfully and contains
 the static UI, guest workload payloads and both CLI entry points. The renamed
 application was opened at localhost:8034 and returned 42 from the Hello example.
+
+GitHub Actions [run 39757096609](https://github.com/rudrakshkarpe/sandbox-arena/actions/runs/39757096609)
+passed a clean locked dependency install, Ruff, all 39 tests and the 12 acceptance
+cases for commit `2e9046b`. A separate fresh macOS environment download timed out
+on `griffelib` despite a 120-second HTTP timeout; the running local preview uses
+the previously installed dependency environment. This network failure did not
+occur in the clean Linux CI installation.
