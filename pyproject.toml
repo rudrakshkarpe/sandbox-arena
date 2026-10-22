@@ -22,6 +22,9 @@ dependencies = [
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[project.scripts]
+monty-lab = "monty_incident_lab.cli:main"
+
 [tool.ruff]
 line-length = 120
 
