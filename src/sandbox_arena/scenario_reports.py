@@ -3,13 +3,15 @@
 from pydantic import ValidationError
 
 from .evidence_integrity import checksum_valid
-from .playground_models import Sample
+from .playground_models import RunSpec, Sample
 from .scenario_catalog import PACKS, pack_digest
 from .scenario_verifier import checks_pass, verify_probe
 
 
 def assess_scenario(record: dict) -> dict:
     snapshot = record.get('scenario', {})
+    if not isinstance(snapshot, dict) or not isinstance(snapshot.get('id'), str):
+        return {'outcome': 'unsupported', 'reason': 'Missing scenario identity.', 'probes': []}
     pack = PACKS.get(snapshot.get('id'))
     if pack is None or snapshot != pack.model_dump(mode='json') or record.get('scenario_sha256') != pack_digest(pack):
         return {
@@ -17,16 +19,24 @@ def assess_scenario(record: dict) -> dict:
             'reason': 'The installed catalog does not match the recorded pack.',
             'probes': [],
         }
-    iterations = record.get('spec', {}).get('iterations', 0)
-    if type(iterations) is not int or not 1 <= iterations <= 10:
-        return {'outcome': 'inconclusive', 'reason': 'Invalid repetition count.', 'probes': []}
+    try:
+        spec = RunSpec.model_validate(record.get('spec'))
+        if spec.mode != 'scenario' or spec.scenario_id != pack.id:
+            raise ValueError('Scenario identity differs from run policy')
+    except ValueError, TypeError:
+        return {'outcome': 'inconclusive', 'reason': 'Invalid or mismatched run policy.', 'probes': []}
+    iterations = spec.iterations
+    if not isinstance(record.get('samples'), list) or len(record['samples']) > 40:
+        return {'outcome': 'inconclusive', 'reason': 'Invalid sample collection.', 'probes': []}
     rows = []
     try:
         samples = [Sample.model_validate(value).model_dump() for value in record.get('samples', [])]
     except ValidationError, TypeError:
         return {'outcome': 'inconclusive', 'reason': 'Invalid sample evidence.', 'probes': []}
     expected_ids = {probe.id for probe in pack.probes}
-    complete = record.get('status') == 'completed' and len(samples) == len(pack.probes) * iterations
+    sequence = [(probe.id, index) for index in range(1, iterations + 1) for probe in pack.probes]
+    observed = [(sample['workload_id'], sample['iteration']) for sample in samples]
+    complete = record.get('status') == 'completed' and observed == sequence
     complete = complete and all(sample['workload_id'] in expected_ids and not sample['warmup'] for sample in samples)
     for probe in pack.probes:
         matching = [sample for sample in samples if sample['workload_id'] == probe.id]

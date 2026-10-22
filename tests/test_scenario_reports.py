@@ -1,6 +1,7 @@
 import hashlib
 
 from sandbox_arena.evidence_integrity import seal
+from sandbox_arena.playground_models import RunSpec
 from sandbox_arena.scenario_catalog import PACKS, pack_digest
 from sandbox_arena.scenario_reports import assess_scenario, verify_report
 
@@ -29,7 +30,7 @@ def record():
         status='completed',
         scenario=pack.model_dump(mode='json'),
         scenario_sha256=pack_digest(pack),
-        spec={'iterations': 1},
+        spec=RunSpec(mode='scenario', scenario_id=pack.id, iterations=1).model_dump(),
         samples=samples,
     )
 
@@ -51,4 +52,15 @@ def test_missing_duplicate_and_changed_pack_evidence_fail_closed():
     data['status'] = 'cancelled'
     assert assess_scenario(data)['outcome'] == 'inconclusive'
     data['scenario']['version'] = '9.0.0'
+    assert assess_scenario(data)['outcome'] == 'unsupported'
+
+
+def test_policy_mismatch_and_out_of_order_evidence_are_inconclusive():
+    data = record()
+    data['spec']['allow_fixture'] = True
+    assert assess_scenario(data)['outcome'] == 'inconclusive'
+    data = record()
+    data['samples'].reverse()
+    assert assess_scenario(data)['outcome'] == 'inconclusive'
+    data['scenario'] = None
     assert assess_scenario(data)['outcome'] == 'unsupported'
