@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "id": "caught-denial",
+  "version": "1.0.0",
+  "title": "Caught exceptions retain evidence",
+  "category": "Host policy",
+  "objective": "Catch a denied callback exception and return a success-looking value.",
+  "boundary": "Host audit survives guest exception handling",
+  "limitation": "A guest return value is not proof of access; the independent host audit remains authoritative.",
+  "requires": [
+    "python-subset",
+    "host-callbacks"
+  ],
+  "allow_fixture": false,
+  "timeout_ms": 250,
+  "memory_mb": 16,
+  "probes": [
+    {
+      "id": "control",
+      "code": "6 * 7",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": 42
+      },
+      "role": "control"
+    },
+    {
+      "id": "catch",
+      "code": "try:\n    read_fixture()\nexcept PermissionError:\n    pass\n'allowed'",
+      "expect": {
+        "status": "denied",
+        "denied_min": 1,
+        "check_result": true,
+        "result": "allowed",
+        "allowed_exact": 0
+      },
+      "role": "challenge"
+    }
+  ]
+}
