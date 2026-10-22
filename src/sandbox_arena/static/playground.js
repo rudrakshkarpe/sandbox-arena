@@ -9,7 +9,9 @@ const escape = (value) =>
   );
 const terminal = new Set(["completed", "cancelled", "failed", "interrupted"]);
 const names = {
-  playground: "Playground",
+  home: "Arena",
+  scenarios: "Scenarios",
+  playground: "Code workspace",
   benchmarks: "Benchmarks",
   history: "Run history",
   methodology: "Methodology",
@@ -57,8 +59,10 @@ const post = (path, body = {}) =>
   });
 const ms = (value) => (value == null ? "—" : value.toFixed(3));
 function navigate() {
-  const view =
-    location.hash.slice(1) in names ? location.hash.slice(1) : "playground";
+  const view = Object.hasOwn(names, location.hash.slice(1))
+    ? location.hash.slice(1)
+    : "home";
+  document.body.classList.toggle("home-view", view === "home");
   document.querySelectorAll(".view").forEach((el) => {
     el.hidden = el.id !== `view-${view}`;
   });
@@ -73,7 +77,66 @@ function navigate() {
     refreshHistory().catch((error) => toast(error.message));
   updatePolicy();
 }
-window.addEventListener("hashchange", navigate);
+document.querySelector(".skip").addEventListener("click", (event) => {
+  event.preventDefault();
+  $("workspace").focus();
+});
+window.addEventListener("hashchange", () => {
+  navigate();
+  window.scrollTo(0, 0);
+  $("workspace").focus({ preventScroll: true });
+});
+
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+function setMotion(paused) {
+  $("arena-map").classList.toggle("motion-paused", paused);
+  $("orbit-toggle").setAttribute("aria-pressed", String(paused));
+  $("orbit-toggle").textContent = paused ? "Resume motion" : "Pause motion";
+  $("orbit-toggle").setAttribute(
+    "aria-label",
+    paused ? "Resume orbital animation" : "Pause orbital animation",
+  );
+}
+setMotion(reducedMotion.matches);
+reducedMotion.addEventListener("change", (event) => setMotion(event.matches));
+$("orbit-toggle").addEventListener("click", () => {
+  setMotion($("orbit-toggle").getAttribute("aria-pressed") !== "true");
+});
+document.querySelectorAll("[data-compute]").forEach((link) => {
+  link.addEventListener("click", () => {
+    if (!state.catalog) return;
+    state.selected = new Set(
+      state.catalog.benchmarks
+        .filter((item) => item.category === "Compute")
+        .map((item) => item.id),
+    );
+    renderBenchmarks();
+    busy(state.busy);
+  });
+});
+document.querySelectorAll("[data-scenario]").forEach((button) => {
+  button.addEventListener("click", async () => {
+    if (state.busy || !state.catalog) return;
+    const id = button.dataset.scenario;
+    state.selected = new Set([id]);
+    $("timeout").value = 250;
+    $("memory").value = 16;
+    $("fixture").checked = false;
+    $("iterations").value = 3;
+    $("warmups").value = 0;
+    updatePolicy();
+    renderBenchmarks();
+    location.hash = "benchmarks";
+    const started = await launch({
+      mode: "benchmark",
+      benchmark_ids: [id],
+      iterations: 3,
+      warmups: 0,
+      ...policy(),
+    });
+    if (started) $("benchmark-results").scrollIntoView({ block: "start" });
+  });
+});
 
 function editorChanged() {
   const code = $("code").value;
@@ -135,6 +198,9 @@ function updatePolicy() {
 );
 function busy(value) {
   state.busy = value;
+  document.querySelectorAll("[data-scenario]").forEach((button) => {
+    button.disabled = value || !state.catalog;
+  });
   $("run-code").disabled = value || !state.catalog;
   $("run-suite").disabled =
     value || !state.catalog || state.selected.size === 0;
@@ -161,9 +227,11 @@ async function launch(spec) {
     acceptRecord(await api(`/runs/${id}`));
     busy(true);
     follow(id);
+    return true;
   } catch (error) {
     busy(false);
     toast(error.message);
+    return false;
   }
 }
 function follow(id) {
@@ -409,6 +477,16 @@ async function init() {
     $("runtime-version").textContent = `v${state.catalog.provider.version}`;
     $("runtime-status").innerHTML = '<span class="dot"></span> Ready';
     $("suite-count").textContent = state.catalog.benchmarks.length;
+    $("home-runtime").textContent =
+      `Monty ${state.catalog.provider.version} available locally · No API key`;
+    $("boundary-count").textContent = String(
+      state.catalog.benchmarks.filter((item) => item.category === "Boundaries")
+        .length,
+    ).padStart(2, "0");
+    $("compute-count").textContent = String(
+      state.catalog.benchmarks.filter((item) => item.category === "Compute")
+        .length,
+    ).padStart(2, "0");
     $("example").innerHTML =
       '<option value="custom">Custom / saved draft</option>' +
       state.catalog.examples
@@ -433,6 +511,7 @@ async function init() {
     $("connection-error").textContent =
       `Could not connect to the local runner: ${error.message}. Start the server and reload this page.`;
     $("runtime-status").textContent = "Unavailable";
+    $("home-runtime").textContent = "Monty runner unavailable";
   }
 }
 init();

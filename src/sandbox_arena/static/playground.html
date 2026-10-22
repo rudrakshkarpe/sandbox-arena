@@ -6,12 +6,13 @@
     <title>Sandbox Arena · A place to put execution to the test</title>
     <link rel="icon" href="/static/mark.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/static/playground.css" />
+    <link rel="stylesheet" href="/static/arena.css" />
     <script src="/static/playground.js" type="module"></script>
   </head>
-  <body>
+  <body class="home-view">
     <a class="skip" href="#workspace">Skip to workspace</a>
     <aside class="sidebar">
-      <a class="brand" href="#playground"
+      <a class="brand" href="#home"
         ><img src="/static/mark.svg" width="32" height="32" alt="" /><span
           >Sandbox<span class="brand-serif">Arena</span></span
         ></a
@@ -22,8 +23,14 @@
       </div>
       <div class="nav-label">WORKBENCH</div>
       <nav aria-label="Workspace">
-        <a href="#playground" data-view="playground" class="active"
-          ><span class="nav-icon">⌘</span> Playground
+        <a href="#home" data-view="home"
+          ><span class="nav-icon">◎</span> Arena</a
+        >
+        <a href="#scenarios" data-view="scenarios"
+          ><span class="nav-icon">⌖</span> Scenarios</a
+        >
+        <a href="#playground" data-view="playground"
+          ><span class="nav-icon">⌘</span> Code workspace
           <span class="nav-arrow">↗</span></a
         >
         <a href="#benchmarks" data-view="benchmarks"
@@ -75,9 +82,247 @@
           ><a href="/docs" target="_blank">API docs ↗</a>
         </div>
       </header>
-      <main id="workspace">
+      <main id="workspace" tabindex="-1">
         <div id="connection-error" role="alert" hidden></div>
-        <section id="view-playground" class="view">
+        <section id="view-home" class="view" aria-labelledby="home-title">
+          <header class="home-nav">
+            <a class="brand" href="#home" aria-label="Sandbox Arena home"
+              ><img
+                src="/static/mark.svg"
+                width="27"
+                height="27"
+                alt=""
+              />Sandbox<span class="brand-serif">Arena</span></a
+            >
+            <nav aria-label="Arena navigation">
+              <a href="#scenarios">Scenarios</a>
+              <a href="#benchmarks" data-compute>Benchmarks</a>
+              <a
+                href="https://github.com/rudrakshkarpe/sandbox-arena"
+                target="_blank"
+                rel="noreferrer"
+                >GitHub ↗</a
+              >
+            </nav>
+            <a href="#playground" class="home-workspace"
+              >Open workspace <span>↗</span></a
+            >
+          </header>
+          <div class="arena-hero">
+            <div class="arena-copy">
+              <div class="arena-kicker">
+                <span class="signal-dot"></span> THE SANDBOX RESILIENCE LAB
+              </div>
+              <h1 id="home-title">
+                Every sandbox<br />has a boundary.<br /><em
+                  >Put it to the test.</em
+                >
+              </h1>
+              <p>
+                Explore the limits. Measure the runtime.<br />Keep the evidence
+                behind every result.
+              </p>
+              <div class="arena-actions">
+                <a class="arena-primary" href="#scenarios"
+                  >Enter the arena <span>↗</span></a
+                >
+                <a class="arena-secondary" href="#benchmarks" data-compute
+                  >Explore benchmarks <span>→</span></a
+                >
+              </div>
+              <div class="arena-availability">
+                <span class="dot"></span
+                ><span id="home-runtime">Connecting to Monty…</span>
+              </div>
+            </div>
+            <div class="arena-visual">
+              <div
+                class="arena-map"
+                id="arena-map"
+                role="img"
+                aria-label="Monty is available locally. Modal, E2B, Daytona and Vercel integrations are planned."
+              >
+                <div class="map-grid" aria-hidden="true"></div>
+                <div class="arena-ring ring-outer" aria-hidden="true"></div>
+                <div class="arena-ring ring-middle" aria-hidden="true"></div>
+                <div class="arena-ring ring-inner" aria-hidden="true"></div>
+                <div class="map-axis axis-horizontal" aria-hidden="true"></div>
+                <div class="map-axis axis-vertical" aria-hidden="true"></div>
+                <div class="arena-core">
+                  <img
+                    src="/static/providers/pydantic.svg"
+                    alt=""
+                    width="30"
+                    height="30"
+                  /><strong>Monty</strong
+                  ><span><i class="dot"></i> LOCAL RUNTIME</span>
+                </div>
+                <div class="provider-orbit" aria-hidden="true">
+                  <div class="provider-position provider-modal">
+                    <div class="provider-node">
+                      <img src="/static/providers/modal.svg" alt="" /><span
+                        >Modal</span
+                      ><small>PLANNED</small>
+                    </div>
+                  </div>
+                  <div class="provider-position provider-e2b">
+                    <div class="provider-node">
+                      <img src="/static/providers/e2b.png" alt="" /><span
+                        >E2B</span
+                      ><small>PLANNED</small>
+                    </div>
+                  </div>
+                  <div class="provider-position provider-daytona">
+                    <div class="provider-node">
+                      <img src="/static/providers/daytona.png" alt="" /><span
+                        >Daytona</span
+                      ><small>PLANNED</small>
+                    </div>
+                  </div>
+                  <div class="provider-position provider-vercel">
+                    <div class="provider-node">
+                      <img src="/static/providers/vercel.png" alt="" /><span
+                        >Vercel</span
+                      ><small>PLANNED</small>
+                    </div>
+                  </div>
+                </div>
+                <span class="map-coordinate" aria-hidden="true"
+                  >ISOLATE / EXECUTE / OBSERVE</span
+                >
+              </div>
+              <div class="arena-caption">
+                <span>One runtime today. An open arena ahead.</span
+                ><button
+                  id="orbit-toggle"
+                  aria-pressed="false"
+                  aria-label="Pause orbital animation"
+                >
+                  Pause motion
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="arena-ledger" aria-label="Available capabilities">
+            <div><strong>01</strong><span>LOCAL RUNTIME</span></div>
+            <div>
+              <strong id="boundary-count">—</strong><span>BOUNDARY CHECKS</span>
+            </div>
+            <div>
+              <strong id="compute-count">—</strong
+              ><span>COMPUTE BENCHMARKS</span>
+            </div>
+            <div class="ledger-note">
+              <span class="dot"></span> Local execution.<br />Inspectable
+              evidence.
+            </div>
+          </div>
+          <div class="arena-paths">
+            <a class="arena-path" href="#scenarios"
+              ><span class="path-number">01 / CHALLENGE</span>
+              <div>
+                <h2>Test the boundary.</h2>
+                <p>Start with filesystem access and execution limits.</p>
+              </div>
+              <span class="path-arrow">↗</span></a
+            >
+            <a class="arena-path" href="#benchmarks" data-compute
+              ><span class="path-number">02 / MEASURE</span>
+              <div>
+                <h2>Know the tradeoffs.</h2>
+                <p>Repeat workloads. Inspect timings and correctness.</p>
+              </div>
+              <span class="path-arrow">↗</span></a
+            >
+          </div>
+          <footer class="arena-footer">
+            <span>OPEN SOURCE · BUILT FOR DEVELOPERS</span
+            ><a href="#methodology">How we measure ↗</a
+            ><span
+              >Independent project. Provider marks identify their owners.</span
+            >
+          </footer>
+        </section>
+
+        <section
+          id="view-scenarios"
+          class="view"
+          aria-labelledby="scenario-title"
+          hidden
+        >
+          <div class="page-intro">
+            <div class="eyebrow">
+              THE ATTACK LAB <span>01 / BOUNDARIES</span>
+            </div>
+            <h1 id="scenario-title">
+              Challenge a boundary.<br /><em>Inspect the evidence.</em>
+            </h1>
+            <p>
+              Two controlled checks for the local Monty runtime.<br />Choose a
+              scenario. No code setup required.
+            </p>
+          </div>
+          <div class="scenario-context">
+            <span><span class="dot"></span> Monty · local</span
+            ><span>3 trials · 250 ms budget · 16 MB allocation limit</span>
+          </div>
+          <div class="scenario-list">
+            <article class="scenario-card">
+              <span class="scenario-index">01</span>
+              <div>
+                <span class="scenario-category">FILESYSTEM POLICY</span>
+                <h2>Reach beyond the boundary.</h2>
+                <p>
+                  Attempt to read a synthetic forbidden path. Check that the OS
+                  policy records a denial.
+                </p>
+                <details>
+                  <summary>What this proves</summary>
+                  <p>
+                    Expected: a denied result with a matching policy audit. This
+                    checks the configured host callback; it does not demonstrate
+                    resistance to arbitrary sandbox escapes.
+                  </p>
+                </details>
+              </div>
+              <button class="arena-primary" data-scenario="filesystem" disabled>
+                Run check <span>↗</span>
+              </button>
+            </article>
+            <article class="scenario-card">
+              <span class="scenario-index">02</span>
+              <div>
+                <span class="scenario-category">EXECUTION LIMIT</span>
+                <h2>Ask it to run forever.</h2>
+                <p>
+                  Start an unending loop. Check that the runtime interrupts
+                  execution at its configured limit.
+                </p>
+                <details>
+                  <summary>What this proves</summary>
+                  <p>
+                    Expected: a resource-limited result in each trial. This
+                    checks the execution budget, not host-wide denial-of-service
+                    resilience or an external kill switch.
+                  </p>
+                </details>
+              </div>
+              <button class="arena-primary" data-scenario="time-limit" disabled>
+                Run check <span>↗</span>
+              </button>
+            </article>
+          </div>
+          <div class="scenario-footnote">
+            <p>
+              These are starter boundary checks. Independent canary
+              verification, disclosed-attack reproductions and cloud providers
+              are on the roadmap.
+            </p>
+            <a href="#playground">Inspect or write a workload ↗</a>
+          </div>
+        </section>
+
+        <section id="view-playground" class="view" hidden>
           <div class="hero">
             <div>
               <div class="eyebrow">

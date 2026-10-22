@@ -1,12 +1,12 @@
 :root {
   color-scheme: dark;
-  --bg: #101211;
-  --panel: #151816;
-  --raised: #1b1f1c;
-  --line: #2a302b;
-  --text: #e6e8df;
-  --muted: #969f94;
-  --accent: #c7a57a;
+  --bg: #090a0b;
+  --panel: #101113;
+  --raised: #18191b;
+  --line: #28292c;
+  --text: #e8e7e3;
+  --muted: #929397;
+  --accent: #d5c2a4;
   --green: #a5be97;
   --red: #e1a09a;
   --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
@@ -105,7 +105,7 @@ a:hover {
   width: 216px;
   padding: 29px 19px 20px;
   border-right: 1px solid var(--line);
-  background: #121513;
+  background: #0e0f10;
   display: flex;
   flex-direction: column;
   z-index: 3;
@@ -161,8 +161,8 @@ a:hover {
 }
 .sidebar nav a.active {
   color: var(--text);
-  background: #222820;
-  border-color: #30392d;
+  background: #20201e;
+  border-color: #36342f;
 }
 .nav-icon {
   font-size: 17px;
@@ -861,8 +861,8 @@ kbd {
   align-items: start;
 }
 .benchmark-card:has(input:checked) {
-  border-color: #566147;
-  background: #1b2118;
+  border-color: #5b5142;
+  background: #1b1a17;
 }
 .benchmark-card input {
   accent-color: var(--accent);
@@ -889,7 +889,7 @@ kbd {
 .benchmark-card pre {
   white-space: pre-wrap;
   font: 10px/1.7 var(--mono);
-  background: #10150f;
+  background: #0b0c0d;
   padding: 16px;
   max-width: 100%;
   overflow: auto;
