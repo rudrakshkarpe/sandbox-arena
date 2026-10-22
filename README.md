@@ -1,115 +1,98 @@
-# Monty Incident Lab
+# Sandbox Lab
 
-**Can an AI-written analysis inspect inference telemetry without unrestricted access to the host, and can we verify its answer?**
+**Run real code. Test the boundaries. Keep the evidence.**
 
-This lab makes that question testable. Python runs in Monty, reads a small authorized evidence surface, and returns an analysis that the host independently checks. Logfire connects the investigation, sandbox execution, evidence reads, and validation in one trace. Pydantic Evals exercises the success and failure paths.
+A local playground for Pydantic Monty with editable Python, explicit host permissions,
+repeatable benchmarks, and inspectable execution evidence. This is the first stage
+of a provider-extensible sandbox evaluation workbench.
 
-The source data is the published H100 capture from [Logfire Inference Lab](https://github.com/rudrakshkarpe/logfire-inference-lab). The default scripts are authored examples. They execute for real on your machine, but do not call an LLM or rerun inference. An optional Pydantic AI path generates code with a live model and runs it through the same boundary.
+![Sandbox Lab playground](docs/evidence/sandbox-playground.jpg)
 
-![A verified queue-pressure investigation in the local Monty demo](docs/evidence/desktop-demo.jpg)
+## Run locally
 
-Actual local demo capture. [Native trace inspector](docs/evidence/trace-inspector.jpg) · [Recorded acceptance evidence](docs/evidence/evaluation.json) · [Validation scope](docs/validation.md)
-
-## Run it
-
-Requires Python 3.14 and [uv](https://docs.astral.sh/uv/). No GPU, API key, Docker daemon, or Logfire account is needed for the default demo.
+Requires Python 3.14 and [uv](https://docs.astral.sh/uv/). No GPU, Docker daemon,
+model API key or Logfire account is needed.
 
 ```bash
 uv sync --locked
-uv run monty-lab serve
+uv run monty-lab serve --port 8033
 ```
 
-Open **http://127.0.0.1:8022**. Choose a scenario, inspect the program, and run it. Use the failure cases to test the boundary. The UI permits editing code and runs only on loopback. It is not a public execution service.
+Open **http://127.0.0.1:8033**. The server binds only to loopback.
+If macOS marks an editable-install `.pth` file hidden and Python cannot import the
+package, use `uv run --no-editable monty-lab serve --port 8033` instead.
 
-```bash
-# Repeatable acceptance suite, with machine-readable evidence
-uv run monty-lab evaluate
+## Try the workbench
 
-# A single successful analysis
-uv run monty-lab run --scenario long-context
+1. **Playground:** run Hello, Monty or write your own Python. Adjust the execution
+   and memory budgets. View output, setup/execution/cleanup timing, and the timeline.
+2. **Permissions:** load Approved tool access, disable the fixture tool and run.
+   Inspect the recorded denial in Policy audit. Re-enable it to read three records.
+3. **Benchmarks:** run the two selected prime workloads with warmups and repeated
+   measurements. Add the runaway-loop and filesystem-boundary checks.
+4. **Evidence:** export a JSON record or open a previous run from Run history.
 
-# A deliberate policy rejection; exits nonzero as expected
-uv run monty-lab run --challenge cross-scope
-```
+![Actual local benchmark run](docs/evidence/sandbox-benchmarks.jpg)
 
-Results go to `artifacts/`. `traces.jsonl` contains real OpenTelemetry spans, including Monty's native instrumentation.
+## Included workloads
 
-The UI's **Inspect local trace** control shows completed spans from a bounded recent-span buffer. It exposes IDs, names, scope and timing, while omitting raw code, attributes and host resource identifiers.
-
-Exporting to hosted Logfire requires explicit opt-in:
-
-```bash
-# Set LOGFIRE_TOKEN securely in your shell first.
-uv run monty-lab --export-logfire serve
-```
-
-Native instrumentation records code, inputs, external calls, and errors. This fixture is public. Review the [data and security boundaries](docs/security.md) before using customer data.
-
-## What to demonstrate
-
-| Customer question | Demonstration | Evidence |
+| Workload | Expected result | Origin |
 | --- | --- | --- |
-| Can it investigate our inference latency? | Compare baseline with queue pressure, long context, and recovery | Exact source measurements, computed slowdown, explicit diagnostic rules |
-| Can we trust the numbers? | Deliberately return a fabricated request count | Host validation rejects the result |
-| Can it access another customer's data? | Request a different scope | Host callback denies the request; no result is accepted |
-| Can the code hide a rejected operation? | Catch the permission exception and return a valid answer | Host audit still invalidates the run |
-| What if it loops or allocates too much? | Exercise time and memory budgets | Failure is reported, the session ends, a fresh run succeeds |
-| What happens when evidence is incomplete? | Investigate early-closed streams | Missing engine evidence remains unknown; no causal diagnosis is accepted |
-| Can engineers investigate failures? | Follow the trace ID | Connected application, native Monty, host callback, and validator spans |
+| First ten primes | Exact primes, sum 129, average 12.9 | Adapted from AI Sandbox Benchmark |
+| Primes through 1,000 | Count 168, sum 76,127 | Adapted from AI Sandbox Benchmark |
+| Approved tool access | Three fixture rows, total 60 | Authored here |
+| Runaway loop | Execution resource limit | Authored here |
+| Filesystem boundary | Explicit OS policy denial | Authored here |
 
-The scope check is a demo authorization policy over public fixtures. It is not a tenant authentication implementation.
+The two compute payloads are adapted from
+[nibzard/ai-sandbox-benchmark](https://github.com/nibzard/ai-sandbox-benchmark),
+pinned to `c07127e731ec14e55f93dee767977bf00bb76dce`. Attribution, the declared
+Apache-2.0 license, and exact modifications are documented in
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-## How it works
+## What the measurements mean
 
-```mermaid
-flowchart LR
-    A[Authored script or Pydantic AI code generation] --> B[Monty worker / fresh session]
-    B -->|suspend: read_evidence| C[Host scope and call-budget policy]
-    C --> D[Pinned public capture]
-    D --> C
-    C -->|bounded record| B
-    B --> E[Pydantic schema + source verification]
-    E --> F[Verified finding or explicit failure]
-    A -.-> G[Logfire / local OTel evidence]
-    B -.-> G
-    C -.-> G
-    E -.-> G
-```
+Every trial uses a fresh session on an existing Monty worker pool. Execution time
+includes host-to-worker communication and host callbacks. It excludes process
+cold start, queue wait and result persistence. These are local exploratory
+measurements, not provider rankings or a reproduction of upstream timing results.
 
-The script can request only baseline and the selected scenario from `inference-lab`, with at most four evidence reads. No mounts, network tools, environment access, or arbitrary host functions are supplied. Code has a 250 ms execution budget, a 16 MB allocator budget, a 24-suspension budget, and a 4 KiB print cap. The pool has two workers and a separate per-turn watchdog.
+Warmups are excluded. Every failed check remains in the exported record. Summary
+latencies use passing trials; P95 requires at least 20 passing samples. Configured
+memory is an allocator budget, not measured RSS. Passing boundary cases does not
+certify a sandbox as secure.
 
-The validator checks a strict Pydantic schema, observed evidence reads, denied operations, exact references, source values, arithmetic, and the documented diagnostic policy. Pydantic schema validation alone would not detect plausible but fabricated numbers.
+## Use your own client or agent
 
-## Live code generation
+The local API accepts generated code through the same bounded execution path.
+There is no live LLM connection in the new playground yet.
 
 ```bash
-# Set OPENAI_API_KEY securely. Choose a model available in your account.
-# This sends prompts to the provider and may incur charges.
-uv run monty-lab run --model openai:YOUR_MODEL_ID --scenario queue-pressure
-
-# Evaluate all four evidence cases with the same model, up to eight requests.
-uv run monty-lab evaluate --model openai:YOUR_MODEL_ID --output artifacts/live-evaluation.json
+curl http://127.0.0.1:8033/api/playground/runs \
+  -H 'Content-Type: application/json' \
+  -d '{"mode":"playground","code":"6 * 7","allow_fixture":false}'
 ```
 
-Pydantic AI produces a typed `CodeProposal`. The application executes that code in Monty and independently checks its result. A coding or schema error permits one repair attempt. Resource violations and denied capabilities stop immediately. The exported run includes generated code, verification outcomes, model request count, and token usage. Transport failures propagate as failed CLI runs, not verified analyses.
+The response supplies a run ID. Read `/api/playground/runs/{id}`, follow
+`/api/playground/runs/{id}/events`, or download `/api/playground/runs/{id}/export`.
+The offline API reference is at `/docs`, with a machine-readable `/openapi.json`.
 
-This is a bounded code-writing workflow, not an autonomous remediation agent. The model sees the evidence API contract and diagnostic policy; the generated program reads the measurements. The policy is supplied explicitly, so successful output does not prove open-ended incident reasoning. FunctionModel tests verify the integration without paid requests. See [validation](docs/validation.md) for which paths were actually exercised.
+## Architecture and next steps
 
-## Evidence and limits
+- [Architecture and measurement contract](docs/playground-architecture.md)
+- [Validation evidence and current limits](docs/playground-validation.md)
+- [Roadmap and provider collaboration strategy](docs/roadmap.md)
+- [Contribution guide](CONTRIBUTING.md)
+- [Original inference incident example](docs/incident-lab.md), still available at `/incident-lab`
 
-- Historical input: [pinned capture](https://github.com/rudrakshkarpe/logfire-inference-lab/blob/79ef0f2456e64879bd2f41c90d1610a031191495/docs/evidence/gemma4-h100-run.json), unchanged JSON with SHA-256 recorded in every evaluation.
-- Separate scenario p95s are **not additive**. Their ratios do not describe a single request's latency breakdown. The findings identify signals, not proven causes.
-- Missing engine spans after early close do not establish server-side cancellation.
-- The evaluation covers a small fixed set of application contracts. It is neither a security certification nor a model-quality or throughput benchmark.
-- Monty is a language sandbox. Host callbacks still execute with host privileges. The allocation budget is not an RSS limit.
-- No live model-quality score or hosted ingestion claim is made by the scripted evaluation.
+One serial runner, a bounded eight-job queue, separate Monty worker processes,
+SQLite history, replayable server-sent events, and no frontend build step.
+Cancellation stops between bounded trials. Restarted jobs are marked interrupted.
 
-## Deliver the customer demo
-
-- [Discovery and 10-minute demonstration](docs/customer-playbook.md)
-- [Security boundaries and production gaps](docs/security.md)
-- [Reproducible validation and evidence](docs/validation.md)
-- [Architecture decisions and learning path](docs/architecture.md)
+Records persist code and outputs in `artifacts/playground.sqlite3`; do not paste
+credentials or private data you do not want stored. This release is a single-user
+local application, with no authentication or tenant isolation. Public hosting
+requires the controls described in the roadmap.
 
 ## Develop
 
@@ -117,6 +100,13 @@ This is a bounded code-writing workflow, not an autonomous remediation agent. Th
 uv run ruff check .
 uv run ruff format --check .
 uv run pytest
+uv run monty-lab evaluate
 ```
 
-MIT licensed. The original capture is reused from the author's MIT-licensed inference lab; attribution is in [NOTICE](NOTICE).
+The original incident acceptance suite remains supported. Tests cover benchmark
+oracles, permission denials, resource limits, session isolation, recovery, queue
+admission, cancellation, durable history, event replay, export, and request bounds.
+
+Application code: MIT. Adapted prime workloads: Apache-2.0. Design direction
+inspired by [AI Bottlenecks](https://aibottlenecks.app/), with original implementation
+and assets. No provider partnership or affiliation is implied.

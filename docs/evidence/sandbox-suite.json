@@ -1,0 +1,940 @@
+{
+  "schema_version": "1.0",
+  "id": "11ea6fb056c14823affddc9110b6bcd9",
+  "created_at": "2026-10-22T09:23:00.230350+00:00",
+  "status": "completed",
+  "spec": {
+    "mode": "benchmark",
+    "provider": "monty",
+    "code": "",
+    "benchmark_ids": [
+      "primes-10",
+      "primes-1000",
+      "tool-access",
+      "time-limit",
+      "filesystem"
+    ],
+    "iterations": 3,
+    "warmups": 1,
+    "timeout_ms": 250,
+    "memory_mb": 16,
+    "allow_fixture": true
+  },
+  "samples": [
+    {
+      "workload_id": "primes-10",
+      "iteration": 1,
+      "warmup": true,
+      "status": "ok",
+      "verdict": "pass",
+      "result": {
+        "primes": [
+          2,
+          3,
+          5,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29
+        ],
+        "sum": 129,
+        "average": 12.9
+      },
+      "result_truncated": false,
+      "stdout": "",
+      "error": null,
+      "setup_ms": 0.392415999158402,
+      "execution_ms": 0.9393750005983748,
+      "cleanup_ms": 0.5824170002597384,
+      "total_ms": 1.9142080000165151,
+      "code_sha256": "a0a6126ee6c6edcb296b6891e6ed08f5fb3ebd7f97b9d6f3cfbdbdf33ac9710d",
+      "audit": []
+    },
+    {
+      "workload_id": "primes-10",
+      "iteration": 2,
+      "warmup": false,
+      "status": "ok",
+      "verdict": "pass",
+      "result": {
+        "primes": [
+          2,
+          3,
+          5,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29
+        ],
+        "sum": 129,
+        "average": 12.9
+      },
+      "result_truncated": false,
+      "stdout": "",
+      "error": null,
+      "setup_ms": 0.14795899915043265,
+      "execution_ms": 0.39204099994094577,
+      "cleanup_ms": 0.15829200128791854,
+      "total_ms": 0.698292000379297,
+      "code_sha256": "a0a6126ee6c6edcb296b6891e6ed08f5fb3ebd7f97b9d6f3cfbdbdf33ac9710d",
+      "audit": []
+    },
+    {
+      "workload_id": "primes-10",
+      "iteration": 3,
+      "warmup": false,
+      "status": "ok",
+      "verdict": "pass",
+      "result": {
+        "primes": [
+          2,
+          3,
+          5,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29
+        ],
+        "sum": 129,
+        "average": 12.9
+      },
+      "result_truncated": false,
+      "stdout": "",
+      "error": null,
+      "setup_ms": 0.14354199993249495,
+      "execution_ms": 0.3332500000396976,
+      "cleanup_ms": 0.1462500003981404,
+      "total_ms": 0.623042000370333,
+      "code_sha256": "a0a6126ee6c6edcb296b6891e6ed08f5fb3ebd7f97b9d6f3cfbdbdf33ac9710d",
+      "audit": []
+    },
+    {
+      "workload_id": "primes-10",
+      "iteration": 4,
+      "warmup": false,
+      "status": "ok",
+      "verdict": "pass",
+      "result": {
+        "primes": [
+          2,
+          3,
+          5,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29
+        ],
+        "sum": 129,
+        "average": 12.9
+      },
+      "result_truncated": false,
+      "stdout": "",
+      "error": null,
+      "setup_ms": 0.09179100015899166,
+      "execution_ms": 0.24733399914111942,
+      "cleanup_ms": 0.1464159995521186,
+      "total_ms": 0.4855409988522297,
+      "code_sha256": "a0a6126ee6c6edcb296b6891e6ed08f5fb3ebd7f97b9d6f3cfbdbdf33ac9710d",
+      "audit": []
+    },
+    {
+      "workload_id": "primes-1000",
+      "iteration": 1,
+      "warmup": true,
+      "status": "ok",
+      "verdict": "pass",
+      "result": {
+        "count": 168,
+        "sum": 76127
+      },
+      "result_truncated": false,
+      "stdout": "",
+      "error": null,
+      "setup_ms": 0.0797079992480576,
+      "execution_ms": 0.7182919998740545,
+      "cleanup_ms": 0.13304200001584832,
+      "total_ms": 0.9310419991379604,
+      "code_sha256": "40de514260e6d7da29350a00e4d5e7c8d415291822ace8e0786a795d50dba2ff",
+      "audit": []
+    },
+    {
+      "workload_id": "primes-1000",
+      "iteration": 2,
+      "warmup": false,
+      "status": "ok",
+      "verdict": "pass",
+      "result": {
+        "count": 168,
+        "sum": 76127
+      },
+      "result_truncated": false,
+      "stdout": "",
+      "error": null,
+      "setup_ms": 0.11941699995077215,
+      "execution_ms": 0.7371250012511155,
+      "cleanup_ms": 0.1482499992562225,
+      "total_ms": 1.0047920004581101,
+      "code_sha256": "40de514260e6d7da29350a00e4d5e7c8d415291822ace8e0786a795d50dba2ff",
+      "audit": []
+    },
+    {
+      "workload_id": "primes-1000",
+      "iteration": 3,
+      "warmup": false,
+      "status": "ok",
+      "verdict": "pass",
+      "result": {
+        "count": 168,
+        "sum": 76127
+      },
+      "result_truncated": false,
+      "stdout": "",
+      "error": null,
+      "setup_ms": 0.2086669992422685,
+      "execution_ms": 1.040500001181499,
+      "cleanup_ms": 0.14620799993281253,
+      "total_ms": 1.3953750003565801,
+      "code_sha256": "40de514260e6d7da29350a00e4d5e7c8d415291822ace8e0786a795d50dba2ff",
+      "audit": []
+    },
+    {
+      "workload_id": "primes-1000",
+      "iteration": 4,
+      "warmup": false,
+      "status": "ok",
+      "verdict": "pass",
+      "result": {
+        "count": 168,
+        "sum": 76127
+      },
+      "result_truncated": false,
+      "stdout": "",
+      "error": null,
+      "setup_ms": 0.08916700062400196,
+      "execution_ms": 0.690167000357178,
+      "cleanup_ms": 0.13324999963515438,
+      "total_ms": 0.9125840006163344,
+      "code_sha256": "40de514260e6d7da29350a00e4d5e7c8d415291822ace8e0786a795d50dba2ff",
+      "audit": []
+    },
+    {
+      "workload_id": "tool-access",
+      "iteration": 1,
+      "warmup": true,
+      "status": "ok",
+      "verdict": "pass",
+      "result": {
+        "total": 60,
+        "rows": 3
+      },
+      "result_truncated": false,
+      "stdout": "",
+      "error": null,
+      "setup_ms": 0.0956250005401671,
+      "execution_ms": 0.5808749992866069,
+      "cleanup_ms": 0.14958400061004795,
+      "total_ms": 0.826084000436822,
+      "code_sha256": "f24cd50f9a714ea18de47f8ea3eb2545e8df7bc425c9aeb53075e3694bd14280",
+      "audit": [
+        {
+          "operation": "read_fixture",
+          "allowed": true,
+          "layer": "host policy"
+        }
+      ]
+    },
+    {
+      "workload_id": "tool-access",
+      "iteration": 2,
+      "warmup": false,
+      "status": "ok",
+      "verdict": "pass",
+      "result": {
+        "total": 60,
+        "rows": 3
+      },
+      "result_truncated": false,
+      "stdout": "",
+      "error": null,
+      "setup_ms": 0.10508400009712204,
+      "execution_ms": 0.4147909985476872,
+      "cleanup_ms": 0.13908400069340132,
+      "total_ms": 0.6589589993382106,
+      "code_sha256": "f24cd50f9a714ea18de47f8ea3eb2545e8df7bc425c9aeb53075e3694bd14280",
+      "audit": [
+        {
+          "operation": "read_fixture",
+          "allowed": true,
+          "layer": "host policy"
+        }
+      ]
+    },
+    {
+      "workload_id": "tool-access",
+      "iteration": 3,
+      "warmup": false,
+      "status": "ok",
+      "verdict": "pass",
+      "result": {
+        "total": 60,
+        "rows": 3
+      },
+      "result_truncated": false,
+      "stdout": "",
+      "error": null,
+      "setup_ms": 0.1724579997244291,
+      "execution_ms": 0.608000000283937,
+      "cleanup_ms": 0.3471669988357462,
+      "total_ms": 1.1276249988441123,
+      "code_sha256": "f24cd50f9a714ea18de47f8ea3eb2545e8df7bc425c9aeb53075e3694bd14280",
+      "audit": [
+        {
+          "operation": "read_fixture",
+          "allowed": true,
+          "layer": "host policy"
+        }
+      ]
+    },
+    {
+      "workload_id": "tool-access",
+      "iteration": 4,
+      "warmup": false,
+      "status": "ok",
+      "verdict": "pass",
+      "result": {
+        "total": 60,
+        "rows": 3
+      },
+      "result_truncated": false,
+      "stdout": "",
+      "error": null,
+      "setup_ms": 0.16545899961784016,
+      "execution_ms": 0.5725830014853273,
+      "cleanup_ms": 0.17008299982990138,
+      "total_ms": 0.9081250009330688,
+      "code_sha256": "f24cd50f9a714ea18de47f8ea3eb2545e8df7bc425c9aeb53075e3694bd14280",
+      "audit": [
+        {
+          "operation": "read_fixture",
+          "allowed": true,
+          "layer": "host policy"
+        }
+      ]
+    },
+    {
+      "workload_id": "time-limit",
+      "iteration": 1,
+      "warmup": true,
+      "status": "limited",
+      "verdict": "pass",
+      "result": null,
+      "result_truncated": false,
+      "stdout": "",
+      "error": "TimeoutError: feed time limit exceeded: 250.005334ms > 250ms",
+      "setup_ms": 0.10524999925110023,
+      "execution_ms": 250.60670800121443,
+      "cleanup_ms": 0.22754199926566798,
+      "total_ms": 250.9394999997312,
+      "code_sha256": "a91d104cc5c50a11469d8f7a9440897845e8205d6b94a25da9a4307d26de2d4c",
+      "audit": []
+    },
+    {
+      "workload_id": "time-limit",
+      "iteration": 2,
+      "warmup": false,
+      "status": "limited",
+      "verdict": "pass",
+      "result": null,
+      "result_truncated": false,
+      "stdout": "",
+      "error": "TimeoutError: feed time limit exceeded: 250.005416ms > 250ms",
+      "setup_ms": 0.14612499944632873,
+      "execution_ms": 250.5808750011056,
+      "cleanup_ms": 0.191624998478801,
+      "total_ms": 250.91862499903073,
+      "code_sha256": "a91d104cc5c50a11469d8f7a9440897845e8205d6b94a25da9a4307d26de2d4c",
+      "audit": []
+    },
+    {
+      "workload_id": "time-limit",
+      "iteration": 3,
+      "warmup": false,
+      "status": "limited",
+      "verdict": "pass",
+      "result": null,
+      "result_truncated": false,
+      "stdout": "",
+      "error": "TimeoutError: feed time limit exceeded: 250.005708ms > 250ms",
+      "setup_ms": 0.17233399921678938,
+      "execution_ms": 250.66116599919042,
+      "cleanup_ms": 0.19829200027743354,
+      "total_ms": 251.03179199868464,
+      "code_sha256": "a91d104cc5c50a11469d8f7a9440897845e8205d6b94a25da9a4307d26de2d4c",
+      "audit": []
+    },
+    {
+      "workload_id": "time-limit",
+      "iteration": 4,
+      "warmup": false,
+      "status": "limited",
+      "verdict": "pass",
+      "result": null,
+      "result_truncated": false,
+      "stdout": "",
+      "error": "TimeoutError: feed time limit exceeded: 250.005542ms > 250ms",
+      "setup_ms": 0.14316700071503874,
+      "execution_ms": 250.53133300025365,
+      "cleanup_ms": 0.19925000015064143,
+      "total_ms": 250.87375000111933,
+      "code_sha256": "a91d104cc5c50a11469d8f7a9440897845e8205d6b94a25da9a4307d26de2d4c",
+      "audit": []
+    },
+    {
+      "workload_id": "filesystem",
+      "iteration": 1,
+      "warmup": true,
+      "status": "denied",
+      "verdict": "pass",
+      "result": null,
+      "result_truncated": false,
+      "stdout": "",
+      "error": "PermissionError: This playground does not grant filesystem or network access",
+      "setup_ms": 0.18691699915507343,
+      "execution_ms": 1.5826250000827713,
+      "cleanup_ms": 0.14695800018671434,
+      "total_ms": 1.916499999424559,
+      "code_sha256": "4cc1179de4151e8a02487dc3a88fbbd51b6f3c7336a8bb97d182b93271ff67e0",
+      "audit": [
+        {
+          "operation": "Path.read_text",
+          "allowed": false,
+          "layer": "OS policy"
+        }
+      ]
+    },
+    {
+      "workload_id": "filesystem",
+      "iteration": 2,
+      "warmup": false,
+      "status": "denied",
+      "verdict": "pass",
+      "result": null,
+      "result_truncated": false,
+      "stdout": "",
+      "error": "PermissionError: This playground does not grant filesystem or network access",
+      "setup_ms": 0.21441600074467715,
+      "execution_ms": 0.9410000002390007,
+      "cleanup_ms": 0.13720899914915208,
+      "total_ms": 1.2926250001328299,
+      "code_sha256": "4cc1179de4151e8a02487dc3a88fbbd51b6f3c7336a8bb97d182b93271ff67e0",
+      "audit": [
+        {
+          "operation": "Path.read_text",
+          "allowed": false,
+          "layer": "OS policy"
+        }
+      ]
+    },
+    {
+      "workload_id": "filesystem",
+      "iteration": 3,
+      "warmup": false,
+      "status": "denied",
+      "verdict": "pass",
+      "result": null,
+      "result_truncated": false,
+      "stdout": "",
+      "error": "PermissionError: This playground does not grant filesystem or network access",
+      "setup_ms": 0.17462499999965075,
+      "execution_ms": 0.8109589998639422,
+      "cleanup_ms": 0.1475000008213101,
+      "total_ms": 1.133084000684903,
+      "code_sha256": "4cc1179de4151e8a02487dc3a88fbbd51b6f3c7336a8bb97d182b93271ff67e0",
+      "audit": [
+        {
+          "operation": "Path.read_text",
+          "allowed": false,
+          "layer": "OS policy"
+        }
+      ]
+    },
+    {
+      "workload_id": "filesystem",
+      "iteration": 4,
+      "warmup": false,
+      "status": "denied",
+      "verdict": "pass",
+      "result": null,
+      "result_truncated": false,
+      "stdout": "",
+      "error": "PermissionError: This playground does not grant filesystem or network access",
+      "setup_ms": 0.12812500062864274,
+      "execution_ms": 0.7076670008245856,
+      "cleanup_ms": 0.15233299927785993,
+      "total_ms": 0.9881250007310882,
+      "code_sha256": "4cc1179de4151e8a02487dc3a88fbbd51b6f3c7336a8bb97d182b93271ff67e0",
+      "audit": [
+        {
+          "operation": "Path.read_text",
+          "allowed": false,
+          "layer": "OS policy"
+        }
+      ]
+    }
+  ],
+  "summaries": [
+    {
+      "workload_id": "primes-10",
+      "samples": 3,
+      "passed": 3,
+      "failed": 0,
+      "median_ms": 0.3332500000396976,
+      "min_ms": 0.24733399914111942,
+      "max_ms": 0.39204099994094577,
+      "p95_ms": null
+    },
+    {
+      "workload_id": "primes-1000",
+      "samples": 3,
+      "passed": 3,
+      "failed": 0,
+      "median_ms": 0.7371250012511155,
+      "min_ms": 0.690167000357178,
+      "max_ms": 1.040500001181499,
+      "p95_ms": null
+    },
+    {
+      "workload_id": "tool-access",
+      "samples": 3,
+      "passed": 3,
+      "failed": 0,
+      "median_ms": 0.5725830014853273,
+      "min_ms": 0.4147909985476872,
+      "max_ms": 0.608000000283937,
+      "p95_ms": null
+    },
+    {
+      "workload_id": "time-limit",
+      "samples": 3,
+      "passed": 3,
+      "failed": 0,
+      "median_ms": 250.5808750011056,
+      "min_ms": 250.53133300025365,
+      "max_ms": 250.66116599919042,
+      "p95_ms": null
+    },
+    {
+      "workload_id": "filesystem",
+      "samples": 3,
+      "passed": 3,
+      "failed": 0,
+      "median_ms": 0.8109589998639422,
+      "min_ms": 0.7076670008245856,
+      "max_ms": 0.9410000002390007,
+      "p95_ms": null
+    }
+  ],
+  "events": [
+    {
+      "id": 1,
+      "type": "queued",
+      "at": "2026-10-22T09:23:00.230965+00:00",
+      "message": "Accepted by the local runner"
+    },
+    {
+      "id": 2,
+      "type": "started",
+      "at": "2026-10-22T09:23:00.231487+00:00",
+      "message": "Runner acquired; every trial uses a fresh session"
+    },
+    {
+      "id": 3,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:00.232029+00:00",
+      "message": "primes-10 \u00b7 warmup 1"
+    },
+    {
+      "id": 4,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:00.234528+00:00",
+      "message": "primes-10 \u00b7 ok",
+      "sample_index": 0
+    },
+    {
+      "id": 5,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:00.235158+00:00",
+      "message": "primes-10 \u00b7 measurement 2"
+    },
+    {
+      "id": 6,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:00.236542+00:00",
+      "message": "primes-10 \u00b7 ok",
+      "sample_index": 1
+    },
+    {
+      "id": 7,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:00.237104+00:00",
+      "message": "primes-10 \u00b7 measurement 3"
+    },
+    {
+      "id": 8,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:00.238470+00:00",
+      "message": "primes-10 \u00b7 ok",
+      "sample_index": 2
+    },
+    {
+      "id": 9,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:00.238915+00:00",
+      "message": "primes-10 \u00b7 measurement 4"
+    },
+    {
+      "id": 10,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:00.239829+00:00",
+      "message": "primes-10 \u00b7 ok",
+      "sample_index": 3
+    },
+    {
+      "id": 11,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:00.240224+00:00",
+      "message": "primes-1000 \u00b7 warmup 1"
+    },
+    {
+      "id": 12,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:00.241531+00:00",
+      "message": "primes-1000 \u00b7 ok",
+      "sample_index": 4
+    },
+    {
+      "id": 13,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:00.242004+00:00",
+      "message": "primes-1000 \u00b7 measurement 2"
+    },
+    {
+      "id": 14,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:00.243486+00:00",
+      "message": "primes-1000 \u00b7 ok",
+      "sample_index": 5
+    },
+    {
+      "id": 15,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:00.244009+00:00",
+      "message": "primes-1000 \u00b7 measurement 3"
+    },
+    {
+      "id": 16,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:00.246478+00:00",
+      "message": "primes-1000 \u00b7 ok",
+      "sample_index": 6
+    },
+    {
+      "id": 17,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:00.246929+00:00",
+      "message": "primes-1000 \u00b7 measurement 4"
+    },
+    {
+      "id": 18,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:00.248199+00:00",
+      "message": "primes-1000 \u00b7 ok",
+      "sample_index": 7
+    },
+    {
+      "id": 19,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:00.248659+00:00",
+      "message": "tool-access \u00b7 warmup 1"
+    },
+    {
+      "id": 20,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:00.249938+00:00",
+      "message": "tool-access \u00b7 ok",
+      "sample_index": 8
+    },
+    {
+      "id": 21,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:00.250510+00:00",
+      "message": "tool-access \u00b7 measurement 2"
+    },
+    {
+      "id": 22,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:00.251818+00:00",
+      "message": "tool-access \u00b7 ok",
+      "sample_index": 9
+    },
+    {
+      "id": 23,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:00.252292+00:00",
+      "message": "tool-access \u00b7 measurement 3"
+    },
+    {
+      "id": 24,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:00.254182+00:00",
+      "message": "tool-access \u00b7 ok",
+      "sample_index": 10
+    },
+    {
+      "id": 25,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:00.254848+00:00",
+      "message": "tool-access \u00b7 measurement 4"
+    },
+    {
+      "id": 26,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:00.256392+00:00",
+      "message": "tool-access \u00b7 ok",
+      "sample_index": 11
+    },
+    {
+      "id": 27,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:00.256857+00:00",
+      "message": "time-limit \u00b7 warmup 1"
+    },
+    {
+      "id": 28,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:00.508397+00:00",
+      "message": "time-limit \u00b7 limited",
+      "sample_index": 12
+    },
+    {
+      "id": 29,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:00.509269+00:00",
+      "message": "time-limit \u00b7 measurement 2"
+    },
+    {
+      "id": 30,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:00.760782+00:00",
+      "message": "time-limit \u00b7 limited",
+      "sample_index": 13
+    },
+    {
+      "id": 31,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:00.761614+00:00",
+      "message": "time-limit \u00b7 measurement 3"
+    },
+    {
+      "id": 32,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:01.013457+00:00",
+      "message": "time-limit \u00b7 limited",
+      "sample_index": 14
+    },
+    {
+      "id": 33,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:01.014110+00:00",
+      "message": "time-limit \u00b7 measurement 4"
+    },
+    {
+      "id": 34,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:01.265531+00:00",
+      "message": "time-limit \u00b7 limited",
+      "sample_index": 15
+    },
+    {
+      "id": 35,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:01.266243+00:00",
+      "message": "filesystem \u00b7 warmup 1"
+    },
+    {
+      "id": 36,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:01.268772+00:00",
+      "message": "filesystem \u00b7 denied",
+      "sample_index": 16
+    },
+    {
+      "id": 37,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:01.269612+00:00",
+      "message": "filesystem \u00b7 measurement 2"
+    },
+    {
+      "id": 38,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:01.271636+00:00",
+      "message": "filesystem \u00b7 denied",
+      "sample_index": 17
+    },
+    {
+      "id": 39,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:01.272567+00:00",
+      "message": "filesystem \u00b7 measurement 3"
+    },
+    {
+      "id": 40,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:01.274333+00:00",
+      "message": "filesystem \u00b7 denied",
+      "sample_index": 18
+    },
+    {
+      "id": 41,
+      "type": "trial_started",
+      "at": "2026-10-22T09:23:01.274938+00:00",
+      "message": "filesystem \u00b7 measurement 4"
+    },
+    {
+      "id": 42,
+      "type": "trial_finished",
+      "at": "2026-10-22T09:23:01.276459+00:00",
+      "message": "filesystem \u00b7 denied",
+      "sample_index": 19
+    },
+    {
+      "id": 43,
+      "type": "completed",
+      "at": "2026-10-22T09:23:01.276984+00:00",
+      "message": "Session resources released; evidence saved"
+    }
+  ],
+  "environment": {
+    "provider": "monty",
+    "monty_version": "1.2.0",
+    "python": "3.14.7",
+    "os": "Darwin",
+    "architecture": "arm64",
+    "runner_concurrency": 1,
+    "session_mode": "fresh session on existing worker pool",
+    "timing": "Host wall clock; execution includes IPC and callbacks. Process cold start is excluded.",
+    "memory": "Monty allocator budget; not process RSS."
+  },
+  "workloads": [
+    {
+      "id": "primes-10",
+      "name": "First ten primes",
+      "category": "Compute",
+      "description": "Trial division, a list, and a reduction. A small deterministic compute baseline.",
+      "code": "# Adapted from nibzard/ai-sandbox-benchmark, Apache-2.0.\n# Source revision and modifications are recorded in THIRD_PARTY_NOTICES.md.\ndef calculate_primes():\n    primes = []\n    num = 2\n    while len(primes) < 10:\n        is_prime = True\n        for i in range(2, int(num**0.5) + 1):\n            if num % i == 0:\n                is_prime = False\n                break\n        if is_prime:\n            primes.append(num)\n        num += 1\n    return {'primes': primes, 'sum': sum(primes), 'average': sum(primes) / len(primes)}\n\ncalculate_primes()\n",
+      "expected": {
+        "primes": [
+          2,
+          3,
+          5,
+          7,
+          11,
+          13,
+          17,
+          19,
+          23,
+          29
+        ],
+        "sum": 129,
+        "average": 12.9
+      },
+      "expected_status": "ok",
+      "requires": [
+        "python-subset"
+      ],
+      "source": "https://github.com/nibzard/ai-sandbox-benchmark/blob/c07127e731ec14e55f93dee767977bf00bb76dce/tests/test_calculate_primes.py",
+      "version": "1",
+      "adapted": true
+    },
+    {
+      "id": "primes-1000",
+      "name": "Primes through 1,000",
+      "category": "Compute",
+      "description": "A larger trial-division workload. Checks all 168 primes through their count and sum.",
+      "code": "# Adapted from nibzard/ai-sandbox-benchmark, Apache-2.0.\n# Source revision and modifications are recorded in THIRD_PARTY_NOTICES.md.\ndef calculate_primes(limit=1000):\n    primes = []\n    for num in range(2, limit + 1):\n        is_prime = True\n        for i in range(2, int(num**0.5) + 1):\n            if num % i == 0:\n                is_prime = False\n                break\n        if is_prime:\n            primes.append(num)\n    return {'count': len(primes), 'sum': sum(primes)}\n\ncalculate_primes()\n",
+      "expected": {
+        "count": 168,
+        "sum": 76127
+      },
+      "expected_status": "ok",
+      "requires": [
+        "python-subset"
+      ],
+      "source": "https://github.com/nibzard/ai-sandbox-benchmark/blob/c07127e731ec14e55f93dee767977bf00bb76dce/tests/test_improved_calculate_primes.py",
+      "version": "1",
+      "adapted": true
+    },
+    {
+      "id": "tool-access",
+      "name": "Approved tool access",
+      "category": "Capabilities",
+      "description": "Read a bounded fixture through an explicitly permitted host function.",
+      "code": "rows = read_fixture()\n{'total': sum(row['value'] for row in rows), 'rows': len(rows)}",
+      "expected": {
+        "total": 60,
+        "rows": 3
+      },
+      "expected_status": "ok",
+      "requires": [
+        "python-subset",
+        "host-callbacks"
+      ],
+      "source": null,
+      "version": "1",
+      "adapted": false
+    },
+    {
+      "id": "time-limit",
+      "name": "Runaway loop",
+      "category": "Boundaries",
+      "description": "An infinite loop should hit its execution limit. A limited result passes this check.",
+      "code": "while True:\n    pass",
+      "expected": null,
+      "expected_status": "limited",
+      "requires": [
+        "python-subset"
+      ],
+      "source": null,
+      "version": "1",
+      "adapted": false
+    },
+    {
+      "id": "filesystem",
+      "name": "Filesystem boundary",
+      "category": "Boundaries",
+      "description": "Attempt to read a synthetic forbidden path. The OS callback must deny the request.",
+      "code": "from pathlib import Path\nPath('/sandbox-lab/forbidden.txt').read_text()",
+      "expected": null,
+      "expected_status": "denied",
+      "requires": [
+        "python-subset",
+        "os-policy"
+      ],
+      "source": null,
+      "version": "1",
+      "adapted": false
+    }
+  ]
+}
