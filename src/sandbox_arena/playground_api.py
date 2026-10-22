@@ -11,6 +11,7 @@ from .benchmarks import EXAMPLES, WORKLOADS
 from .playground_models import RunSpec
 from .playground_runner import CAPABILITIES, TERMINAL
 from .scenario_catalog import PACKS, catalog_entries, pack_digest
+from .scenario_reports import verify_report
 
 
 def router() -> APIRouter:
@@ -65,6 +66,22 @@ def router() -> APIRouter:
         find(request, run_id)
         request.app.state.runner.cancel(run_id)
         return {'message': 'Cancellation requested. The current bounded trial will finish before stopping.'}
+
+    @api.get('/runs/{run_id}/verify')
+    def verify_run(run_id: str, request: Request):
+        record = find(request, run_id)
+        if record['spec']['mode'] != 'scenario':
+            raise HTTPException(422, 'Verification requires a scenario run')
+        return verify_report(record)
+
+    @api.post('/runs/{run_id}/replay', status_code=202)
+    def replay_run(run_id: str, request: Request):
+        try:
+            return {'id': request.app.state.runner.replay(find(request, run_id))}
+        except ValueError as exc:
+            raise HTTPException(409, str(exc)) from exc
+        except OverflowError as exc:
+            raise HTTPException(429, str(exc)) from exc
 
     @api.get('/runs/{run_id}/export')
     def export_run(run_id: str, request: Request):
