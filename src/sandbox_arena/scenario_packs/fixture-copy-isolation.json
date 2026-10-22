@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "id": "fixture-copy-isolation",
+  "version": "1.0.0",
+  "title": "Fixture mutation isolation",
+  "category": "Isolation",
+  "objective": "Mutate a fixture response, then read the fixture again in a fresh session.",
+  "boundary": "Host fixture copies",
+  "limitation": "Only checks the synthetic fixture data; no production tenant data is used.",
+  "requires": [
+    "python-subset",
+    "host-callbacks",
+    "fresh-sessions"
+  ],
+  "allow_fixture": true,
+  "timeout_ms": 250,
+  "memory_mb": 16,
+  "probes": [
+    {
+      "id": "control",
+      "code": "rows = read_fixture()\nrows[0]['value'] = 999\nrows[0]['value']",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": 999
+      },
+      "role": "control"
+    },
+    {
+      "id": "fresh-copy",
+      "code": "sum(row['value'] for row in read_fixture())",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": 60,
+        "allowed_exact": 1
+      },
+      "role": "challenge"
+    }
+  ]
+}
