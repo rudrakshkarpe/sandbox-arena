@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
+from test_playground_api import wait_done
 
 from sandbox_arena.web import create_app
-from test_playground_api import wait_done
 
 
 def test_catalog_discovery_and_scenario_execution(tmp_path):

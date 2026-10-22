@@ -743,3 +743,117 @@
   padding-top: 12px;
   border-top: 1px solid var(--line);
 }
+
+.scenario-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 24px 0;
+  font: 11px var(--mono);
+}
+.scenario-toolbar select {
+  margin-left: 10px;
+  background: #111214;
+  border: 1px solid var(--line);
+  color: var(--text);
+  padding: 9px;
+  border-radius: 4px;
+}
+.scenario-card pre,
+.probe-trial pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: 11px/1.7 var(--mono);
+  padding: 14px;
+  background: #090a0b;
+  border: 1px solid var(--line);
+  max-height: 300px;
+  overflow: auto;
+}
+.scenario-card h3,
+.probe-trial h3 {
+  font: 10px var(--mono);
+  margin: 20px 0 8px;
+}
+.scenario-card > div {
+  min-width: 0;
+}
+.digest {
+  overflow-wrap: anywhere;
+  font: 9px/1.9 var(--mono);
+  color: var(--muted);
+}
+#scenario-results {
+  scroll-margin-top: 24px;
+  margin-bottom: 24px;
+}
+#scenario-results h2 {
+  font: 22px var(--serif);
+  margin: 0;
+}
+.scenario-report-body {
+  padding: 22px;
+}
+#scenario-progress,
+#scenario-verification {
+  font: 10px/1.8 var(--mono);
+  color: var(--muted);
+}
+.scenario-report-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin: 18px 0;
+  font-size: 11px;
+}
+.scenario-report-actions a {
+  margin-left: auto;
+  color: var(--accent);
+}
+.probe-evidence {
+  padding: 17px 0;
+  border-top: 1px solid var(--line);
+}
+.probe-evidence summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  font: 11px/1.6 var(--mono);
+}
+.probe-evidence summary > span:first-child {
+  margin-right: auto;
+}
+.probe-evidence summary::before {
+  content: "+";
+  color: var(--accent);
+}
+.probe-evidence[open] summary::before {
+  content: "−";
+}
+.probe-trial ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 0;
+  list-style: none;
+  font: 10px var(--mono);
+}
+@media (max-width: 640px) {
+  .scenario-toolbar {
+    align-items: start;
+    flex-direction: column;
+  }
+  .scenario-report-body {
+    padding: 15px;
+  }
+  #scenario-results .panel-heading {
+    height: auto;
+    padding: 16px;
+    align-items: start;
+    flex-direction: column;
+  }
+}
