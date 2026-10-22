@@ -1,7 +1,7 @@
 [project]
 name = "sandbox-arena"
-version = "0.2.0"
-description = "A local Monty sandbox playground with reproducible benchmarks and inspectable execution evidence"
+version = "0.3.0"
+description = "A local sandbox attack lab with versioned scenarios, host evidence verification, replay and benchmarks"
 readme = "README.md"
 license = "MIT AND Apache-2.0"
 license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md", "licenses/Apache-2.0.txt"]

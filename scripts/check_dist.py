@@ -1,6 +1,7 @@
 """Check release contents and write checksums without importing the source package."""
 
 import argparse
+import ast
 import hashlib
 import tarfile
 import tomllib
@@ -12,6 +13,9 @@ def check_dist(directory: Path, tag: str | None = None) -> list[Path]:
     root = Path(__file__).resolve().parents[1]
     project = tomllib.loads((root / 'pyproject.toml').read_text())['project']
     version = project['version']
+    package_init = ast.parse((root / 'src/sandbox_arena/__init__.py').read_text())
+    if ast.literal_eval(package_init.body[0].value) != version:
+        raise ValueError('Runtime version must match package metadata')
     if tag is not None and tag != f'v{version}':
         raise ValueError('Release tag must match pyproject.toml')
     wheel = directory / f'sandbox_arena-{version}-py3-none-any.whl'
