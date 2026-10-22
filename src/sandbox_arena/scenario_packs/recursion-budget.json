@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "id": "recursion-budget",
+  "version": "1.0.0",
+  "title": "Recursion limit",
+  "category": "Resources",
+  "objective": "Recursively call a guest function beyond the configured depth of 100.",
+  "boundary": "Monty recursion depth",
+  "limitation": "Observes interpreter recursion rejection; does not measure native stack protection.",
+  "requires": [
+    "python-subset",
+    "resource-limits"
+  ],
+  "allow_fixture": false,
+  "timeout_ms": 250,
+  "memory_mb": 16,
+  "probes": [
+    {
+      "id": "control",
+      "code": "def identity(x):\n    return x\nidentity(42)",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": 42
+      },
+      "role": "control"
+    },
+    {
+      "id": "recursion",
+      "code": "def recur():\n    return recur()\nrecur()",
+      "expect": {
+        "status": "error",
+        "error_prefix": "RecursionError:"
+      },
+      "role": "challenge"
+    }
+  ]
+}
