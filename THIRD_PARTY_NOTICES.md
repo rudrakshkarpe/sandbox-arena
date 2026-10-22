@@ -26,5 +26,27 @@ numerically comparable reproductions of upstream provider results.
 
 [AI Bottlenecks](https://aibottlenecks.app/) inspired the dark editorial palette,
 serif headlines, fine rules, and compact data treatment. All application markup,
-styles, icon drawings, and copy here were authored for Sandbox Arena. No branding,
-images, source code, or claims of affiliation were copied.
+styles, application icon drawings, and copy here were authored for Sandbox Arena.
+Provider marks below are third-party assets. No application source code or claims
+of affiliation were copied. The provider display also takes directional inspiration
+from [Sandbox](https://sandbox-arena.vercel.app/); the orbital layout is original.
+
+## Provider marks
+
+The following assets are bundled locally in `src/sandbox_arena/static/providers/`
+so the interface makes no third-party asset requests. Retrieved October 22, 2026
+from each provider's official website. These marks identify their respective
+owners; their inclusion does not imply partnership, endorsement, or an available
+integration. Provider marks are not covered by this project's MIT license.
+
+| File | Owner | Source |
+| --- | --- | --- |
+| `pydantic.svg` | Pydantic | [Official logomark](https://pydantic.dev/brand/pydantic-logomark.svg), linked from the Monty page |
+| `modal.svg` | Modal | “Download logo as .svg” on [modal.com](https://modal.com/), decoded from the provided data URI |
+| `e2b.png` | E2B | [Official site icon](https://e2b.dev/icon2.png?icon2.2h_70q4cu8mj-.png) |
+| `daytona.png` | Daytona | [Dark-mode icon](https://framerusercontent.com/images/cCvSUNbGejoZpWVg0tUGLSqxGC8.png), linked from daytona.io |
+| `vercel.png` | Vercel | [Official site icon](https://assets.vercel.com/image/upload/q_auto/front/favicon/vercel/apple-touch-icon-180x180.png) |
+
+Shapes and colors are unchanged; the interface resizes them for display. The
+Pydantic organization mark identifies Monty's publisher rather than claiming to
+be a separate Monty product logo.
