@@ -2,6 +2,7 @@ import time
 
 from sandbox_arena.playground_models import RunSpec
 from sandbox_arena.playground_runner import TERMINAL, MontyProvider, Runner, RunStore
+from sandbox_arena.scenario_reports import verify_report
 
 
 def wait_done(runner, run_id):
@@ -28,5 +29,35 @@ def test_runner_preserves_probe_order_and_fresh_sessions(pool, tmp_path):
         ]
         assert all(sample['checks'] for sample in record['samples'])
         assert record['scenario']['version'] == '1.0.0'
+        assert verify_report(record)['verified']
     finally:
         runner.close()
+
+
+def test_interrupted_runs_are_sealed_as_inconclusive(tmp_path):
+    from sandbox_arena.evidence_integrity import checksum_valid
+    from sandbox_arena.scenario_catalog import PACKS, pack_digest
+
+    path = tmp_path / 'restart.db'
+    pack = PACKS['fixture-permission']
+    store = RunStore(path)
+    store.save(
+        dict(
+            id='unfinished',
+            status='running',
+            events=[],
+            samples=[],
+            spec={'iterations': 1},
+            scenario=pack.model_dump(mode='json'),
+            scenario_sha256=pack_digest(pack),
+        )
+    )
+    store.close()
+    recovered = RunStore(path)
+    try:
+        record = recovered.get('unfinished')
+        assert record['status'] == 'interrupted'
+        assert record['assessment']['outcome'] == 'inconclusive'
+        assert checksum_valid(record)
+    finally:
+        recovered.close()

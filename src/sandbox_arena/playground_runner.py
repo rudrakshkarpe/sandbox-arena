@@ -17,6 +17,7 @@ from uuid import uuid4
 from pydantic_monty import CollectString, MontyCrashedError, MontyError, MontyRuntimeError
 
 from .benchmarks import WORKLOADS
+from .evidence_integrity import seal
 from .playground_models import RunSpec, Sample
 from .scenario_catalog import PACKS, pack_digest
 from .scenario_reports import assess_scenario
@@ -172,6 +173,10 @@ class RunStore:
                 self.save(record)
 
     def save(self, record):
+        if record['status'] in TERMINAL:
+            if record.get('scenario'):
+                record['assessment'] = assess_scenario(record)
+            record['integrity'] = seal(record)['integrity']
         with self.lock:
             self.db.execute('INSERT OR REPLACE INTO runs VALUES (?, ?)', (record['id'], json.dumps(record)))
             self.db.commit()
@@ -301,8 +306,6 @@ class Runner:
                     record, 'trial_finished', f'{key} · {sample.status}', sample_index=len(record['samples']) - 1
                 )
             record['status'] = 'cancelled' if cancel.is_set() else 'completed'
-            if pack:
-                record['assessment'] = assess_scenario(record)
             self.event(record, record['status'], 'Session resources released; evidence saved')
         except Exception as exc:
             record['status'] = 'failed'
