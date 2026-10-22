@@ -33,7 +33,8 @@ retains the earlier Sandbox Lab branding; the playground preview uses Sandbox Ar
 
 Desktop rendering is visually checked. Responsive CSS is included, but the browser
 viewport override did not reliably apply the requested narrow size, so mobile
-visual verification remains outstanding.
+visual verification of the original workspace remains outstanding. See the
+homepage update below for the newly checked mobile surfaces.
 
 ## What remains unverified
 
@@ -56,3 +57,31 @@ cases for commit `2e9046b`. A separate fresh macOS environment download timed ou
 on `griffelib` despite a 120-second HTTP timeout; the running local preview uses
 the previously installed dependency environment. This network failure did not
 occur in the clean Linux CI installation.
+
+## Arena homepage and scenario entry points
+
+Verified October 22, 2026:
+
+- Full-width black homepage with provider orbit, live Monty status and
+  catalog-derived boundary/compute counts. Other providers are visibly planned.
+- Pause/resume controls work; reduced-motion handling is implemented in CSS and
+  JavaScript, but a system reduced-motion preference was not independently exercised.
+- Both one-click scenarios completed three measured trials with passing checks.
+- The homepage benchmark link selected the two compute workloads; both passed
+  ten measured trials plus a warmup. Existing code-workspace navigation works.
+- No browser console errors observed. Desktop width 1280 and content width 1280.
+- Mobile homepage and scenario navigation checked in a 390-pixel same-origin
+  iframe on a temporary preview server. An orbital overflow was fixed; viewport
+  width and content width both measured 390. This is browser layout testing, not
+  a physical-device test. The regular server retains `frame-ancestors 'none'`.
+- 39 tests and 12 acceptance cases pass using the existing Python dependency
+  environment; Ruff, Prettier and JavaScript syntax checks pass.
+- `uv build --offline` succeeds using cached build dependencies; the wheel contains
+  `arena.css` and all five bundled provider assets. The online build was stopped
+  while retrying dependency access.
+
+Screenshots: [homepage](evidence/arena-home.jpg) and
+[390-pixel preview](evidence/arena-mobile.jpg).
+
+No new attack payloads or cloud integrations were added in this interface update.
+The scenario shortcuts reuse the versioned filesystem and execution-limit checks.

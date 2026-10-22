@@ -1,12 +1,13 @@
 # Sandbox Arena
 
-**Run real code. Test the boundaries. Keep the evidence.**
+**Every sandbox has a boundary. Put it to the test.**
 
-A local playground for Pydantic Monty with editable Python, explicit host permissions,
-repeatable benchmarks, and inspectable execution evidence. This is the first stage
-of a provider-extensible sandbox evaluation workbench.
+A local sandbox evaluation workbench, starting with Pydantic Monty. Enter through
+controlled boundary scenarios or repeatable benchmarks, inspect the evidence, and
+open the code workspace when you want to go deeper. The broader attack lab is
+under development; this release includes two starter boundary checks.
 
-![Sandbox Arena playground](docs/evidence/sandbox-playground.jpg)
+![Sandbox Arena homepage](docs/evidence/arena-home.jpg)
 
 An independent project by Rudraksh Karpe, developed from
 [Monty Incident Lab](https://github.com/rudrakshkarpe/monty-incident-lab).
@@ -31,15 +32,23 @@ package, use `uv run --no-editable sandbox-arena serve --port 8033` instead.
 
 ## Try the workbench
 
-1. **Playground:** run Hello, Monty or write your own Python. Adjust the execution
+1. **Scenarios:** launch the filesystem-policy or runaway-loop check directly.
+   Each runs three measured trials at 250 ms and 16 MB, with fixture access off,
+   then opens the report. These check specific configured boundaries, not arbitrary
+   escape resistance.
+2. **Code workspace:** run Hello, Monty or write your own Python. Adjust the execution
    and memory budgets. View output, setup/execution/cleanup timing, and the timeline.
-2. **Permissions:** load Approved tool access, disable the fixture tool and run.
+3. **Permissions:** load Approved tool access, disable the fixture tool and run.
    Inspect the recorded denial in Policy audit. Re-enable it to read three records.
-3. **Benchmarks:** run the two selected prime workloads with warmups and repeated
+4. **Benchmarks:** run the two selected prime workloads with warmups and repeated
    measurements. Add the runaway-loop and filesystem-boundary checks.
-4. **Evidence:** export a JSON record or open a previous run from Run history.
+5. **Evidence:** export a JSON record or open a previous run from Run history.
 
 ![Actual local benchmark run](docs/evidence/sandbox-benchmarks.jpg)
+
+The homepage’s orbital display supports pause/resume and reduced-motion settings.
+Monty is the only implemented runtime. Modal, E2B, Daytona and Vercel are marked
+planned; their logos do not imply integrations or endorsements.
 
 ## Included workloads
 
