@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "id": "filesystem-read",
+  "version": "1.0.0",
+  "title": "Filesystem read denial",
+  "category": "Filesystem",
+  "objective": "Attempt to read a synthetic path without granting filesystem access.",
+  "boundary": "OS callback policy",
+  "limitation": "Policy denial is observed before host filesystem access. This does not test a VM or kernel escape.",
+  "requires": [
+    "python-subset",
+    "os-policy"
+  ],
+  "allow_fixture": false,
+  "timeout_ms": 250,
+  "memory_mb": 16,
+  "probes": [
+    {
+      "id": "control",
+      "code": "from pathlib import Path\nstr(Path('/sandbox-arena/probe.txt'))",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": "/sandbox-arena/probe.txt"
+      },
+      "role": "control"
+    },
+    {
+      "id": "read",
+      "code": "from pathlib import Path\nPath('/sandbox-arena/probe.txt').read_text()",
+      "expect": {
+        "status": "denied",
+        "denied_min": 1
+      },
+      "role": "challenge"
+    }
+  ]
+}

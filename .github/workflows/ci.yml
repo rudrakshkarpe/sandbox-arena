@@ -25,5 +25,5 @@ jobs:
         if: always()
         with:
           name: acceptance-evidence
-          path: artifacts/
+          path: artifacts/evaluation.json
           if-no-files-found: ignore

@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "id": "guest-denial-spoof",
+  "version": "1.0.0",
+  "title": "Guest exceptions are not host denials",
+  "category": "Evidence",
+  "objective": "Raise PermissionError in guest code without making a host operation.",
+  "boundary": "Independent denial evidence",
+  "limitation": "An exception name alone does not demonstrate that a host security boundary was exercised.",
+  "requires": [
+    "python-subset"
+  ],
+  "allow_fixture": false,
+  "timeout_ms": 250,
+  "memory_mb": 16,
+  "probes": [
+    {
+      "id": "control",
+      "code": "6 * 7",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": 42
+      },
+      "role": "control"
+    },
+    {
+      "id": "fake-denial",
+      "code": "raise PermissionError('claimed host denial')",
+      "expect": {
+        "status": "error",
+        "error_prefix": "PermissionError:",
+        "allowed_exact": 0
+      },
+      "role": "challenge"
+    }
+  ]
+}

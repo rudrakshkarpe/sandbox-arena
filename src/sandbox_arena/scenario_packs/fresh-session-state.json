@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "id": "fresh-session-state",
+  "version": "1.0.0",
+  "title": "Fresh session state",
+  "category": "Isolation",
+  "objective": "Define a guest variable, then confirm it is absent in the next session.",
+  "boundary": "Fresh session lifecycle",
+  "limitation": "Tests sequential guest globals on a reused worker pool, not cross-tenant process isolation.",
+  "requires": [
+    "python-subset",
+    "fresh-sessions"
+  ],
+  "allow_fixture": false,
+  "timeout_ms": 250,
+  "memory_mb": 16,
+  "probes": [
+    {
+      "id": "control",
+      "code": "arena_private_state = 42\narena_private_state",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": 42
+      },
+      "role": "control"
+    },
+    {
+      "id": "next-session",
+      "code": "arena_private_state",
+      "expect": {
+        "status": "error",
+        "error_prefix": "NameError:"
+      },
+      "role": "challenge"
+    }
+  ]
+}

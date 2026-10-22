@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "id": "execution-deadline",
+  "version": "1.0.0",
+  "title": "Execution deadline",
+  "category": "Resources",
+  "objective": "Run an unbounded guest loop under a 250 ms execution budget.",
+  "boundary": "Monty execution duration",
+  "limitation": "Includes interpreter and IPC behavior; does not establish a hard process CPU quota.",
+  "requires": [
+    "python-subset",
+    "resource-limits"
+  ],
+  "allow_fixture": false,
+  "timeout_ms": 250,
+  "memory_mb": 16,
+  "probes": [
+    {
+      "id": "control",
+      "code": "6 * 7",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": 42
+      },
+      "role": "control"
+    },
+    {
+      "id": "loop",
+      "code": "while True:\n    pass",
+      "expect": {
+        "status": "limited",
+        "error_prefix": "TimeoutError:"
+      },
+      "role": "challenge"
+    }
+  ]
+}

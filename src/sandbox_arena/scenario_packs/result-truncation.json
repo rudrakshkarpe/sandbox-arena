@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "id": "result-truncation",
+  "version": "1.0.0",
+  "title": "Large result truncation",
+  "category": "Evidence",
+  "objective": "Return text beyond the 16384-character serialized result budget.",
+  "boundary": "Host result export",
+  "limitation": "The full value exists transiently before truncation; this is not a guest allocation limit.",
+  "requires": [
+    "python-subset"
+  ],
+  "allow_fixture": false,
+  "timeout_ms": 250,
+  "memory_mb": 16,
+  "probes": [
+    {
+      "id": "control",
+      "code": "'x' * 8",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": "xxxxxxxx"
+      },
+      "role": "control"
+    },
+    {
+      "id": "large-result",
+      "code": "'x' * 20000",
+      "expect": {
+        "status": "ok",
+        "truncated": true
+      },
+      "role": "challenge"
+    }
+  ]
+}

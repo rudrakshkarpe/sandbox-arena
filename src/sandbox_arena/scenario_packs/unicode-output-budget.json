@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "id": "unicode-output-budget",
+  "version": "1.0.0",
+  "title": "Unicode output byte accounting",
+  "category": "Resources",
+  "objective": "Print multibyte Unicode text that fits 4096 characters but exceeds 4096 bytes.",
+  "boundary": "UTF-8 output budget",
+  "limitation": "This tests byte accounting for the output collector, not terminal rendering or Unicode normalization.",
+  "requires": [
+    "python-subset",
+    "resource-limits"
+  ],
+  "allow_fixture": false,
+  "timeout_ms": 250,
+  "memory_mb": 16,
+  "probes": [
+    {
+      "id": "control",
+      "code": "print('界')\n42",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": 42
+      },
+      "role": "control"
+    },
+    {
+      "id": "unicode",
+      "code": "print('界' * 2000)\n42",
+      "expect": {
+        "status": "limited",
+        "error_prefix": "MemoryError:",
+        "stdout_max_bytes": 4096
+      },
+      "role": "challenge"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "id": "callback-budget",
+  "version": "1.0.0",
+  "title": "Host callback budget",
+  "category": "Host policy",
+  "objective": "Exceed the eight-call fixture allowance inside one session.",
+  "boundary": "Per-session callback count",
+  "limitation": "The budget applies to this fixture callback; provider API quotas are outside this test.",
+  "requires": [
+    "python-subset",
+    "host-callbacks"
+  ],
+  "allow_fixture": true,
+  "timeout_ms": 250,
+  "memory_mb": 16,
+  "probes": [
+    {
+      "id": "control",
+      "code": "len(read_fixture())",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": 3
+      },
+      "role": "control"
+    },
+    {
+      "id": "budget",
+      "code": "[read_fixture() for _ in range(9)]",
+      "expect": {
+        "status": "denied",
+        "denied_min": 1,
+        "allowed_exact": 8
+      },
+      "role": "challenge"
+    }
+  ]
+}

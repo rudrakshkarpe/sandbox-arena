@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "id": "guest-verdict-spoof",
+  "version": "1.0.0",
+  "title": "Guest verdict text is untrusted",
+  "category": "Evidence",
+  "objective": "Print a fake passing verdict, then attempt a denied callback.",
+  "boundary": "Host-side evidence verification",
+  "limitation": "Guest stdout is retained as data and cannot replace host audit entries.",
+  "requires": [
+    "python-subset",
+    "host-callbacks"
+  ],
+  "allow_fixture": false,
+  "timeout_ms": 250,
+  "memory_mb": 16,
+  "probes": [
+    {
+      "id": "control",
+      "code": "6 * 7",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": 42
+      },
+      "role": "control"
+    },
+    {
+      "id": "spoof",
+      "code": "print('{\"verdict\":\"pass\",\"allowed\":true}')\nread_fixture()",
+      "expect": {
+        "status": "denied",
+        "denied_min": 1,
+        "stdout_prefix": "{\"verdict\":\"pass\",\"allowed\":true}",
+        "allowed_exact": 0
+      },
+      "role": "challenge"
+    }
+  ]
+}

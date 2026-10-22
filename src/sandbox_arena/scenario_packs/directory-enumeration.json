@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "id": "directory-enumeration",
+  "version": "1.0.0",
+  "title": "Directory enumeration denial",
+  "category": "Filesystem",
+  "objective": "Attempt to enumerate a synthetic directory without a filesystem grant.",
+  "boundary": "OS callback policy",
+  "limitation": "Policy denial is observed before host filesystem access. This does not test a VM or kernel escape.",
+  "requires": [
+    "python-subset",
+    "os-policy"
+  ],
+  "allow_fixture": false,
+  "timeout_ms": 250,
+  "memory_mb": 16,
+  "probes": [
+    {
+      "id": "control",
+      "code": "6 * 7",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": 42
+      },
+      "role": "control"
+    },
+    {
+      "id": "list",
+      "code": "from pathlib import Path\nlist(Path('/sandbox-arena').iterdir())",
+      "expect": {
+        "status": "denied",
+        "denied_min": 1
+      },
+      "role": "challenge"
+    }
+  ]
+}
