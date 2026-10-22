@@ -1,0 +1,951 @@
+{
+  "trace_id": "01a162b47db6a87eba6f0596a9bdf39a",
+  "projection": "IDs, names and timestamps only; host resources, attributes and source paths excluded.",
+  "spans": [
+    {
+      "name": "evidence.read",
+      "span_id": "0x907b98d02e96b4a6",
+      "parent_id": "0xe49e41506f465a88",
+      "start_time": "2026-10-22T08:22:38.271143Z",
+      "end_time": "2026-10-22T08:22:38.271180Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0xe49e41506f465a88",
+      "parent_id": "0x53a155b3d6f41974",
+      "start_time": "2026-10-22T08:22:38.269162Z",
+      "end_time": "2026-10-22T08:22:38.271711Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0x488081eb6a06f1c6",
+      "parent_id": "0x62bbda28e67c16c7",
+      "start_time": "2026-10-22T08:22:38.271983Z",
+      "end_time": "2026-10-22T08:22:38.272012Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0x62bbda28e67c16c7",
+      "parent_id": "0x53a155b3d6f41974",
+      "start_time": "2026-10-22T08:22:38.271901Z",
+      "end_time": "2026-10-22T08:22:38.272134Z"
+    },
+    {
+      "name": "run code",
+      "span_id": "0x53a155b3d6f41974",
+      "parent_id": "0xac072b258578300c",
+      "start_time": "2026-10-22T08:22:38.268921Z",
+      "end_time": "2026-10-22T08:22:38.272279Z"
+    },
+    {
+      "name": "session {script_name}",
+      "span_id": "0xac072b258578300c",
+      "parent_id": "0x8a52c567eabaa2a1",
+      "start_time": "2026-10-22T08:22:38.268740Z",
+      "end_time": "2026-10-22T08:22:38.272489Z"
+    },
+    {
+      "name": "analysis.verify",
+      "span_id": "0xcb8e930c26596224",
+      "parent_id": "0x8a52c567eabaa2a1",
+      "start_time": "2026-10-22T08:22:38.272703Z",
+      "end_time": "2026-10-22T08:22:38.272770Z"
+    },
+    {
+      "name": "sandbox.execute",
+      "span_id": "0x8a52c567eabaa2a1",
+      "parent_id": "0x35e1cede53205ca4",
+      "start_time": "2026-10-22T08:22:38.268587Z",
+      "end_time": "2026-10-22T08:22:38.272874Z"
+    },
+    {
+      "name": "investigation.run",
+      "span_id": "0x35e1cede53205ca4",
+      "parent_id": "0x615d54d64211a3e5",
+      "start_time": "2026-10-22T08:22:38.264840Z",
+      "end_time": "2026-10-22T08:22:38.272966Z"
+    },
+    {
+      "name": "execute {task}",
+      "span_id": "0x615d54d64211a3e5",
+      "parent_id": "0x7ef12511cf2a947c",
+      "start_time": "2026-10-22T08:22:38.263852Z",
+      "end_time": "2026-10-22T08:22:38.273201Z"
+    },
+    {
+      "name": "evaluator: {evaluator_name}",
+      "span_id": "0xc861de1c76fea399",
+      "parent_id": "0x7ef12511cf2a947c",
+      "start_time": "2026-10-22T08:22:38.273775Z",
+      "end_time": "2026-10-22T08:22:38.273836Z"
+    },
+    {
+      "name": "case: {case_name}",
+      "span_id": "0x7ef12511cf2a947c",
+      "parent_id": "0xbbbb95d2aad8ec10",
+      "start_time": "2026-10-22T08:22:38.263714Z",
+      "end_time": "2026-10-22T08:22:38.274071Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0xc8b3cca79c06c87f",
+      "parent_id": "0x7bb1e893d3185aab",
+      "start_time": "2026-10-22T08:22:38.275060Z",
+      "end_time": "2026-10-22T08:22:38.275084Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0x7bb1e893d3185aab",
+      "parent_id": "0xe84dcddce9d2fa4a",
+      "start_time": "2026-10-22T08:22:38.274992Z",
+      "end_time": "2026-10-22T08:22:38.275197Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0xb41e85802bf81deb",
+      "parent_id": "0x50769a14fff006a0",
+      "start_time": "2026-10-22T08:22:38.275421Z",
+      "end_time": "2026-10-22T08:22:38.275444Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0x50769a14fff006a0",
+      "parent_id": "0xe84dcddce9d2fa4a",
+      "start_time": "2026-10-22T08:22:38.275349Z",
+      "end_time": "2026-10-22T08:22:38.275540Z"
+    },
+    {
+      "name": "run code",
+      "span_id": "0xe84dcddce9d2fa4a",
+      "parent_id": "0xe96d6217dcff41e7",
+      "start_time": "2026-10-22T08:22:38.274909Z",
+      "end_time": "2026-10-22T08:22:38.275682Z"
+    },
+    {
+      "name": "session {script_name}",
+      "span_id": "0xe96d6217dcff41e7",
+      "parent_id": "0x341a290721af248a",
+      "start_time": "2026-10-22T08:22:38.274839Z",
+      "end_time": "2026-10-22T08:22:38.275860Z"
+    },
+    {
+      "name": "analysis.verify",
+      "span_id": "0x7d1f0e7f76c64520",
+      "parent_id": "0x341a290721af248a",
+      "start_time": "2026-10-22T08:22:38.275998Z",
+      "end_time": "2026-10-22T08:22:38.276043Z"
+    },
+    {
+      "name": "sandbox.execute",
+      "span_id": "0x341a290721af248a",
+      "parent_id": "0xce405d21eb85202f",
+      "start_time": "2026-10-22T08:22:38.274787Z",
+      "end_time": "2026-10-22T08:22:38.276126Z"
+    },
+    {
+      "name": "investigation.run",
+      "span_id": "0xce405d21eb85202f",
+      "parent_id": "0xd47d4dea2b3ad06c",
+      "start_time": "2026-10-22T08:22:38.274739Z",
+      "end_time": "2026-10-22T08:22:38.276231Z"
+    },
+    {
+      "name": "execute {task}",
+      "span_id": "0xd47d4dea2b3ad06c",
+      "parent_id": "0x3656a5bbe6a1ce09",
+      "start_time": "2026-10-22T08:22:38.274603Z",
+      "end_time": "2026-10-22T08:22:38.276399Z"
+    },
+    {
+      "name": "evaluator: {evaluator_name}",
+      "span_id": "0xee3a429b52971e5c",
+      "parent_id": "0x3656a5bbe6a1ce09",
+      "start_time": "2026-10-22T08:22:38.276630Z",
+      "end_time": "2026-10-22T08:22:38.276662Z"
+    },
+    {
+      "name": "case: {case_name}",
+      "span_id": "0x3656a5bbe6a1ce09",
+      "parent_id": "0xbbbb95d2aad8ec10",
+      "start_time": "2026-10-22T08:22:38.274539Z",
+      "end_time": "2026-10-22T08:22:38.276827Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0x3dbaac0d9d70828e",
+      "parent_id": "0x71d3e0aabea9b512",
+      "start_time": "2026-10-22T08:22:38.277594Z",
+      "end_time": "2026-10-22T08:22:38.277617Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0x71d3e0aabea9b512",
+      "parent_id": "0x819361c221210e5a",
+      "start_time": "2026-10-22T08:22:38.277536Z",
+      "end_time": "2026-10-22T08:22:38.277722Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0x5fb990db59565296",
+      "parent_id": "0xa3570ba536c5ae62",
+      "start_time": "2026-10-22T08:22:38.277906Z",
+      "end_time": "2026-10-22T08:22:38.277929Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0xa3570ba536c5ae62",
+      "parent_id": "0x819361c221210e5a",
+      "start_time": "2026-10-22T08:22:38.277844Z",
+      "end_time": "2026-10-22T08:22:38.278027Z"
+    },
+    {
+      "name": "run code",
+      "span_id": "0x819361c221210e5a",
+      "parent_id": "0xd5800cf3f1e47770",
+      "start_time": "2026-10-22T08:22:38.277488Z",
+      "end_time": "2026-10-22T08:22:38.278150Z"
+    },
+    {
+      "name": "session {script_name}",
+      "span_id": "0xd5800cf3f1e47770",
+      "parent_id": "0x7213b31ce4b82e1a",
+      "start_time": "2026-10-22T08:22:38.277436Z",
+      "end_time": "2026-10-22T08:22:38.278323Z"
+    },
+    {
+      "name": "analysis.verify",
+      "span_id": "0x2dca812e74529ecb",
+      "parent_id": "0x7213b31ce4b82e1a",
+      "start_time": "2026-10-22T08:22:38.278460Z",
+      "end_time": "2026-10-22T08:22:38.278500Z"
+    },
+    {
+      "name": "sandbox.execute",
+      "span_id": "0x7213b31ce4b82e1a",
+      "parent_id": "0x5b6c8fb6f85db4d8",
+      "start_time": "2026-10-22T08:22:38.277396Z",
+      "end_time": "2026-10-22T08:22:38.278592Z"
+    },
+    {
+      "name": "investigation.run",
+      "span_id": "0x5b6c8fb6f85db4d8",
+      "parent_id": "0x8f140ef067547dd1",
+      "start_time": "2026-10-22T08:22:38.277354Z",
+      "end_time": "2026-10-22T08:22:38.278676Z"
+    },
+    {
+      "name": "execute {task}",
+      "span_id": "0x8f140ef067547dd1",
+      "parent_id": "0xa3ca82f323072409",
+      "start_time": "2026-10-22T08:22:38.277245Z",
+      "end_time": "2026-10-22T08:22:38.278860Z"
+    },
+    {
+      "name": "evaluator: {evaluator_name}",
+      "span_id": "0x2e71bbeed5f4644a",
+      "parent_id": "0xa3ca82f323072409",
+      "start_time": "2026-10-22T08:22:38.279189Z",
+      "end_time": "2026-10-22T08:22:38.279229Z"
+    },
+    {
+      "name": "case: {case_name}",
+      "span_id": "0xa3ca82f323072409",
+      "parent_id": "0xbbbb95d2aad8ec10",
+      "start_time": "2026-10-22T08:22:38.277189Z",
+      "end_time": "2026-10-22T08:22:38.279419Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0x74e4c06d07893fb5",
+      "parent_id": "0x317ab92f81c23115",
+      "start_time": "2026-10-22T08:22:38.280353Z",
+      "end_time": "2026-10-22T08:22:38.280381Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0x317ab92f81c23115",
+      "parent_id": "0xc4fc8b39b3a21bde",
+      "start_time": "2026-10-22T08:22:38.280248Z",
+      "end_time": "2026-10-22T08:22:38.280529Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0xb63a835a6a0697c2",
+      "parent_id": "0x9cd35192d55471b6",
+      "start_time": "2026-10-22T08:22:38.280780Z",
+      "end_time": "2026-10-22T08:22:38.280805Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0x9cd35192d55471b6",
+      "parent_id": "0xc4fc8b39b3a21bde",
+      "start_time": "2026-10-22T08:22:38.280705Z",
+      "end_time": "2026-10-22T08:22:38.280903Z"
+    },
+    {
+      "name": "run code",
+      "span_id": "0xc4fc8b39b3a21bde",
+      "parent_id": "0x6d178ba176656784",
+      "start_time": "2026-10-22T08:22:38.280204Z",
+      "end_time": "2026-10-22T08:22:38.281052Z"
+    },
+    {
+      "name": "session {script_name}",
+      "span_id": "0x6d178ba176656784",
+      "parent_id": "0xfe847a3e3600d5f5",
+      "start_time": "2026-10-22T08:22:38.280130Z",
+      "end_time": "2026-10-22T08:22:38.281231Z"
+    },
+    {
+      "name": "analysis.verify",
+      "span_id": "0x511f73ad9af0ce2c",
+      "parent_id": "0xfe847a3e3600d5f5",
+      "start_time": "2026-10-22T08:22:38.281391Z",
+      "end_time": "2026-10-22T08:22:38.281436Z"
+    },
+    {
+      "name": "sandbox.execute",
+      "span_id": "0xfe847a3e3600d5f5",
+      "parent_id": "0x054bfb64fde6f42d",
+      "start_time": "2026-10-22T08:22:38.280083Z",
+      "end_time": "2026-10-22T08:22:38.281523Z"
+    },
+    {
+      "name": "investigation.run",
+      "span_id": "0x054bfb64fde6f42d",
+      "parent_id": "0x89137a4cb153e7d7",
+      "start_time": "2026-10-22T08:22:38.280040Z",
+      "end_time": "2026-10-22T08:22:38.281625Z"
+    },
+    {
+      "name": "execute {task}",
+      "span_id": "0x89137a4cb153e7d7",
+      "parent_id": "0x2efddae5b7f6a957",
+      "start_time": "2026-10-22T08:22:38.279923Z",
+      "end_time": "2026-10-22T08:22:38.281788Z"
+    },
+    {
+      "name": "evaluator: {evaluator_name}",
+      "span_id": "0xc83f0eebe972b6ff",
+      "parent_id": "0x2efddae5b7f6a957",
+      "start_time": "2026-10-22T08:22:38.282047Z",
+      "end_time": "2026-10-22T08:22:38.282083Z"
+    },
+    {
+      "name": "case: {case_name}",
+      "span_id": "0x2efddae5b7f6a957",
+      "parent_id": "0xbbbb95d2aad8ec10",
+      "start_time": "2026-10-22T08:22:38.279853Z",
+      "end_time": "2026-10-22T08:22:38.282259Z"
+    },
+    {
+      "name": "os call {function}",
+      "span_id": "0xeddc16087c943640",
+      "parent_id": "0x13c228446a12f0c4",
+      "start_time": "2026-10-22T08:22:38.282976Z",
+      "end_time": "2026-10-22T08:22:38.283505Z"
+    },
+    {
+      "name": "run code",
+      "span_id": "0x13c228446a12f0c4",
+      "parent_id": "0xeafdffc52d1aa70b",
+      "start_time": "2026-10-22T08:22:38.282942Z",
+      "end_time": "2026-10-22T08:22:38.283780Z"
+    },
+    {
+      "name": "session {script_name}",
+      "span_id": "0xeafdffc52d1aa70b",
+      "parent_id": "0x844dc6dc5a251fa7",
+      "start_time": "2026-10-22T08:22:38.282886Z",
+      "end_time": "2026-10-22T08:22:38.283910Z"
+    },
+    {
+      "name": "sandbox.execute",
+      "span_id": "0x844dc6dc5a251fa7",
+      "parent_id": "0x08fccc1f22273bfa",
+      "start_time": "2026-10-22T08:22:38.282845Z",
+      "end_time": "2026-10-22T08:22:38.284074Z"
+    },
+    {
+      "name": "investigation.run",
+      "span_id": "0x08fccc1f22273bfa",
+      "parent_id": "0x5ea3b78c0d04a5dd",
+      "start_time": "2026-10-22T08:22:38.282803Z",
+      "end_time": "2026-10-22T08:22:38.284166Z"
+    },
+    {
+      "name": "execute {task}",
+      "span_id": "0x5ea3b78c0d04a5dd",
+      "parent_id": "0xb00f1a519493784f",
+      "start_time": "2026-10-22T08:22:38.282693Z",
+      "end_time": "2026-10-22T08:22:38.284329Z"
+    },
+    {
+      "name": "evaluator: {evaluator_name}",
+      "span_id": "0xa6f02b5cd0032261",
+      "parent_id": "0xb00f1a519493784f",
+      "start_time": "2026-10-22T08:22:38.284526Z",
+      "end_time": "2026-10-22T08:22:38.284557Z"
+    },
+    {
+      "name": "case: {case_name}",
+      "span_id": "0xb00f1a519493784f",
+      "parent_id": "0xbbbb95d2aad8ec10",
+      "start_time": "2026-10-22T08:22:38.282631Z",
+      "end_time": "2026-10-22T08:22:38.284709Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0x2875f492c6f84b26",
+      "parent_id": "0xb0db40cfb34397b3",
+      "start_time": "2026-10-22T08:22:38.285329Z",
+      "end_time": "2026-10-22T08:22:38.285458Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0xb0db40cfb34397b3",
+      "parent_id": "0xc5d16a14528c3ab2",
+      "start_time": "2026-10-22T08:22:38.285265Z",
+      "end_time": "2026-10-22T08:22:38.285700Z"
+    },
+    {
+      "name": "run code",
+      "span_id": "0xc5d16a14528c3ab2",
+      "parent_id": "0xb1e89463ce79a9c9",
+      "start_time": "2026-10-22T08:22:38.285232Z",
+      "end_time": "2026-10-22T08:22:38.285909Z"
+    },
+    {
+      "name": "session {script_name}",
+      "span_id": "0xb1e89463ce79a9c9",
+      "parent_id": "0xca8115a1b05e8303",
+      "start_time": "2026-10-22T08:22:38.285172Z",
+      "end_time": "2026-10-22T08:22:38.286045Z"
+    },
+    {
+      "name": "sandbox.execute",
+      "span_id": "0xca8115a1b05e8303",
+      "parent_id": "0x6b300f5a1a61c27e",
+      "start_time": "2026-10-22T08:22:38.285134Z",
+      "end_time": "2026-10-22T08:22:38.286180Z"
+    },
+    {
+      "name": "investigation.run",
+      "span_id": "0x6b300f5a1a61c27e",
+      "parent_id": "0xb164b858abf2c791",
+      "start_time": "2026-10-22T08:22:38.285090Z",
+      "end_time": "2026-10-22T08:22:38.286282Z"
+    },
+    {
+      "name": "execute {task}",
+      "span_id": "0xb164b858abf2c791",
+      "parent_id": "0x40e311dc628e9a0a",
+      "start_time": "2026-10-22T08:22:38.284984Z",
+      "end_time": "2026-10-22T08:22:38.286443Z"
+    },
+    {
+      "name": "evaluator: {evaluator_name}",
+      "span_id": "0xb6f56278ac8c9e29",
+      "parent_id": "0x40e311dc628e9a0a",
+      "start_time": "2026-10-22T08:22:38.286656Z",
+      "end_time": "2026-10-22T08:22:38.286690Z"
+    },
+    {
+      "name": "case: {case_name}",
+      "span_id": "0x40e311dc628e9a0a",
+      "parent_id": "0xbbbb95d2aad8ec10",
+      "start_time": "2026-10-22T08:22:38.284927Z",
+      "end_time": "2026-10-22T08:22:38.286858Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0x2305faae7a16ab60",
+      "parent_id": "0x65cacce24a4c1450",
+      "start_time": "2026-10-22T08:22:38.287489Z",
+      "end_time": "2026-10-22T08:22:38.287513Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0x65cacce24a4c1450",
+      "parent_id": "0x0f6cd7afd69bf778",
+      "start_time": "2026-10-22T08:22:38.287426Z",
+      "end_time": "2026-10-22T08:22:38.287610Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0xf2e55f395ea6147c",
+      "parent_id": "0xcd42cc7e239e5762",
+      "start_time": "2026-10-22T08:22:38.287822Z",
+      "end_time": "2026-10-22T08:22:38.287848Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0xcd42cc7e239e5762",
+      "parent_id": "0x0f6cd7afd69bf778",
+      "start_time": "2026-10-22T08:22:38.287748Z",
+      "end_time": "2026-10-22T08:22:38.287942Z"
+    },
+    {
+      "name": "run code",
+      "span_id": "0x0f6cd7afd69bf778",
+      "parent_id": "0xa7ac9a9e96085b33",
+      "start_time": "2026-10-22T08:22:38.287374Z",
+      "end_time": "2026-10-22T08:22:38.288079Z"
+    },
+    {
+      "name": "session {script_name}",
+      "span_id": "0xa7ac9a9e96085b33",
+      "parent_id": "0x0f7afca3b6a69266",
+      "start_time": "2026-10-22T08:22:38.287318Z",
+      "end_time": "2026-10-22T08:22:38.288240Z"
+    },
+    {
+      "name": "analysis.verify",
+      "span_id": "0x9bf7a0c91e2d7966",
+      "parent_id": "0x0f7afca3b6a69266",
+      "start_time": "2026-10-22T08:22:38.288389Z",
+      "end_time": "2026-10-22T08:22:38.288592Z"
+    },
+    {
+      "name": "sandbox.execute",
+      "span_id": "0x0f7afca3b6a69266",
+      "parent_id": "0x732f85f22f6bd4a2",
+      "start_time": "2026-10-22T08:22:38.287282Z",
+      "end_time": "2026-10-22T08:22:38.288693Z"
+    },
+    {
+      "name": "investigation.run",
+      "span_id": "0x732f85f22f6bd4a2",
+      "parent_id": "0x6375cdf1f14d27aa",
+      "start_time": "2026-10-22T08:22:38.287245Z",
+      "end_time": "2026-10-22T08:22:38.288787Z"
+    },
+    {
+      "name": "execute {task}",
+      "span_id": "0x6375cdf1f14d27aa",
+      "parent_id": "0xc9d9111b7cc1f3ff",
+      "start_time": "2026-10-22T08:22:38.287144Z",
+      "end_time": "2026-10-22T08:22:38.288972Z"
+    },
+    {
+      "name": "evaluator: {evaluator_name}",
+      "span_id": "0x4fc853ee69976cb1",
+      "parent_id": "0xc9d9111b7cc1f3ff",
+      "start_time": "2026-10-22T08:22:38.289247Z",
+      "end_time": "2026-10-22T08:22:38.289285Z"
+    },
+    {
+      "name": "case: {case_name}",
+      "span_id": "0xc9d9111b7cc1f3ff",
+      "parent_id": "0xbbbb95d2aad8ec10",
+      "start_time": "2026-10-22T08:22:38.287086Z",
+      "end_time": "2026-10-22T08:22:38.289463Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0xc624e3e187040929",
+      "parent_id": "0x135bc8c2989a5599",
+      "start_time": "2026-10-22T08:22:38.290238Z",
+      "end_time": "2026-10-22T08:22:38.290362Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0x135bc8c2989a5599",
+      "parent_id": "0xdc8ad8dab27b53c6",
+      "start_time": "2026-10-22T08:22:38.290179Z",
+      "end_time": "2026-10-22T08:22:38.290595Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0xdaa0c5d319596b67",
+      "parent_id": "0xa5fd5adbf163f727",
+      "start_time": "2026-10-22T08:22:38.290809Z",
+      "end_time": "2026-10-22T08:22:38.290835Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0xa5fd5adbf163f727",
+      "parent_id": "0xdc8ad8dab27b53c6",
+      "start_time": "2026-10-22T08:22:38.290741Z",
+      "end_time": "2026-10-22T08:22:38.290939Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0xc291bde54b23eb96",
+      "parent_id": "0xa8e8ee4d2e438be3",
+      "start_time": "2026-10-22T08:22:38.291124Z",
+      "end_time": "2026-10-22T08:22:38.291147Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0xa8e8ee4d2e438be3",
+      "parent_id": "0xdc8ad8dab27b53c6",
+      "start_time": "2026-10-22T08:22:38.291061Z",
+      "end_time": "2026-10-22T08:22:38.291247Z"
+    },
+    {
+      "name": "run code",
+      "span_id": "0xdc8ad8dab27b53c6",
+      "parent_id": "0xc578f2586bb47c06",
+      "start_time": "2026-10-22T08:22:38.290107Z",
+      "end_time": "2026-10-22T08:22:38.291370Z"
+    },
+    {
+      "name": "session {script_name}",
+      "span_id": "0xc578f2586bb47c06",
+      "parent_id": "0x922b433b1811de51",
+      "start_time": "2026-10-22T08:22:38.290052Z",
+      "end_time": "2026-10-22T08:22:38.291555Z"
+    },
+    {
+      "name": "analysis.verify",
+      "span_id": "0x4294b2a43242a39d",
+      "parent_id": "0x922b433b1811de51",
+      "start_time": "2026-10-22T08:22:38.291700Z",
+      "end_time": "2026-10-22T08:22:38.291849Z"
+    },
+    {
+      "name": "sandbox.execute",
+      "span_id": "0x922b433b1811de51",
+      "parent_id": "0xa8d45645f5088d8f",
+      "start_time": "2026-10-22T08:22:38.290009Z",
+      "end_time": "2026-10-22T08:22:38.291947Z"
+    },
+    {
+      "name": "investigation.run",
+      "span_id": "0xa8d45645f5088d8f",
+      "parent_id": "0xb1ffd4115d746473",
+      "start_time": "2026-10-22T08:22:38.289966Z",
+      "end_time": "2026-10-22T08:22:38.292034Z"
+    },
+    {
+      "name": "execute {task}",
+      "span_id": "0xb1ffd4115d746473",
+      "parent_id": "0xaf6af9f67bc2f03c",
+      "start_time": "2026-10-22T08:22:38.289853Z",
+      "end_time": "2026-10-22T08:22:38.292213Z"
+    },
+    {
+      "name": "evaluator: {evaluator_name}",
+      "span_id": "0xc061990d4f9a03dd",
+      "parent_id": "0xaf6af9f67bc2f03c",
+      "start_time": "2026-10-22T08:22:38.292458Z",
+      "end_time": "2026-10-22T08:22:38.292492Z"
+    },
+    {
+      "name": "case: {case_name}",
+      "span_id": "0xaf6af9f67bc2f03c",
+      "parent_id": "0xbbbb95d2aad8ec10",
+      "start_time": "2026-10-22T08:22:38.289797Z",
+      "end_time": "2026-10-22T08:22:38.292657Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0x59ac42fc9f3d7a40",
+      "parent_id": "0xc0555576c0bc4d91",
+      "start_time": "2026-10-22T08:22:38.293398Z",
+      "end_time": "2026-10-22T08:22:38.293420Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0xc0555576c0bc4d91",
+      "parent_id": "0x7a639e1ce8e6801c",
+      "start_time": "2026-10-22T08:22:38.293337Z",
+      "end_time": "2026-10-22T08:22:38.293512Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0x6d3ffd7357a7f1f2",
+      "parent_id": "0x9ee1eacb8a3added",
+      "start_time": "2026-10-22T08:22:38.293714Z",
+      "end_time": "2026-10-22T08:22:38.293737Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0x9ee1eacb8a3added",
+      "parent_id": "0x7a639e1ce8e6801c",
+      "start_time": "2026-10-22T08:22:38.293651Z",
+      "end_time": "2026-10-22T08:22:38.293828Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0x1610afa49bf2048d",
+      "parent_id": "0xdd99822fac6ab3fa",
+      "start_time": "2026-10-22T08:22:38.294024Z",
+      "end_time": "2026-10-22T08:22:38.294047Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0xdd99822fac6ab3fa",
+      "parent_id": "0x7a639e1ce8e6801c",
+      "start_time": "2026-10-22T08:22:38.293964Z",
+      "end_time": "2026-10-22T08:22:38.294133Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0xc9edf9cec4cf15d8",
+      "parent_id": "0x3bc731f9efaad841",
+      "start_time": "2026-10-22T08:22:38.294321Z",
+      "end_time": "2026-10-22T08:22:38.294343Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0x3bc731f9efaad841",
+      "parent_id": "0x7a639e1ce8e6801c",
+      "start_time": "2026-10-22T08:22:38.294261Z",
+      "end_time": "2026-10-22T08:22:38.294429Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0x6e83d82856175b57",
+      "parent_id": "0xa3bab0ca0631079c",
+      "start_time": "2026-10-22T08:22:38.294621Z",
+      "end_time": "2026-10-22T08:22:38.294878Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0xa3bab0ca0631079c",
+      "parent_id": "0x7a639e1ce8e6801c",
+      "start_time": "2026-10-22T08:22:38.294562Z",
+      "end_time": "2026-10-22T08:22:38.295059Z"
+    },
+    {
+      "name": "run code",
+      "span_id": "0x7a639e1ce8e6801c",
+      "parent_id": "0xd9120d7ec0c481ee",
+      "start_time": "2026-10-22T08:22:38.293307Z",
+      "end_time": "2026-10-22T08:22:38.295272Z"
+    },
+    {
+      "name": "session {script_name}",
+      "span_id": "0xd9120d7ec0c481ee",
+      "parent_id": "0x664f0306717f9a72",
+      "start_time": "2026-10-22T08:22:38.293255Z",
+      "end_time": "2026-10-22T08:22:38.295384Z"
+    },
+    {
+      "name": "sandbox.execute",
+      "span_id": "0x664f0306717f9a72",
+      "parent_id": "0xc00ddad4342836e3",
+      "start_time": "2026-10-22T08:22:38.293214Z",
+      "end_time": "2026-10-22T08:22:38.295525Z"
+    },
+    {
+      "name": "investigation.run",
+      "span_id": "0xc00ddad4342836e3",
+      "parent_id": "0x92657dfbf64bb0d6",
+      "start_time": "2026-10-22T08:22:38.293172Z",
+      "end_time": "2026-10-22T08:22:38.295610Z"
+    },
+    {
+      "name": "execute {task}",
+      "span_id": "0x92657dfbf64bb0d6",
+      "parent_id": "0x48588e10a4da630d",
+      "start_time": "2026-10-22T08:22:38.293065Z",
+      "end_time": "2026-10-22T08:22:38.295823Z"
+    },
+    {
+      "name": "evaluator: {evaluator_name}",
+      "span_id": "0x640c9206e1f6f0cc",
+      "parent_id": "0x48588e10a4da630d",
+      "start_time": "2026-10-22T08:22:38.296070Z",
+      "end_time": "2026-10-22T08:22:38.296104Z"
+    },
+    {
+      "name": "case: {case_name}",
+      "span_id": "0x48588e10a4da630d",
+      "parent_id": "0xbbbb95d2aad8ec10",
+      "start_time": "2026-10-22T08:22:38.293009Z",
+      "end_time": "2026-10-22T08:22:38.296275Z"
+    },
+    {
+      "name": "run code",
+      "span_id": "0x6bb7d7351566b8ca",
+      "parent_id": "0xd05d9ff21d48c559",
+      "start_time": "2026-10-22T08:22:38.296904Z",
+      "end_time": "2026-10-22T08:22:38.547215Z"
+    },
+    {
+      "name": "session {script_name}",
+      "span_id": "0xd05d9ff21d48c559",
+      "parent_id": "0xd7d09479f1543bfe",
+      "start_time": "2026-10-22T08:22:38.296855Z",
+      "end_time": "2026-10-22T08:22:38.547603Z"
+    },
+    {
+      "name": "sandbox.execute",
+      "span_id": "0xd7d09479f1543bfe",
+      "parent_id": "0xd192897361557eb1",
+      "start_time": "2026-10-22T08:22:38.296817Z",
+      "end_time": "2026-10-22T08:22:38.547842Z"
+    },
+    {
+      "name": "investigation.run",
+      "span_id": "0xd192897361557eb1",
+      "parent_id": "0x85498b7cb4592fd1",
+      "start_time": "2026-10-22T08:22:38.296777Z",
+      "end_time": "2026-10-22T08:22:38.547954Z"
+    },
+    {
+      "name": "execute {task}",
+      "span_id": "0x85498b7cb4592fd1",
+      "parent_id": "0x8966137fc6533b02",
+      "start_time": "2026-10-22T08:22:38.296665Z",
+      "end_time": "2026-10-22T08:22:38.548188Z"
+    },
+    {
+      "name": "evaluator: {evaluator_name}",
+      "span_id": "0x29657b07a9f1e6fa",
+      "parent_id": "0x8966137fc6533b02",
+      "start_time": "2026-10-22T08:22:38.548552Z",
+      "end_time": "2026-10-22T08:22:38.548615Z"
+    },
+    {
+      "name": "case: {case_name}",
+      "span_id": "0x8966137fc6533b02",
+      "parent_id": "0xbbbb95d2aad8ec10",
+      "start_time": "2026-10-22T08:22:38.296603Z",
+      "end_time": "2026-10-22T08:22:38.548798Z"
+    },
+    {
+      "name": "run code",
+      "span_id": "0x55b27d7372a97911",
+      "parent_id": "0x62710971480a713e",
+      "start_time": "2026-10-22T08:22:38.549524Z",
+      "end_time": "2026-10-22T08:22:38.549643Z"
+    },
+    {
+      "name": "session {script_name}",
+      "span_id": "0x62710971480a713e",
+      "parent_id": "0x9baa55926c1e10bd",
+      "start_time": "2026-10-22T08:22:38.549438Z",
+      "end_time": "2026-10-22T08:22:38.549829Z"
+    },
+    {
+      "name": "sandbox.execute",
+      "span_id": "0x9baa55926c1e10bd",
+      "parent_id": "0x18ec22e077a94b7c",
+      "start_time": "2026-10-22T08:22:38.549376Z",
+      "end_time": "2026-10-22T08:22:38.550005Z"
+    },
+    {
+      "name": "investigation.run",
+      "span_id": "0x18ec22e077a94b7c",
+      "parent_id": "0x28b5a722b9bef7fa",
+      "start_time": "2026-10-22T08:22:38.549309Z",
+      "end_time": "2026-10-22T08:22:38.550111Z"
+    },
+    {
+      "name": "execute {task}",
+      "span_id": "0x28b5a722b9bef7fa",
+      "parent_id": "0xfa18969b4004231c",
+      "start_time": "2026-10-22T08:22:38.549154Z",
+      "end_time": "2026-10-22T08:22:38.550287Z"
+    },
+    {
+      "name": "evaluator: {evaluator_name}",
+      "span_id": "0x2982c38377bafe28",
+      "parent_id": "0xfa18969b4004231c",
+      "start_time": "2026-10-22T08:22:38.550517Z",
+      "end_time": "2026-10-22T08:22:38.550554Z"
+    },
+    {
+      "name": "case: {case_name}",
+      "span_id": "0xfa18969b4004231c",
+      "parent_id": "0xbbbb95d2aad8ec10",
+      "start_time": "2026-10-22T08:22:38.549091Z",
+      "end_time": "2026-10-22T08:22:38.550719Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0x0a52439927f224e3",
+      "parent_id": "0x8a8ee8c0a938db05",
+      "start_time": "2026-10-22T08:22:38.551479Z",
+      "end_time": "2026-10-22T08:22:38.551506Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0x8a8ee8c0a938db05",
+      "parent_id": "0x67057184b2288078",
+      "start_time": "2026-10-22T08:22:38.551399Z",
+      "end_time": "2026-10-22T08:22:38.551630Z"
+    },
+    {
+      "name": "evidence.read",
+      "span_id": "0x3a8f8c69c5cab1e4",
+      "parent_id": "0xfd9369e1e9ce2294",
+      "start_time": "2026-10-22T08:22:38.551826Z",
+      "end_time": "2026-10-22T08:22:38.551851Z"
+    },
+    {
+      "name": "call {function_name}",
+      "span_id": "0xfd9369e1e9ce2294",
+      "parent_id": "0x67057184b2288078",
+      "start_time": "2026-10-22T08:22:38.551759Z",
+      "end_time": "2026-10-22T08:22:38.551947Z"
+    },
+    {
+      "name": "run code",
+      "span_id": "0x67057184b2288078",
+      "parent_id": "0x6a005e476e7d9e98",
+      "start_time": "2026-10-22T08:22:38.551300Z",
+      "end_time": "2026-10-22T08:22:38.552075Z"
+    },
+    {
+      "name": "session {script_name}",
+      "span_id": "0x6a005e476e7d9e98",
+      "parent_id": "0x5391e2f6fcc48399",
+      "start_time": "2026-10-22T08:22:38.551239Z",
+      "end_time": "2026-10-22T08:22:38.552257Z"
+    },
+    {
+      "name": "analysis.verify",
+      "span_id": "0xa1afc76089f6353a",
+      "parent_id": "0x5391e2f6fcc48399",
+      "start_time": "2026-10-22T08:22:38.552400Z",
+      "end_time": "2026-10-22T08:22:38.552448Z"
+    },
+    {
+      "name": "sandbox.execute",
+      "span_id": "0x5391e2f6fcc48399",
+      "parent_id": "0x53791068acb52f84",
+      "start_time": "2026-10-22T08:22:38.551194Z",
+      "end_time": "2026-10-22T08:22:38.552544Z"
+    },
+    {
+      "name": "investigation.run",
+      "span_id": "0x53791068acb52f84",
+      "parent_id": "0x111187fba4369f6b",
+      "start_time": "2026-10-22T08:22:38.551151Z",
+      "end_time": "2026-10-22T08:22:38.552636Z"
+    },
+    {
+      "name": "execute {task}",
+      "span_id": "0x111187fba4369f6b",
+      "parent_id": "0xd08e46ed429ef32f",
+      "start_time": "2026-10-22T08:22:38.551042Z",
+      "end_time": "2026-10-22T08:22:38.552819Z"
+    },
+    {
+      "name": "evaluator: {evaluator_name}",
+      "span_id": "0x68b94728fc285079",
+      "parent_id": "0xd08e46ed429ef32f",
+      "start_time": "2026-10-22T08:22:38.553129Z",
+      "end_time": "2026-10-22T08:22:38.553168Z"
+    },
+    {
+      "name": "case: {case_name}",
+      "span_id": "0xd08e46ed429ef32f",
+      "parent_id": "0xbbbb95d2aad8ec10",
+      "start_time": "2026-10-22T08:22:38.550984Z",
+      "end_time": "2026-10-22T08:22:38.553355Z"
+    },
+    {
+      "name": "evaluate {name}",
+      "span_id": "0xbbbb95d2aad8ec10",
+      "parent_id": null,
+      "start_time": "2026-10-22T08:22:38.262031Z",
+      "end_time": "2026-10-22T08:22:38.554017Z"
+    }
+  ]
+}

@@ -1,0 +1,596 @@
+{
+  "generated_at": "2026-10-22T08:22:38.571895+00:00",
+  "mode": "scripted",
+  "description": "Monty execution and source verification over historical inference aggregates.",
+  "live_model_evaluated": false,
+  "model": null,
+  "first_attempt_verified": 5,
+  "model_requests": 0,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "usage_scope": "Completed workflows only; failed provider requests may be absent.",
+  "hosted_logfire_verified": false,
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "python": "3.14.7",
+  "git_revision": "64f065f3cc07193857dc70a8c42293d780810dc5",
+  "versions": {
+    "pydantic-monty": "1.2.0",
+    "pydantic": "2.14.1",
+    "pydantic-ai-slim": "2.59.0",
+    "pydantic-evals": "2.59.0",
+    "logfire": "5.2.0"
+  },
+  "source": "https://github.com/rudrakshkarpe/logfire-inference-lab/blob/79ef0f2456e64879bd2f41c90d1610a031191495/docs/evidence/gemma4-h100-run.json",
+  "capture_sha256": "cf04b26477923b1d7b84ad90533a55167257db07e6526a44b44b27ce2b24a0fd",
+  "limits": {
+    "max_memory": 16000000,
+    "max_feed_duration_secs": 0.25,
+    "max_turn_duration_secs": 0.25,
+    "max_recursion_depth": 100,
+    "max_suspensions": 24,
+    "max_total_sleep_secs": 0.1
+  },
+  "all_passed": true,
+  "cases": [
+    {
+      "name": "queue-pressure",
+      "assertions": {
+        "expected_status": true,
+        "expected_finding": true,
+        "has_trace": true
+      }
+    },
+    {
+      "name": "long-context",
+      "assertions": {
+        "expected_status": true,
+        "expected_finding": true,
+        "has_trace": true
+      }
+    },
+    {
+      "name": "recovery",
+      "assertions": {
+        "expected_status": true,
+        "expected_finding": true,
+        "has_trace": true
+      }
+    },
+    {
+      "name": "missing-evidence",
+      "assertions": {
+        "expected_status": true,
+        "expected_finding": true,
+        "has_trace": true
+      }
+    },
+    {
+      "name": "file-access",
+      "assertions": {
+        "expected_status": true,
+        "expected_finding": true,
+        "has_trace": true
+      }
+    },
+    {
+      "name": "cross-scope",
+      "assertions": {
+        "expected_status": true,
+        "expected_finding": true,
+        "has_trace": true
+      }
+    },
+    {
+      "name": "fabricated-result",
+      "assertions": {
+        "expected_status": true,
+        "expected_finding": true,
+        "has_trace": true
+      }
+    },
+    {
+      "name": "caught-denial",
+      "assertions": {
+        "expected_status": true,
+        "expected_finding": true,
+        "has_trace": true
+      }
+    },
+    {
+      "name": "host-call-budget",
+      "assertions": {
+        "expected_status": true,
+        "expected_finding": true,
+        "has_trace": true
+      }
+    },
+    {
+      "name": "timeout",
+      "assertions": {
+        "expected_status": true,
+        "expected_finding": true,
+        "has_trace": true
+      }
+    },
+    {
+      "name": "memory",
+      "assertions": {
+        "expected_status": true,
+        "expected_finding": true,
+        "has_trace": true
+      }
+    },
+    {
+      "name": "recovery-after-failures",
+      "assertions": {
+        "expected_status": true,
+        "expected_finding": true,
+        "has_trace": true
+      }
+    }
+  ],
+  "failed_cases": [],
+  "runs": [
+    {
+      "run_id": "f4f92778208045419e6379d27be0bb4e",
+      "mode": "scripted",
+      "scenario": "queue-pressure",
+      "attempts": [
+        {
+          "status": "verified",
+          "code": "baseline = read_evidence(\"inference-lab\", \"baseline\")\nobserved = read_evidence(\"inference-lab\", scenario)\nfirst = observed[\"first_content_s\"]\nqueue = observed[\"queue_s\"]\nprefill = observed[\"prefill_s\"]\ncomplete = (observed[\"engine_spans\"] == observed[\"requests\"]\n            and first is not None and queue is not None and prefill is not None)\n\nif not complete:\n    finding = \"insufficient_evidence\"\nelif first <= baseline[\"first_content_s\"] * 2:\n    finding = \"within_baseline\"\nelif queue >= 0.5 and queue > prefill * 2:\n    finding = \"queue_pressure\"\nelif prefill >= 0.5 and prefill > queue * 2:\n    finding = \"prefill_pressure\"\nelse:\n    finding = \"insufficient_evidence\"\n\n{\n    \"scenario\": scenario,\n    \"finding\": finding,\n    \"requests\": observed[\"requests\"],\n    \"baseline_first_content_s\": baseline[\"first_content_s\"],\n    \"observed_first_content_s\": first,\n    \"queue_s\": queue,\n    \"prefill_s\": prefill,\n    \"slowdown\": first / baseline[\"first_content_s\"] if first is not None else None,\n    \"evidence_refs\": [baseline[\"ref\"], observed[\"ref\"]],\n}\n",
+          "code_sha256": "a83b72cdbe25bc51e871960468c15bfdb3577b49bec5641fbbbeae78b8d2d7f7",
+          "elapsed_ms": 8.085,
+          "analysis": {
+            "scenario": "queue-pressure",
+            "finding": "queue_pressure",
+            "requests": 32,
+            "baseline_first_content_s": 0.28220162499928847,
+            "observed_first_content_s": 25.681393457998638,
+            "queue_s": 25.378792993724346,
+            "prefill_s": 0.07648282870650291,
+            "slowdown": 91.00370509228425,
+            "evidence_refs": [
+              "h100-gemma4-20260927/baseline",
+              "h100-gemma4-20260927/queue-pressure"
+            ]
+          },
+          "error_type": null,
+          "message": "Computed result matches the source evidence.",
+          "audit": [
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            },
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            }
+          ],
+          "trace_id": "01a162b47db6a87eba6f0596a9bdf39a"
+        }
+      ],
+      "model": null,
+      "model_requests": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "caveat": "Historical scenario p95s are separate aggregates, not additive components of one request. Findings are diagnostic signals, not proof of causality. No inference was rerun."
+    },
+    {
+      "run_id": "c51a700f926e4bac858c39192b3dd2ea",
+      "mode": "scripted",
+      "scenario": "long-context",
+      "attempts": [
+        {
+          "status": "verified",
+          "code": "baseline = read_evidence(\"inference-lab\", \"baseline\")\nobserved = read_evidence(\"inference-lab\", scenario)\nfirst = observed[\"first_content_s\"]\nqueue = observed[\"queue_s\"]\nprefill = observed[\"prefill_s\"]\ncomplete = (observed[\"engine_spans\"] == observed[\"requests\"]\n            and first is not None and queue is not None and prefill is not None)\n\nif not complete:\n    finding = \"insufficient_evidence\"\nelif first <= baseline[\"first_content_s\"] * 2:\n    finding = \"within_baseline\"\nelif queue >= 0.5 and queue > prefill * 2:\n    finding = \"queue_pressure\"\nelif prefill >= 0.5 and prefill > queue * 2:\n    finding = \"prefill_pressure\"\nelse:\n    finding = \"insufficient_evidence\"\n\n{\n    \"scenario\": scenario,\n    \"finding\": finding,\n    \"requests\": observed[\"requests\"],\n    \"baseline_first_content_s\": baseline[\"first_content_s\"],\n    \"observed_first_content_s\": first,\n    \"queue_s\": queue,\n    \"prefill_s\": prefill,\n    \"slowdown\": first / baseline[\"first_content_s\"] if first is not None else None,\n    \"evidence_refs\": [baseline[\"ref\"], observed[\"ref\"]],\n}\n",
+          "code_sha256": "a83b72cdbe25bc51e871960468c15bfdb3577b49bec5641fbbbeae78b8d2d7f7",
+          "elapsed_ms": 1.459,
+          "analysis": {
+            "scenario": "long-context",
+            "finding": "prefill_pressure",
+            "requests": 8,
+            "baseline_first_content_s": 0.28220162499928847,
+            "observed_first_content_s": 3.97724454200943,
+            "queue_s": 5.5942684412002563e-05,
+            "prefill_s": 3.4443813897669315,
+            "slowdown": 14.09362735604183,
+            "evidence_refs": [
+              "h100-gemma4-20260927/baseline",
+              "h100-gemma4-20260927/long-context"
+            ]
+          },
+          "error_type": null,
+          "message": "Computed result matches the source evidence.",
+          "audit": [
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            },
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            }
+          ],
+          "trace_id": "01a162b47db6a87eba6f0596a9bdf39a"
+        }
+      ],
+      "model": null,
+      "model_requests": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "caveat": "Historical scenario p95s are separate aggregates, not additive components of one request. Findings are diagnostic signals, not proof of causality. No inference was rerun."
+    },
+    {
+      "run_id": "4ef2cfdaf9ec4bb6868324cbaa2b1ad2",
+      "mode": "scripted",
+      "scenario": "recovery",
+      "attempts": [
+        {
+          "status": "verified",
+          "code": "baseline = read_evidence(\"inference-lab\", \"baseline\")\nobserved = read_evidence(\"inference-lab\", scenario)\nfirst = observed[\"first_content_s\"]\nqueue = observed[\"queue_s\"]\nprefill = observed[\"prefill_s\"]\ncomplete = (observed[\"engine_spans\"] == observed[\"requests\"]\n            and first is not None and queue is not None and prefill is not None)\n\nif not complete:\n    finding = \"insufficient_evidence\"\nelif first <= baseline[\"first_content_s\"] * 2:\n    finding = \"within_baseline\"\nelif queue >= 0.5 and queue > prefill * 2:\n    finding = \"queue_pressure\"\nelif prefill >= 0.5 and prefill > queue * 2:\n    finding = \"prefill_pressure\"\nelse:\n    finding = \"insufficient_evidence\"\n\n{\n    \"scenario\": scenario,\n    \"finding\": finding,\n    \"requests\": observed[\"requests\"],\n    \"baseline_first_content_s\": baseline[\"first_content_s\"],\n    \"observed_first_content_s\": first,\n    \"queue_s\": queue,\n    \"prefill_s\": prefill,\n    \"slowdown\": first / baseline[\"first_content_s\"] if first is not None else None,\n    \"evidence_refs\": [baseline[\"ref\"], observed[\"ref\"]],\n}\n",
+          "code_sha256": "a83b72cdbe25bc51e871960468c15bfdb3577b49bec5641fbbbeae78b8d2d7f7",
+          "elapsed_ms": 1.294,
+          "analysis": {
+            "scenario": "recovery",
+            "finding": "within_baseline",
+            "requests": 8,
+            "baseline_first_content_s": 0.28220162499928847,
+            "observed_first_content_s": 0.2543916670110775,
+            "queue_s": 5.809590220451355e-05,
+            "prefill_s": 0.05271534249186516,
+            "slowdown": 0.9014535866394069,
+            "evidence_refs": [
+              "h100-gemma4-20260927/baseline",
+              "h100-gemma4-20260927/recovery"
+            ]
+          },
+          "error_type": null,
+          "message": "Computed result matches the source evidence.",
+          "audit": [
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            },
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            }
+          ],
+          "trace_id": "01a162b47db6a87eba6f0596a9bdf39a"
+        }
+      ],
+      "model": null,
+      "model_requests": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "caveat": "Historical scenario p95s are separate aggregates, not additive components of one request. Findings are diagnostic signals, not proof of causality. No inference was rerun."
+    },
+    {
+      "run_id": "4988cd397aac42c89b6471226217bd2d",
+      "mode": "scripted",
+      "scenario": "client-early-close",
+      "attempts": [
+        {
+          "status": "verified",
+          "code": "baseline = read_evidence(\"inference-lab\", \"baseline\")\nobserved = read_evidence(\"inference-lab\", scenario)\nfirst = observed[\"first_content_s\"]\nqueue = observed[\"queue_s\"]\nprefill = observed[\"prefill_s\"]\ncomplete = (observed[\"engine_spans\"] == observed[\"requests\"]\n            and first is not None and queue is not None and prefill is not None)\n\nif not complete:\n    finding = \"insufficient_evidence\"\nelif first <= baseline[\"first_content_s\"] * 2:\n    finding = \"within_baseline\"\nelif queue >= 0.5 and queue > prefill * 2:\n    finding = \"queue_pressure\"\nelif prefill >= 0.5 and prefill > queue * 2:\n    finding = \"prefill_pressure\"\nelse:\n    finding = \"insufficient_evidence\"\n\n{\n    \"scenario\": scenario,\n    \"finding\": finding,\n    \"requests\": observed[\"requests\"],\n    \"baseline_first_content_s\": baseline[\"first_content_s\"],\n    \"observed_first_content_s\": first,\n    \"queue_s\": queue,\n    \"prefill_s\": prefill,\n    \"slowdown\": first / baseline[\"first_content_s\"] if first is not None else None,\n    \"evidence_refs\": [baseline[\"ref\"], observed[\"ref\"]],\n}\n",
+          "code_sha256": "a83b72cdbe25bc51e871960468c15bfdb3577b49bec5641fbbbeae78b8d2d7f7",
+          "elapsed_ms": 1.554,
+          "analysis": {
+            "scenario": "client-early-close",
+            "finding": "insufficient_evidence",
+            "requests": 4,
+            "baseline_first_content_s": 0.28220162499928847,
+            "observed_first_content_s": 0.27813666699512396,
+            "queue_s": null,
+            "prefill_s": null,
+            "slowdown": 0.9855955542276741,
+            "evidence_refs": [
+              "h100-gemma4-20260927/baseline",
+              "h100-gemma4-20260927/client-early-close"
+            ]
+          },
+          "error_type": null,
+          "message": "Computed result matches the source evidence.",
+          "audit": [
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            },
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            }
+          ],
+          "trace_id": "01a162b47db6a87eba6f0596a9bdf39a"
+        }
+      ],
+      "model": null,
+      "model_requests": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "caveat": "Historical scenario p95s are separate aggregates, not additive components of one request. Findings are diagnostic signals, not proof of causality. No inference was rerun."
+    },
+    {
+      "run_id": "682888cc13aa44f28db5d49f670157f3",
+      "mode": "scripted",
+      "scenario": "queue-pressure",
+      "attempts": [
+        {
+          "status": "rejected",
+          "code": "open(\"/etc/hosts\").read()",
+          "code_sha256": "5333aa0324b2efab204fdae1f7ccbc3ca3cb31a1cdfd4e0ae7c6afc49c69adfe",
+          "elapsed_ms": 1.332,
+          "analysis": null,
+          "error_type": "PermissionError",
+          "message": "Host policy denied the requested capability.",
+          "audit": [
+            {
+              "operation": "os_access",
+              "allowed": false,
+              "detail": "Filesystem, environment and OS access denied"
+            }
+          ],
+          "trace_id": "01a162b47db6a87eba6f0596a9bdf39a"
+        }
+      ],
+      "model": null,
+      "model_requests": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "caveat": "Historical scenario p95s are separate aggregates, not additive components of one request. Findings are diagnostic signals, not proof of causality. No inference was rerun."
+    },
+    {
+      "run_id": "2df5b21b2ec04ee095901ab7ebd070c5",
+      "mode": "scripted",
+      "scenario": "queue-pressure",
+      "attempts": [
+        {
+          "status": "rejected",
+          "code": "read_evidence(\"another-customer\", \"baseline\")",
+          "code_sha256": "d85c21135ad6324548ec7e507b36e0fa2eae7200b30aeb593e4fb95e3c341e71",
+          "elapsed_ms": 1.16,
+          "analysis": null,
+          "error_type": "PermissionError",
+          "message": "Host policy denied the requested capability.",
+          "audit": [
+            {
+              "operation": "read_evidence",
+              "allowed": false,
+              "detail": "Outside scope or call budget"
+            }
+          ],
+          "trace_id": "01a162b47db6a87eba6f0596a9bdf39a"
+        }
+      ],
+      "model": null,
+      "model_requests": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "caveat": "Historical scenario p95s are separate aggregates, not additive components of one request. Findings are diagnostic signals, not proof of causality. No inference was rerun."
+    },
+    {
+      "run_id": "44edc5df8b3c4054982d2a00a11f0eeb",
+      "mode": "scripted",
+      "scenario": "queue-pressure",
+      "attempts": [
+        {
+          "status": "rejected",
+          "code": "baseline = read_evidence(\"inference-lab\", \"baseline\")\nobserved = read_evidence(\"inference-lab\", scenario)\nfirst = observed[\"first_content_s\"]\nqueue = observed[\"queue_s\"]\nprefill = observed[\"prefill_s\"]\ncomplete = (observed[\"engine_spans\"] == observed[\"requests\"]\n            and first is not None and queue is not None and prefill is not None)\n\nif not complete:\n    finding = \"insufficient_evidence\"\nelif first <= baseline[\"first_content_s\"] * 2:\n    finding = \"within_baseline\"\nelif queue >= 0.5 and queue > prefill * 2:\n    finding = \"queue_pressure\"\nelif prefill >= 0.5 and prefill > queue * 2:\n    finding = \"prefill_pressure\"\nelse:\n    finding = \"insufficient_evidence\"\n\n{\n    \"scenario\": scenario,\n    \"finding\": finding,\n    \"requests\": 999,\n    \"baseline_first_content_s\": baseline[\"first_content_s\"],\n    \"observed_first_content_s\": first,\n    \"queue_s\": queue,\n    \"prefill_s\": prefill,\n    \"slowdown\": first / baseline[\"first_content_s\"] if first is not None else None,\n    \"evidence_refs\": [baseline[\"ref\"], observed[\"ref\"]],\n}\n",
+          "code_sha256": "22a589211fa5ad555f2548f2a271242924edce91b315e06443610124dee69d0e",
+          "elapsed_ms": 1.515,
+          "analysis": null,
+          "error_type": "ValueError",
+          "message": "requests does not match the source evidence and diagnostic policy",
+          "audit": [
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            },
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            }
+          ],
+          "trace_id": "01a162b47db6a87eba6f0596a9bdf39a"
+        }
+      ],
+      "model": null,
+      "model_requests": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "caveat": "Historical scenario p95s are separate aggregates, not additive components of one request. Findings are diagnostic signals, not proof of causality. No inference was rerun."
+    },
+    {
+      "run_id": "96fbc5ca1cc94633bcfa6a49c5fa434a",
+      "mode": "scripted",
+      "scenario": "queue-pressure",
+      "attempts": [
+        {
+          "status": "rejected",
+          "code": "try:\n    read_evidence(\"another-customer\", \"baseline\")\nexcept PermissionError:\n    pass\nbaseline = read_evidence(\"inference-lab\", \"baseline\")\nobserved = read_evidence(\"inference-lab\", scenario)\nfirst = observed[\"first_content_s\"]\nqueue = observed[\"queue_s\"]\nprefill = observed[\"prefill_s\"]\ncomplete = (observed[\"engine_spans\"] == observed[\"requests\"]\n            and first is not None and queue is not None and prefill is not None)\n\nif not complete:\n    finding = \"insufficient_evidence\"\nelif first <= baseline[\"first_content_s\"] * 2:\n    finding = \"within_baseline\"\nelif queue >= 0.5 and queue > prefill * 2:\n    finding = \"queue_pressure\"\nelif prefill >= 0.5 and prefill > queue * 2:\n    finding = \"prefill_pressure\"\nelse:\n    finding = \"insufficient_evidence\"\n\n{\n    \"scenario\": scenario,\n    \"finding\": finding,\n    \"requests\": observed[\"requests\"],\n    \"baseline_first_content_s\": baseline[\"first_content_s\"],\n    \"observed_first_content_s\": first,\n    \"queue_s\": queue,\n    \"prefill_s\": prefill,\n    \"slowdown\": first / baseline[\"first_content_s\"] if first is not None else None,\n    \"evidence_refs\": [baseline[\"ref\"], observed[\"ref\"]],\n}\n",
+          "code_sha256": "de511ad198c0a5b2de9ae8c2fa7fc02abbe6bec020e5bad1a1142ffd6dbb789c",
+          "elapsed_ms": 2.039,
+          "analysis": null,
+          "error_type": "ValueError",
+          "message": "A denied operation invalidates this run, even if the script catches it",
+          "audit": [
+            {
+              "operation": "read_evidence",
+              "allowed": false,
+              "detail": "Outside scope or call budget"
+            },
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            },
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            }
+          ],
+          "trace_id": "01a162b47db6a87eba6f0596a9bdf39a"
+        }
+      ],
+      "model": null,
+      "model_requests": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "caveat": "Historical scenario p95s are separate aggregates, not additive components of one request. Findings are diagnostic signals, not proof of causality. No inference was rerun."
+    },
+    {
+      "run_id": "44b056f49517454b80b9a7fe5bebd3fb",
+      "mode": "scripted",
+      "scenario": "queue-pressure",
+      "attempts": [
+        {
+          "status": "rejected",
+          "code": "for i in range(10):\n    read_evidence(\"inference-lab\", \"baseline\")",
+          "code_sha256": "557f6e9fbf6b8fc4f56c6d52d948135116eab0fe89b90b78506cad50fcd30304",
+          "elapsed_ms": 2.408,
+          "analysis": null,
+          "error_type": "PermissionError",
+          "message": "Host policy denied the requested capability.",
+          "audit": [
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            },
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            },
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            },
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            },
+            {
+              "operation": "read_evidence",
+              "allowed": false,
+              "detail": "Outside scope or call budget"
+            }
+          ],
+          "trace_id": "01a162b47db6a87eba6f0596a9bdf39a"
+        }
+      ],
+      "model": null,
+      "model_requests": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "caveat": "Historical scenario p95s are separate aggregates, not additive components of one request. Findings are diagnostic signals, not proof of causality. No inference was rerun."
+    },
+    {
+      "run_id": "e3eca8520c044b03913b9156f530c9d5",
+      "mode": "scripted",
+      "scenario": "queue-pressure",
+      "attempts": [
+        {
+          "status": "limited",
+          "code": "while True:\n    pass",
+          "code_sha256": "a91d104cc5c50a11469d8f7a9440897845e8205d6b94a25da9a4307d26de2d4c",
+          "elapsed_ms": 251.134,
+          "analysis": null,
+          "error_type": "TimeoutError",
+          "message": "TimeoutError: execution budget exceeded; session discarded.",
+          "audit": [],
+          "trace_id": "01a162b47db6a87eba6f0596a9bdf39a"
+        }
+      ],
+      "model": null,
+      "model_requests": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "caveat": "Historical scenario p95s are separate aggregates, not additive components of one request. Findings are diagnostic signals, not proof of causality. No inference was rerun."
+    },
+    {
+      "run_id": "a82707745ff84e1ca042309162711e6c",
+      "mode": "scripted",
+      "scenario": "queue-pressure",
+      "attempts": [
+        {
+          "status": "limited",
+          "code": "data = \"x\" * 100_000_000\nlen(data)",
+          "code_sha256": "82da1e0f7b99b79637792594f5d830c9b268499eda840468669399f24b453e63",
+          "elapsed_ms": 0.759,
+          "analysis": null,
+          "error_type": "MemoryError",
+          "message": "MemoryError: execution budget exceeded; session discarded.",
+          "audit": [],
+          "trace_id": "01a162b47db6a87eba6f0596a9bdf39a"
+        }
+      ],
+      "model": null,
+      "model_requests": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "caveat": "Historical scenario p95s are separate aggregates, not additive components of one request. Findings are diagnostic signals, not proof of causality. No inference was rerun."
+    },
+    {
+      "run_id": "33f9071d47ba43629abf289a99ae33ca",
+      "mode": "scripted",
+      "scenario": "recovery",
+      "attempts": [
+        {
+          "status": "verified",
+          "code": "baseline = read_evidence(\"inference-lab\", \"baseline\")\nobserved = read_evidence(\"inference-lab\", scenario)\nfirst = observed[\"first_content_s\"]\nqueue = observed[\"queue_s\"]\nprefill = observed[\"prefill_s\"]\ncomplete = (observed[\"engine_spans\"] == observed[\"requests\"]\n            and first is not None and queue is not None and prefill is not None)\n\nif not complete:\n    finding = \"insufficient_evidence\"\nelif first <= baseline[\"first_content_s\"] * 2:\n    finding = \"within_baseline\"\nelif queue >= 0.5 and queue > prefill * 2:\n    finding = \"queue_pressure\"\nelif prefill >= 0.5 and prefill > queue * 2:\n    finding = \"prefill_pressure\"\nelse:\n    finding = \"insufficient_evidence\"\n\n{\n    \"scenario\": scenario,\n    \"finding\": finding,\n    \"requests\": observed[\"requests\"],\n    \"baseline_first_content_s\": baseline[\"first_content_s\"],\n    \"observed_first_content_s\": first,\n    \"queue_s\": queue,\n    \"prefill_s\": prefill,\n    \"slowdown\": first / baseline[\"first_content_s\"] if first is not None else None,\n    \"evidence_refs\": [baseline[\"ref\"], observed[\"ref\"]],\n}\n",
+          "code_sha256": "a83b72cdbe25bc51e871960468c15bfdb3577b49bec5641fbbbeae78b8d2d7f7",
+          "elapsed_ms": 1.454,
+          "analysis": {
+            "scenario": "recovery",
+            "finding": "within_baseline",
+            "requests": 8,
+            "baseline_first_content_s": 0.28220162499928847,
+            "observed_first_content_s": 0.2543916670110775,
+            "queue_s": 5.809590220451355e-05,
+            "prefill_s": 0.05271534249186516,
+            "slowdown": 0.9014535866394069,
+            "evidence_refs": [
+              "h100-gemma4-20260927/baseline",
+              "h100-gemma4-20260927/recovery"
+            ]
+          },
+          "error_type": null,
+          "message": "Computed result matches the source evidence.",
+          "audit": [
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            },
+            {
+              "operation": "read_evidence",
+              "allowed": true,
+              "detail": "Authorized scenario aggregate"
+            }
+          ],
+          "trace_id": "01a162b47db6a87eba6f0596a9bdf39a"
+        }
+      ],
+      "model": null,
+      "model_requests": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "caveat": "Historical scenario p95s are separate aggregates, not additive components of one request. Findings are diagnostic signals, not proof of causality. No inference was rerun."
+    }
+  ]
+}
