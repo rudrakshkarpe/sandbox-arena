@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "id": "fixture-permission",
+  "version": "1.0.0",
+  "title": "Host tool permission",
+  "category": "Host policy",
+  "objective": "Call the fixture tool while its grant is disabled.",
+  "boundary": "Host callback grant",
+  "limitation": "Tests one application-owned fixture tool, not arbitrary external integrations.",
+  "requires": [
+    "python-subset",
+    "host-callbacks"
+  ],
+  "allow_fixture": false,
+  "timeout_ms": 250,
+  "memory_mb": 16,
+  "probes": [
+    {
+      "id": "control",
+      "code": "6 * 7",
+      "expect": {
+        "status": "ok",
+        "check_result": true,
+        "result": 42
+      },
+      "role": "control"
+    },
+    {
+      "id": "call",
+      "code": "read_fixture()",
+      "expect": {
+        "status": "denied",
+        "denied_min": 1,
+        "allowed_exact": 0
+      },
+      "role": "challenge"
+    }
+  ]
+}
