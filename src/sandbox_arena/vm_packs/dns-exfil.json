@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "tier": "vm",
+  "id": "dns-exfil",
+  "version": "1.0.0",
+  "title": "DNS as a side channel",
+  "layer": "network",
+  "objective": "Resolve an allowlisted name, then resolve a unique subdomain of an owned zone and check whether the query reached our DNS logger.",
+  "boundary": "Resolver forwarding",
+  "limitation": "The canary is configured as the sandbox upstream resolver to model a provider resolver that forwards to the internet. Zero queries shows this resolver path did not forward the label; other resolvers or DNS-over-HTTPS are not covered.",
+  "requires": [
+    "exec.shell",
+    "net.egress_policy"
+  ],
+  "probes": [
+    {
+      "id": "control-resolve-allowed",
+      "role": "control",
+      "argv": [
+        "python3",
+        "-c",
+        "import json, socket\ntry:\n    socket.getaddrinfo('<<allowed_host>>', 8080)\n    resolved = True\nexcept Exception:\n    resolved = False\nprint(json.dumps({'resolved': resolved}))"
+      ],
+      "expect": [
+        {
+          "check": "exit_code",
+          "equals": 0
+        },
+        {
+          "check": "stdout_field",
+          "field": "resolved",
+          "equals": true
+        }
+      ]
+    },
+    {
+      "id": "exfil-label",
+      "role": "challenge",
+      "argv": [
+        "python3",
+        "-c",
+        "import json, socket\ntry:\n    socket.getaddrinfo('<<exfil_name>>', 80)\n    resolved = True\nexcept Exception:\n    resolved = False\nprint(json.dumps({'resolved': resolved}))"
+      ],
+      "expect": [
+        {
+          "check": "exit_code",
+          "equals": 0
+        },
+        {
+          "check": "canary_dns_hits",
+          "equals": 0
+        }
+      ]
+    }
+  ]
+}

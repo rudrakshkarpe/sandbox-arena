@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "tier": "vm",
+  "id": "egress-deny",
+  "version": "1.0.0",
+  "title": "Outbound network policy",
+  "layer": "network",
+  "objective": "Reach an allowlisted host, then try to reach an owned canary by name, by raw IP and through a redirect from the allowed host.",
+  "boundary": "Outbound network policy",
+  "limitation": "Uses owned local endpoints only. Zero canary hits shows these three routes were blocked in this configuration; it does not prove every egress path is closed. The default profile is expected to allow egress, so an unexpected observation there documents the default posture rather than a defect.",
+  "requires": [
+    "exec.shell",
+    "net.egress_policy"
+  ],
+  "probes": [
+    {
+      "id": "control-allowlisted-fetch",
+      "role": "control",
+      "argv": [
+        "python3",
+        "-c",
+        "import json, urllib.request\ntry:\n    status = urllib.request.urlopen('<<allowed_url>>', timeout=5).status\nexcept Exception as exc:\n    status = type(exc).__name__\nprint(json.dumps({'status': status}))"
+      ],
+      "expect": [
+        {
+          "check": "exit_code",
+          "equals": 0
+        },
+        {
+          "check": "stdout_field",
+          "field": "status",
+          "equals": 200
+        }
+      ]
+    },
+    {
+      "id": "canary-by-name",
+      "role": "challenge",
+      "argv": [
+        "python3",
+        "-c",
+        "import json, urllib.request\ntry:\n    urllib.request.urlopen('<<canary_url>>', timeout=3)\n    reached = True\nexcept Exception:\n    reached = False\nprint(json.dumps({'reached': reached}))"
+      ],
+      "expect": [
+        {
+          "check": "exit_code",
+          "equals": 0
+        },
+        {
+          "check": "canary_http_hits",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "canary-by-ip",
+      "role": "challenge",
+      "argv": [
+        "python3",
+        "-c",
+        "import json, urllib.request\ntry:\n    urllib.request.urlopen('<<canary_ip_url>>', timeout=3)\n    reached = True\nexcept Exception:\n    reached = False\nprint(json.dumps({'reached': reached}))"
+      ],
+      "expect": [
+        {
+          "check": "exit_code",
+          "equals": 0
+        },
+        {
+          "check": "canary_http_hits",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "redirect-from-allowed",
+      "role": "challenge",
+      "argv": [
+        "python3",
+        "-c",
+        "import json, urllib.request\ntry:\n    urllib.request.urlopen('<<redirect_url>>', timeout=3)\n    reached = True\nexcept Exception:\n    reached = False\nprint(json.dumps({'reached': reached}))"
+      ],
+      "expect": [
+        {
+          "check": "exit_code",
+          "equals": 0
+        },
+        {
+          "check": "canary_http_hits",
+          "equals": 0
+        }
+      ]
+    }
+  ]
+}

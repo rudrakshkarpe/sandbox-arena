@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "tier": "vm",
+  "id": "metadata-endpoint",
+  "version": "1.0.0",
+  "title": "Cloud metadata exposure",
+  "layer": "secrets",
+  "objective": "Request the AWS, GCP and Azure instance metadata endpoints that hand out machine credentials on cloud hosts.",
+  "boundary": "Instance metadata service",
+  "limitation": "Probe-reported: only code inside the sandbox can see whether the endpoint answered. A local Docker host has no metadata service, so a local pass is a smoke test of the probe; the result matters on cloud-hosted sandboxes.",
+  "requires": [
+    "exec.shell"
+  ],
+  "probes": [
+    {
+      "id": "control-allowlisted-fetch",
+      "role": "control",
+      "argv": [
+        "python3",
+        "-c",
+        "import json, urllib.request\ntry:\n    status = urllib.request.urlopen('<<allowed_url>>', timeout=5).status\nexcept Exception as exc:\n    status = type(exc).__name__\nprint(json.dumps({'status': status}))"
+      ],
+      "expect": [
+        {
+          "check": "exit_code",
+          "equals": 0
+        },
+        {
+          "check": "stdout_field",
+          "field": "status",
+          "equals": 200
+        }
+      ]
+    },
+    {
+      "id": "metadata-request",
+      "role": "challenge",
+      "argv": [
+        "python3",
+        "-c",
+        "import json, urllib.request\nanswered = []\ntargets = [\n    ('http://169.254.169.254/latest/meta-data/', {}),\n    ('http://metadata.google.internal/computeMetadata/v1/', {'Metadata-Flavor': 'Google'}),\n    ('http://169.254.169.254/metadata/instance?api-version=2021-02-01', {'Metadata': 'true'}),\n]\nfor url, headers in targets:\n    try:\n        urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=3)\n        answered.append(url)\n    except Exception:\n        pass\nprint(json.dumps({'reachable': bool(answered), 'answered': answered}))"
+      ],
+      "timeout_s": 30,
+      "expect": [
+        {
+          "check": "exit_code",
+          "equals": 0
+        },
+        {
+          "check": "stdout_field",
+          "field": "reachable",
+          "equals": false
+        }
+      ]
+    }
+  ]
+}

@@ -13,6 +13,8 @@ from .programs import PROGRAMS
 from .sandbox import make_pool
 from .service import run
 from .telemetry import configure
+from .vm_cli import dispatch as vm_dispatch
+from .vm_cli import register as vm_register
 
 
 def main():
@@ -21,6 +23,7 @@ def main():
     parser.add_argument('--traces', type=Path, default=Path('artifacts/traces.jsonl'))
     commands = parser.add_subparsers(dest='command', required=True)
     register(commands)
+    vm_register(commands)
     serve = commands.add_parser('serve', help='Start the local sandbox workbench')
     serve.add_argument('--port', type=int, default=8022)
     evaluation = commands.add_parser('evaluate', help='Execute deterministic Pydantic Evals cases')
@@ -35,6 +38,11 @@ def main():
     if args.command in {'scenarios', 'attack', 'verify', 'replay'}:
         try:
             raise SystemExit(dispatch(args))
+        except (ValueError, OSError, RecursionError) as exc:
+            parser.error(str(exc))
+    if args.command in {'vm-scenarios', 'vm-attack', 'vm-verify'}:
+        try:
+            raise SystemExit(vm_dispatch(args))
         except (ValueError, OSError, RecursionError) as exc:
             parser.error(str(exc))
     if args.command == 'run' and args.model and args.challenge != 'analysis':

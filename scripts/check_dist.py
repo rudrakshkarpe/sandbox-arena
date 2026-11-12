@@ -21,7 +21,12 @@ def check_dist(directory: Path, tag: str | None = None) -> list[Path]:
     wheel = directory / f'sandbox_arena-{version}-py3-none-any.whl'
     source = directory / f'sandbox_arena-{version}.tar.gz'
     package = root / 'src' / 'sandbox_arena'
-    resources = [*package.glob('scenario_packs/*.json'), *package.glob('static/*'), *package.glob('static/providers/*')]
+    resources = [
+        *package.glob('scenario_packs/*.json'),
+        *package.glob('vm_packs/*.json'),
+        *package.glob('static/*'),
+        *package.glob('static/providers/*'),
+    ]
     resources = [path for path in resources if path.is_file()]
     with zipfile.ZipFile(wheel) as archive:
         for path in resources:
