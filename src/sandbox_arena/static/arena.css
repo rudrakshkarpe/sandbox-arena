@@ -292,6 +292,27 @@
   font-weight: 500;
   color: #e8e8e8;
 }
+.provider-node > .provider-mark {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #9a9ca0;
+  border: 1px solid #3a3c40;
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+.provider-node > small {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #7d8086;
+}
+.provider-planned {
+  border-style: dashed;
+  opacity: 0.7;
+}
+.provider-local > small {
+  color: #8fd19e;
+}
 
 .map-coordinate {
   position: absolute;

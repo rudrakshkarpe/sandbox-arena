@@ -99,7 +99,7 @@ class MontyProvider:
                 ensure_ascii=True,
                 allow_nan=False,
             )
-        except TypeError, ValueError, RecursionError, OverflowError:
+        except (TypeError, ValueError, RecursionError, OverflowError):
             serialized = 'null'
             error = 'Return value cannot be represented as JSON. Return a finite, acyclic JSON-compatible value.'
             if status == 'ok':

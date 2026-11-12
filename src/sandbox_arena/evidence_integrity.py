@@ -27,5 +27,5 @@ def checksum_valid(record: dict) -> bool:
     try:
         expected = digest({key: value for key, value in record.items() if key != 'integrity'})
         return hmac.compare_digest(expected, integrity['digest'])
-    except ValueError, TypeError, RecursionError:
+    except (ValueError, TypeError, RecursionError):
         return False

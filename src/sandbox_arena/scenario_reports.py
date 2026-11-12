@@ -25,7 +25,7 @@ def assess_scenario(record: dict) -> dict:
         spec = RunSpec.model_validate(record.get('spec'))
         if spec.mode != 'scenario' or spec.scenario_id != pack.id:
             raise ValueError('Scenario identity differs from run policy')
-    except ValueError, TypeError:
+    except (ValueError, TypeError):
         return {'outcome': 'inconclusive', 'reason': 'Invalid or mismatched run policy.', 'probes': []}
     iterations = spec.iterations
     if not isinstance(record.get('samples'), list) or len(record['samples']) > 40:
@@ -33,7 +33,7 @@ def assess_scenario(record: dict) -> dict:
     rows = []
     try:
         samples = [Sample.model_validate(value).model_dump() for value in record.get('samples', [])]
-    except ValidationError, TypeError:
+    except (ValidationError, TypeError):
         return {'outcome': 'inconclusive', 'reason': 'Invalid sample evidence.', 'probes': []}
     expected_ids = {probe.id for probe in pack.probes}
     sequence = [(probe.id, index) for index in range(1, iterations + 1) for probe in pack.probes]

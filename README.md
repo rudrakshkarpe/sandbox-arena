@@ -16,8 +16,8 @@ This repository is not affiliated with the separately operated
 
 ## Run locally
 
-Requires Python 3.14 and [uv](https://docs.astral.sh/uv/). No GPU, Docker daemon,
-model API key or Logfire account is needed.
+Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/). No GPU, model API key or
+Logfire account is needed. A Docker daemon is only needed for the optional VM/container tier.
 
 ```bash
 git clone https://github.com/rudrakshkarpe/sandbox-arena.git
@@ -47,10 +47,10 @@ package, use `uv run --no-editable sandbox-arena serve --port 8033` instead.
 ![Actual local benchmark run](docs/evidence/sandbox-benchmarks.jpg)
 
 The homepage’s orbital display supports pause/resume and reduced-motion settings.
-All five providers share the orbit, with illustrative signals moving between them.
-Runtime availability is explained in “About the runtimes” below the visual. Monty
-is the only implemented runtime; the other logos do not imply integrations or
-endorsements.
+The orbit shows Monty (interpreter tier) and the local Docker adapter (container
+tier). E2B, Modal and Daytona appear as dashed, unbranded "planned" nodes until
+each adapter ships with conformance tests. No vendor marks are bundled for runtimes
+that are not integrated.
 
 ## Run, verify and replay a scenario
 
