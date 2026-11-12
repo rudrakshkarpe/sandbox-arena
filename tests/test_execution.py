@@ -90,3 +90,18 @@ def test_traces_share_parent_context(pool, telemetry):
     assert by_name['run code']['parent_id'] == by_name['session {script_name}']['context']['span_id']
     calls = {span['context']['span_id'] for span in spans if span['name'] == 'call {function_name}'}
     assert all(span['parent_id'] in calls for span in spans if span['name'] == 'evidence.read')
+
+
+@pytest.mark.xfail(
+    strict=True,
+    reason='Known gap: Monty 1.2 exposes no attribute that separates a real allocator or deadline trip '
+    'from guest code raising MemoryError/TimeoutError, so "limited" is probe_reported evidence.',
+)
+def test_guest_cannot_spoof_a_resource_limit(pool):
+    from sandbox_arena.playground_models import RunSpec
+    from sandbox_arena.playground_runner import MontyProvider
+
+    sample = MontyProvider(pool).execute(
+        RunSpec(code='x'), 'raise MemoryError("memory limit exceeded")', 'custom', 1, False
+    )
+    assert sample.status != 'limited'

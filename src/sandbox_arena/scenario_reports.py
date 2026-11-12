@@ -5,7 +5,7 @@ from pydantic import ValidationError
 from .evidence_integrity import checksum_valid
 from .playground_models import RunSpec, Sample
 from .scenario_catalog import PACKS, pack_digest
-from .scenario_verifier import checks_pass, verify_probe
+from .scenario_verifier import checks_pass, evidence_summary, verify_probe
 
 
 def assess_scenario(record: dict) -> dict:
@@ -56,6 +56,7 @@ def assess_scenario(record: dict) -> dict:
         'complete': complete,
         'controls_passed': controls,
         'probes': rows,
+        'evidence': evidence_summary([check for row in rows for trial in row['trials'] for check in trial['checks']]),
         'limitation': pack.limitation,
     }
 
