@@ -72,6 +72,20 @@ verified; 1 means they were not, and invalid input exits 2.
 See [the attack-lab contract](docs/attack-lab.md) for outcome meanings and pack
 authoring. Checksums detect changes; they are not signatures or execution attestations.
 
+## Container/VM tier (preview)
+
+Run network and secret packs against a real local container, judged by an owned
+canary instead of sandbox output. Needs Docker and an image with `python3`.
+
+```bash
+uv run sandbox-arena vm-scenarios
+uv run sandbox-arena vm-attack all --profile both   # default vs strict posture
+uv run sandbox-arena vm-verify artifacts/vm/egress-deny.default.json
+```
+
+See [docs/vm-tier.md](docs/vm-tier.md) for the adapter contract, evidence classes
+and first results.
+
 ## Included workloads
 
 | Workload | Expected result | Origin |
