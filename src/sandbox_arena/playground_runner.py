@@ -36,8 +36,27 @@ class Provider(Protocol):
 
 
 class MontyProvider:
+    """Interpreter-tier adapter. Sessions are checked out per probe, so create and destroy are bookkeeping."""
+
+    name = 'monty'
+    capabilities = frozenset(CAPABILITIES)
+
     def __init__(self, pool):
         self.pool = pool
+
+    def version(self) -> str:
+        return f'pydantic-monty {version("pydantic-monty")}'
+
+    def create(self, spec):
+        from .adapters.base import Handle
+
+        return Handle(adapter=self.name, id='worker-pool', detail={'session_mode': 'fresh checkout per probe'})
+
+    def destroy(self, handle):
+        from .adapters.base import CleanupReport
+
+        # Every execute() ends its checkout before returning, including limit trips.
+        return CleanupReport(confirmed=True, removed=['session checkouts released per probe'])
 
     def execute(self, spec, code, workload_id, iteration, warmup):
         started = time.perf_counter()
